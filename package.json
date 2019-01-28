@@ -1,0 +1,23 @@
+{
+  "name": "orangecone",
+  "version": "0.0.1",
+  "description": "Orange Cone Bot",
+  "main": "bot.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gearysw/orangecone.git"
+  },
+  "author": "Geary",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gearysw/orangecone/issues"
+  },
+  "homepage": "https://github.com/gearysw/orangecone#readme",
+  "dependencies": {
+    "@slack/client": "^4.8.0",
+    "@slack/events-api": "^2.1.1",
+    "dotenv": "^6.2.0",
+    "jsonfile": "^5.0.0",
+    "node-env-file": "^0.1.8"
+  }
+}
