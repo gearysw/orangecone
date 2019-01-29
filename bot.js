@@ -165,7 +165,7 @@ rtm.on('message', (message) => {
     } else if (message.text === '!meme') {
         randomMeme(message.channel);
     } else if (message.text.includes(`<@${rtm.activeUserId}>`)) {
-        addReaction(pingshake, message.channel, message.ts);
+        addReaction('pingshake', message.channel, message.ts);
     }
 });
 
