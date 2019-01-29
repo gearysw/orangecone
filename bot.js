@@ -4,6 +4,7 @@ const {
 } = require('@slack/client');
 require('dotenv').config();
 var variables = require('./variables.json');
+const fs = require('fs');
 // const token = process.env.BOTTOKEN;
 
 // initialize rtm client
@@ -44,6 +45,30 @@ console.log('(╯°□°）╯︵ ┻━┻');
 
 // var rulebook = 
 
+// function getChannels() {
+//     const param = {
+//         exclude_archived: true,
+//         types: 'public_channel',
+//         limit: 100
+//     };
+//     return web.conversations.list(param).then(results => {
+//         return results.channels
+//     });
+// }
+
+// var memes = [
+//     "https://i.redd.it/15t618wal8v01.jpg",
+//     "https://i.redd.it/6gnov60azdq01.png",
+//     "https://i.redd.it/6bzk6633pip01.png",
+//     "https://i.imgur.com/b9Xwb7U.jpg",
+//     "https://i.redd.it/zqnc0ajt50m01.png",
+//     "https://i.redd.it/q8d763j1jl401.jpg",
+//     "https://i.redd.it/kt8gjgv7o6jz.png",
+//     "https://i.imgur.com/e3QPay7.jpg",
+//     "https://i.imgur.com/AE6VOqv.jpg"
+// ];
+
+
 
 rtm.on('channel_joined', (joinevent) => {
     console.log(joinevent);
@@ -55,207 +80,131 @@ rtm.on('channel_joined', (joinevent) => {
 rtm.on('message', (message) => {
     console.log(message);
     // ignores bot and self messages
-    // if ( (message.subtype && message.subtype === 'bot_message') || (!message.subtype && message.user === rtm.activeUserId)){
-    //     return;
-    // } else 
-    if (message.text.includes('hello')) { // replies to hello messagse
-        rtm.sendMessage('Hello!', message.channel)
-            .then((res) => {
-                console.log('Message sent:', res.text, res.ts);
-            }).catch(console.error);
+    if ((!message.subtype && message.user === rtm.activeUserId)) {
+        return;
+    } else if ((message.subtype && message.subtype === 'message_changed')) {
+        console.log('new message: ' + message.message.text + '\nfrom channel: ' + message.channel + '\nprevious message: ' + message.previous_message.text);
+        if (message.message.text.includes('hullo')) {
+            messageSend('Hello!', message.channel);
+        }
+    } else if (message.text.includes('hello')) { // replies to hello messagse
+        messageSend('Hello!', message.channel);
     } else if (message.text.includes('sticky liquid')) { // adds a reaction to `sticky liquid`
-        web.apiCall('https://slack.com/api/reactions.add', {
-                token: process.env.TOKEN,
-                name: 'sweat_drops',
-                channel: message.channel,
-                timestamp: message.ts,
-            })
-            .then((res) => {
-                console.log('Reaction added');
-            }).catch(console.error);
+        addReaction('sweat_drops', message.channel, message.ts);
     } else if (message.text === '!help') { // responds to !help command
-        rtm.sendMessage(variables.sendHelp, message.channel)
-            .then((res) => {
-                console.log('Message sent: \n' + res.text + '\n' + res.ts);
-            }).catch(console.error);
+        messageSend(variables.sendHelp, message.channel);
     } else if (message.text.includes('!drive')) { // response for google drive link
-        rtm.sendMessage(variables.drive, message.channel)
-            .then((res) => {
-                console.log('Message sent:', res.text + '\n' + res.ts);
-            }).catch(console.error);
+        messageSend(variables.drive, message.channel);
     } else if (message.text === '!googledrive') { // response for google drive link
-        rtm.sendMessage(variables.drive, message.channel)
-            .then((res) => {
-                console.log('Message sent:', res.text + '\n' + res.ts);
-            }).catch(console.error);
+        messageSend(variables.drive, message.channel);
     } else if (message.text.includes('!stash')) { // response for vms stash
-        rtm.sendMessage(variables.stash, message.channel)
-            .then((res) => {
-                console.log('Message sent:', res.text + '\n' + res.ts);
-            }).catch(console.error);
+        messageSend(variables.stash, message.channel);
     } else if (message.text.includes('!rules')) { // response for rulebook
-        rtm.sendMessage(variables.rules, message.channel)
-            .then((res) => {
-                console.log('Message sent:', res.text + '\n' + res.ts);
-            }).catch(console.error);
+        messageSend(variables.rules, message.channel);
     } else if (message.text === '!rulebook') { // response for rulebook
-        rtm.sendMessage(variables.rules, message.channel)
-            .then((res) => {
-                console.log('Message sent:', res.text + '\n' + res.ts);
-            }).catch(console.error);
+        messageSend(variables.rules, message.channel);
     } else if (message.text === '!rule') { // response for rulebook
-        rtm.sendMessage(variables.rules, message.channel)
-            .then((res) => {
-                console.log('Message sent:', res.text + '\n' + res.ts);
-            }).catch(console.error);
+        messageSend(variables.rules, message.channel);
     } else if (message.text === '!directory') { // response for channel directory
-        rtm.sendMessage(variables.channels, message.channel)
-            .then((res) => {
-                console.log('Message sent:', res.text + '\n' + res.ts);
-            }).catch(console.error);
+        messageSend(variables.channels, message.channel);
     } else if (message.text === '!slackchannel') { // response for channel directory
-        rtm.sendMessage(variables.channels, message.channel)
-            .then((res) => {
-                console.log('Message sent:', res.text + '\n' + res.ts);
-            }).catch(console.error);
+        messageSend(variables.channels, message.channel);
     } else if (message.text === '!channels') { // response for channel directory
-        rtm.sendMessage(variables.channels, message.channel)
-            .then((res) => {
-                console.log('Message sent:', res.text + '\n' + res.ts);
-            }).catch(console.error);
+        messageSend(variables.channels, message.channel);
     } else if (message.text === '!minutes') { // response for meeting minutes
-        rtm.sendMessage(variables.minutes, message.channel)
-            .then((res) => {
-                console.log('Message sent:', res.text + '\n' + res.ts);
-            }).catch(console.error);
+        messageSend(variables.minutes, message.channel);
     } else if (message.text === '!meetingminutes') { // response for meeting minutes
-        rtm.sendMessage(variables.minutes, message.channel)
-            .then((res) => {
-                console.log('Message sent:', res.text + '\n' + res.ts);
-            }).catch(console.error);
+        messageSend(variables.minutes, message.channel);
     } else if (message.text.includes('!buy')) { // response for ordering form
-        rtm.sendMessage(variables.orderform, message.channel)
-            .then((res) => {
-                console.log('Message sent:', res.text + '\n' + res.ts);
-            }).catch(console.error);
+        messageSend(variables.orderform, message.channel);
     } else if (message.text.includes('!order')) { // response for ordering form
-        rtm.sendMessage(variables.orderform, message.channel)
-            .then((res) => {
-                console.log('Message sent:', res.text + '\n' + res.ts);
-            }).catch(console.error);
+        messageSend(variables.orderform, message.channel);
     } else if (message.text === '!newb') { // response for new member form
-        rtm.sendMessage(variables.newb, message.channel)
-            .then((res) => {
-                console.log('Message sent:', res.text + '\n' + res.ts);
-            }).catch(console.error);
+        messageSend(variables.newb, message.channel);
     } else if (message.text === '!newmember') { // response for new member form
-        rtm.sendMessage(variables.newb, message.channel)
-            .then((res) => {
-                console.log('Message sent:', res.text + '\n' + res.ts);
-            }).catch(console.error);
+        messageSend(variables.newb, message.channel);
     } else if (message.text === '!welcome') { // response for new member form
-        rtm.sendMessage(variables.newb, message.channel)
-            .then((res) => {
-                console.log('Message sent:', res.text + '\n' + res.ts);
-            }).catch(console.error);
+        messageSend(variables.newb, message.channel);
     } else if (message.text.includes('!reference')) { // response for reference documents
-        rtm.sendMessage(variables.reference, message.channel)
-            .then((res) => {
-                console.log('Message sent:', res.text + '\n' + res.ts);
-            }).catch(console.error);
+        messageSend(variables.reference, message.channel);
     } else if (message.text.includes('!references')) { // response for reference documents
-        rtm.sendMessage(variables.reference, message.channel)
-            .then((res) => {
-                console.log('Message sent:', res.text + '\n' + res.ts);
-            }).catch(console.error);
+        messageSend(variables.reference, message.channel);
     } else if (message.text.includes('!lightreading')) { // response for reference documents
-        rtm.sendMessage(variables.reference, message.channel)
-            .then((res) => {
-                console.log('Message sent:', res.text + '\n' + res.ts);
-            }).catch(console.error);
+        messageSend(variables.reference, message.channel);
     } else if (message.text.includes('!reading')) { // response for reference documents
-        rtm.sendMessage(variables.reference, message.channel)
-            .then((res) => {
-                console.log('Message sent:', res.text + '\n' + res.ts);
-            }).catch(console.error);
+        messageSend(variables.reference, message.channel);
     } else if (message.text.includes('!read')) { // response for reference documents
-        rtm.sendMessage(variables.reference, message.channel)
-            .then((res) => {
-                console.log('Message sent:', res.text + '\n' + res.ts);
-            }).catch(console.error);
+        messageSend(variables.reference, message.channel);
     } else if (message.text.includes('!documents')) { // response for reference documents
-        rtm.sendMessage(variables.reference, message.channel)
-            .then((res) => {
-                console.log('Message sent:', res.text + '\n' + res.ts);
-            }).catch(console.error);
+        messageSend(variables.reference, message.channel);
     } else if (message.text.includes('!gantt')) { // response for gantt chart
-        rtm.sendMessage(variables.timeline, message.channel)
-            .then((res) => {
-                console.log('Message sent:', res.text + '\n' + res.ts);
-            }).catch(console.error);
+        messageSend(variables.timeline, message.channel);
     } else if (message.text.includes('!timeline')) { // response for gantt chart
-        rtm.sendMessage(variables.timeline, message.channel)
-            .then((res) => {
-                console.log('Message sent:', res.text + '\n' + res.ts);
-            }).catch(console.error);
+        messageSend(variables.timeline, message.channel);
     } else if (message.text.includes('!projects')) { // response for gantt chart
-        rtm.sendMessage(variables.timeline, message.channel)
-            .then((res) => {
-                console.log('Message sent:', res.text + '\n' + res.ts);
-            }).catch(console.error);
+        messageSend(variables.timeline, message.channel);
     } else if (message.text.includes('!ganttchart')) { // response for gantt chart
-        rtm.sendMessage(variables.timeline, message.channel)
-            .then((res) => {
-                console.log('Message sent:', res.text + '\n' + res.ts);
-            }).catch(console.error);
+        messageSend(variables.timeline, message.channel);
     } else if (message.text.includes('!currentcar')) { // response for car folder on google drive
-        rtm.sendMessage(variables.currentcar, message.channel)
-            .then((res) => {
-                console.log('Message sent:', res.text + '\n' + res.ts);
-            }).catch(console.error);
+        messageSend(variables.currentcar, message.channel);
     } else if (message.text.includes('!car')) { // response for car folder on google drive
-        rtm.sendMessage(variables.currentcar, message.channel)
-            .then((res) => {
-                console.log('Message sent:', res.text + '\n' + res.ts);
-            }).catch(console.error);
+        messageSend(variables.currentcar, message.channel);
     } else if (message.text.includes('!carfiles')) { // response for car folder on google drive
-        rtm.sendMessage(variables.currentcar, message.channel)
-            .then((res) => {
-                console.log('Message sent:', res.text + '\n' + res.ts);
-            }).catch(console.error);
+        messageSend(variables.currentcar, message.channel);
     } else if (message.text === 'Important announcement to the people of nsfw: it is now beer time!') { // response for car folder on google drive
-        rtm.sendMessage(':beers:', message.channel)
-            .then((res) => {
-                console.log('Message sent:', res.text + '\n' + res.ts);
-            }).catch(console.error);
+        messageSend(':beers:', message.channel);
     } else if (message.text === '!tableflip') {
-        rtm.sendMessage('(╯°□°）╯︵ ┻━┻', message.channel)
-            .then((res) => {
-                console.log('Message sent:', res.text + '\n' + res.ts);
-            });
+        messageSend('(╯°□°）╯︵ ┻━┻', message.channel);
     } else if (message.text === '!unflip') {
-        rtm.sendMessage('┬─┬ノ( º _ ºノ)', message.channel)
-            .then((res) => {
-                console.log('Message sent:', res.text + '\n' + res.ts);
-            });
+        messageSend('┬─┬ノ( º _ ºノ)', message.channel);
+    } else if (message.text === '#PitG') {
+        messageSend('Heads up <@UFHQT0UMQ>', message.channel);
+    } else if (message.text === '!meme') {
+        randomMeme(message.channel);
     }
 });
 
-function messageSend(textsend) {
-    rtm.sendMessage(textsend, message.channel)
+
+function messageSend(textsend, channelsend) {
+    rtm.sendMessage(textsend, channelsend)
         .then((res) => {
-            console.log('Message sent: \n' + res.text + '\n' + res.ts);
+            console.log(`Message sent: \n` + res.text + '\n' + res.ts);
         }).catch(console.error);
 }
 
-function addReaction(emoji) {
+function addReaction(emoji, channelreact, messagets) {
     web.apiCall('https://slack.com/api/reactions.add', {
-        token: process.env.TOKEN,
-        name: emoji,
-        channel: message.channel,
-        timestamp: message.ts,
-    });
+            token: process.env.TOKEN,
+            name: emoji,
+            channel: channelreact,
+            timestamp: messagets,
+        })
+        .then((res) => {
+            console.log('Reaction added');
+        }).catch(console.error);
 }
+
+function randomMeme(memechannel) {
+    var memes = fs.readdirSync(__dirname + '/memes/');
+    let memesend = memes[Math.floor(Math.random() * memes.length)];
+    console.log('File to be sent:', memesend);
+    web.files.upload({
+            token: process.env.TOKEN,
+            file: fs.createReadStream(__dirname + '/memes/' + memesend),
+            channels: memechannel
+        })
+        .then((res) => {
+            console.log('File sent:', res.file.name);
+        }).catch(console.error);
+}
+
+// async function getChannels() {
+//     web.apiCall('https://slack.com/api/conversations.list', {
+//         token: process.env.TOKEN,
+//         exclude_archived: true,
+//         types: 'public_channel',
+//     });
+// }
 
 rtm.on('reaction_event', (reactionevent) => {
     console.log(reactionevent);
