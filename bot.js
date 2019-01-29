@@ -85,6 +85,9 @@ rtm.on('message', (message) => {
         updateUsers(message.channel);
     } else if (message.text.toLowerCase().includes('blyat')) {
         addReaction('blyat', message.channel, message.ts);
+
+        // } else if (message.text.toLowerCase().includes('good night') || message.text.toLowerCase().includes('gnight')) { //TODO add good night command
+
     }
 });
 
@@ -92,7 +95,7 @@ rtm.on('message', (message) => {
 function messageSend(textsend, channelsend) {
     rtm.sendMessage(textsend, channelsend)
         .then((res) => {
-            console.log(`Message sent: \n` + res.text + '\n' + res.ts);
+            console.log('Message sent: \n' + res.text + '\n' + res.ts);
         }).catch(console.error);
 }
 
@@ -167,3 +170,9 @@ function updateUsers(updatechannel) {
             console.log('File sent:', res.file.name);
         }).catch(console.error);
 }
+
+// function goodnight(channelnight){ //TODO function for good night command
+//     var night = ["Good night!","Sweet dreams!",""]
+// }
+
+//TODO find some way to get username from userid
