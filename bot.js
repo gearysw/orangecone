@@ -43,69 +43,29 @@ rtm.on('message', (message) => {
         messageSend('Hello!', message.channel);
     } else if (message.text.toLowerCase().includes('hello')) {
         messageSend('Hello!', message.channel);
-    } else if (message.text.toLowerCase().includes('sticky liquid')) { // adds a reaction to `sticky liquid`
-        addReaction('sweat_drops', message.channel, message.ts);
-    } else if (message.text.toLowerCase().includes('sticky juice')) { // adds a reaction to `sticky liquid`
+    } else if (message.text.toLowerCase().includes('sticky liquid') || message.text.toLowerCase().includes('sticky juice')) { // adds a reaction to `sticky liquid`
         addReaction('sweat_drops', message.channel, message.ts);
     } else if (message.text === '!help') { // responds to !help command
         messageSend(variables.sendHelp, message.channel);
-    } else if (message.text.toLowerCase().includes('!drive')) { // response for google drive link
-        messageSend(variables.drive, message.channel);
-    } else if (message.text === '!googledrive') { // response for google drive link
+    } else if (message.text.toLowerCase().includes('!drive') || message.text === '!googledrive') { // response for google drive link
         messageSend(variables.drive, message.channel);
     } else if (message.text.toLowerCase().includes('!stash')) { // response for vms stash
         messageSend(variables.stash, message.channel);
-    } else if (message.text.toLowerCase().includes('!rules')) { // response for rulebook
-        messageSend(variables.rules, message.channel);
-    } else if (message.text === '!rulebook') { // response for rulebook
-        messageSend(variables.rules, message.channel);
     } else if (message.text.toLowerCase().includes('!rule')) { // response for rulebook
         messageSend(variables.rules, message.channel);
-    } else if (message.text === '!directory') { // response for channel directory
+    } else if (message.text === '!directory' || message.text === '!slackchannel' || message.text.toLowerCase().includes('!channels')) { // response for channel directory
         messageSend(variables.channels, message.channel);
-    } else if (message.text === '!slackchannel') { // response for channel directory
-        messageSend(variables.channels, message.channel);
-    } else if (message.text.toLowerCase().includes('!channels')) { // response for channel directory
-        messageSend(variables.channels, message.channel);
-    } else if (message.text.toLowerCase().includes('!minutes')) { // response for meeting minutes
+    } else if (message.text.toLowerCase().includes('!minutes') || message.text === '!meetingminutes') { // response for meeting minutes
         messageSend(variables.minutes, message.channel);
-    } else if (message.text === '!meetingminutes') { // response for meeting minutes
-        messageSend(variables.minutes, message.channel);
-    } else if (message.text.toLowerCase().includes('!buy')) { // response for ordering form
+    } else if (message.text.toLowerCase().includes('!buy') || message.text.toLowerCase().includes('!order')) { // response for ordering form
         messageSend(variables.orderform, message.channel);
-    } else if (message.text.toLowerCase().includes('!order')) { // response for ordering form
-        messageSend(variables.orderform, message.channel);
-    } else if (message.text === '!newb') { // response for new member form
+    } else if (message.text === '!newb' || message.text === '!newmember' || message.text === '!welcome') { // response for new member form
         messageSend(variables.newb, message.channel);
-    } else if (message.text === '!newmember') { // response for new member form
-        messageSend(variables.newb, message.channel);
-    } else if (message.text === '!welcome') { // response for new member form
-        messageSend(variables.newb, message.channel);
-    } else if (message.text.toLowerCase().includes('!reference')) { // response for reference documents
+    } else if (message.text.toLowerCase().includes('!reference') || message.text.toLowerCase().includes('!lightreading') || message.text.toLowerCase().includes('!read') || message.text.toLowerCase().includes('!documents')) { // response for reference documents
         messageSend(variables.reference, message.channel);
-    } else if (message.text.toLowerCase().includes('!references')) { // response for reference documents
-        messageSend(variables.reference, message.channel);
-    } else if (message.text.toLowerCase().includes('!lightreading')) { // response for reference documents
-        messageSend(variables.reference, message.channel);
-    } else if (message.text.toLowerCase().includes('!reading')) { // response for reference documents
-        messageSend(variables.reference, message.channel);
-    } else if (message.text.toLowerCase().includes('!read')) { // response for reference documents
-        messageSend(variables.reference, message.channel);
-    } else if (message.text.toLowerCase().includes('!documents')) { // response for reference documents
-        messageSend(variables.reference, message.channel);
-    } else if (message.text.toLowerCase().includes('!gantt')) { // response for gantt chart
+    } else if (message.text.toLowerCase().includes('!gantt') || message.text.toLowerCase().includes('!timeline') || message.text.toLowerCase().includes('!projects')) { // response for gantt chart
         messageSend(variables.timeline, message.channel);
-    } else if (message.text.toLowerCase().includes('!timeline')) { // response for gantt chart
-        messageSend(variables.timeline, message.channel);
-    } else if (message.text.toLowerCase().includes('!projects')) { // response for gantt chart
-        messageSend(variables.timeline, message.channel);
-    } else if (message.text.toLowerCase().includes('!ganttchart')) { // response for gantt chart
-        messageSend(variables.timeline, message.channel);
-    } else if (message.text.toLowerCase().includes('!currentcar')) { // response for car folder on google drive
-        messageSend(variables.currentcar, message.channel);
-    } else if (message.text.toLowerCase().includes('!car')) { // response for car folder on google drive
-        messageSend(variables.currentcar, message.channel);
-    } else if (message.text.toLowerCase().includes('!carfiles')) { // response for car folder on google drive
+    } else if (message.text.toLowerCase().includes('!currentcar') || message.text.toLowerCase().includes('!car')) { // response for car folder on google drive
         messageSend(variables.currentcar, message.channel);
     } else if (message.text === 'Important announcement to the people of nsfw: it is now beer time!') { // response for car folder on google drive
         messageSend(':beers:', message.channel);
@@ -119,8 +79,12 @@ rtm.on('message', (message) => {
         randomMeme(message.channel);
     } else if (message.text.includes(`<@${rtm.activeUserId}>`)) {
         addReaction('pingshake', message.channel, message.ts);
+    } else if (message.user === 'U3ZPKC22V' && (message.text.toLowerCase().includes('vodka') || message.text.toLowerCase().includes('russian water') || message.text.toLowerCase().includes('slav'))) {
+        addReaction('blyat', message.channel, message.ts);
     } else if (message.text === '!updateusers') {
         updateUsers(message.channel);
+    } else if (message.text.toLowerCase().includes('blyat')) {
+        addReaction('blyat', message.channel, message.ts);
     }
 });
 
