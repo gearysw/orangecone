@@ -15,6 +15,12 @@ const web = new WebClient(process.env.TOKEN);
 
 console.log('(╯°□°）╯︵ ┻━┻');
 
+if (!fs.existsSync(__dirname + '/db')) {
+    fs.mkdir(__dirname + '/db', (err) => {
+        if (err) throw err;
+    });
+}
+
 rtm.on('channel_joined', (joinevent) => {
     console.log(joinevent);
     rtm.sendMessage('Hello! I am Cone Bot!', joinevent.channel.id);
@@ -53,15 +59,15 @@ rtm.on('message', (message) => {
         messageSend(variables.rules, message.channel);
     } else if (message.text === '!rulebook') { // response for rulebook
         messageSend(variables.rules, message.channel);
-    } else if (message.text === '!rule') { // response for rulebook
+    } else if (message.text.toLowerCase().includes('!rule')) { // response for rulebook
         messageSend(variables.rules, message.channel);
     } else if (message.text === '!directory') { // response for channel directory
         messageSend(variables.channels, message.channel);
     } else if (message.text === '!slackchannel') { // response for channel directory
         messageSend(variables.channels, message.channel);
-    } else if (message.text === '!channels') { // response for channel directory
+    } else if (message.text.toLowerCase().includes('!channels')) { // response for channel directory
         messageSend(variables.channels, message.channel);
-    } else if (message.text === '!minutes') { // response for meeting minutes
+    } else if (message.text.toLowerCase().includes('!minutes')) { // response for meeting minutes
         messageSend(variables.minutes, message.channel);
     } else if (message.text === '!meetingminutes') { // response for meeting minutes
         messageSend(variables.minutes, message.channel);
@@ -113,6 +119,8 @@ rtm.on('message', (message) => {
         randomMeme(message.channel);
     } else if (message.text.includes(`<@${rtm.activeUserId}>`)) {
         addReaction('pingshake', message.channel, message.ts);
+    } else if (message.text === '!updateusers') {
+        updateUsers(message.channel);
     }
 });
 
@@ -144,6 +152,52 @@ function randomMeme(memechannel) {
             token: process.env.TOKEN,
             file: fs.createReadStream(__dirname + '/memes/' + memesend),
             channels: memechannel
+        })
+        .then((res) => {
+            console.log('File sent:', res.file.name);
+        }).catch(console.error);
+}
+
+function getAllUsers() {
+    const param = {
+        token: process.env.TOKEN
+    };
+    return web.users.list(param).then(results => {
+        return results.members;
+    });
+}
+
+
+function updateUsers(updatechannel) {
+    getAllUsers()
+        .then(res => {
+            // console.log(res);
+            fs.writeFile(__dirname + '/db/users.json', JSON.stringify(res, null, 2), (err) => {
+                if (err) throw err;
+                console.log('Data written');
+            });
+        })
+        .catch(console.error);
+
+    getAllUsers()
+        .then(res => {
+            var users = res.map(usersdata => ({
+                id: usersdata.id,
+                name: usersdata.name
+            }));
+            console.log(users);
+            fs.writeFile(__dirname + '/db/users_simplified.json', JSON.stringify(users, null, 2), (err) => {
+                if (err) throw err;
+                console.log('Simplified data written');
+            });
+        });
+
+    messageSend('User list updated', updatechannel);
+
+    web.files.upload({
+            token: process.env.TOKEN,
+            file: fs.createReadStream(__dirname + '/db/users_simplified.json'),
+            channels: updatechannel
         })
         .then((res) => {
             console.log('File sent:', res.file.name);

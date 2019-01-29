@@ -1,3 +1,4 @@
 .env
 envsettings.json
 /node_modules
+/db
