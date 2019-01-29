@@ -84,6 +84,10 @@ rtm.on('message', (message) => {
         // if (message.message.text.toLowerCase().includes('hullo')) {
         //     messageSend('Hello!', message.channel);
         // }
+    } else if (message.text.toLowerCase().includes('\`')) {
+        return;
+    } else if (message.user === 'USLACKBOT' && !message.is_ephemeral) {
+        messageSend('Shut up, <@USLACKBOT>.', message.channel);
     } else if (message.text.toLowerCase().includes('hello')) { // replies to hello messagse
         messageSend('Hello!', message.channel);
     } else if (message.text.toLowerCase().includes('sticky liquid')) { // adds a reaction to `sticky liquid`
