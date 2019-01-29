@@ -8,7 +8,7 @@
     "url": "git+https://github.com/gearysw/orangecone.git"
   },
   "author": "Geary",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/gearysw/orangecone/issues"
   },
