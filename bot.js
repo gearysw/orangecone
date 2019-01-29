@@ -68,15 +68,12 @@ console.log('(╯°□°）╯︵ ┻━┻');
 //     "https://i.imgur.com/AE6VOqv.jpg"
 // ];
 
-
-
 rtm.on('channel_joined', (joinevent) => {
     console.log(joinevent);
     rtm.sendMessage('Hello! I am Cone Bot!', joinevent.channel.id);
 });
 
 
-// TODO Change all this shit to `messageSend` and `addReaction` function
 rtm.on('message', (message) => {
     console.log(message);
     // ignores bot and self messages
@@ -84,22 +81,24 @@ rtm.on('message', (message) => {
         return;
     } else if ((message.subtype && message.subtype === 'message_changed')) {
         console.log('new message: ' + message.message.text + '\nfrom channel: ' + message.channel + '\nprevious message: ' + message.previous_message.text);
-        if (message.message.text.includes('hullo')) {
-            messageSend('Hello!', message.channel);
-        }
-    } else if (message.text.includes('hello')) { // replies to hello messagse
+        // if (message.message.text.toLowerCase().includes('hullo')) {
+        //     messageSend('Hello!', message.channel);
+        // }
+    } else if (message.text.toLowerCase().includes('hello')) { // replies to hello messagse
         messageSend('Hello!', message.channel);
-    } else if (message.text.includes('sticky liquid')) { // adds a reaction to `sticky liquid`
+    } else if (message.text.toLowerCase().includes('sticky liquid')) { // adds a reaction to `sticky liquid`
+        addReaction('sweat_drops', message.channel, message.ts);
+    } else if (message.text.toLowerCase().includes('sticky juice')) { // adds a reaction to `sticky liquid`
         addReaction('sweat_drops', message.channel, message.ts);
     } else if (message.text === '!help') { // responds to !help command
         messageSend(variables.sendHelp, message.channel);
-    } else if (message.text.includes('!drive')) { // response for google drive link
+    } else if (message.text.toLowerCase().includes('!drive')) { // response for google drive link
         messageSend(variables.drive, message.channel);
     } else if (message.text === '!googledrive') { // response for google drive link
         messageSend(variables.drive, message.channel);
-    } else if (message.text.includes('!stash')) { // response for vms stash
+    } else if (message.text.toLowerCase().includes('!stash')) { // response for vms stash
         messageSend(variables.stash, message.channel);
-    } else if (message.text.includes('!rules')) { // response for rulebook
+    } else if (message.text.toLowerCase().includes('!rules')) { // response for rulebook
         messageSend(variables.rules, message.channel);
     } else if (message.text === '!rulebook') { // response for rulebook
         messageSend(variables.rules, message.channel);
@@ -115,9 +114,9 @@ rtm.on('message', (message) => {
         messageSend(variables.minutes, message.channel);
     } else if (message.text === '!meetingminutes') { // response for meeting minutes
         messageSend(variables.minutes, message.channel);
-    } else if (message.text.includes('!buy')) { // response for ordering form
+    } else if (message.text.toLowerCase().includes('!buy')) { // response for ordering form
         messageSend(variables.orderform, message.channel);
-    } else if (message.text.includes('!order')) { // response for ordering form
+    } else if (message.text.toLowerCase().includes('!order')) { // response for ordering form
         messageSend(variables.orderform, message.channel);
     } else if (message.text === '!newb') { // response for new member form
         messageSend(variables.newb, message.channel);
@@ -125,31 +124,31 @@ rtm.on('message', (message) => {
         messageSend(variables.newb, message.channel);
     } else if (message.text === '!welcome') { // response for new member form
         messageSend(variables.newb, message.channel);
-    } else if (message.text.includes('!reference')) { // response for reference documents
+    } else if (message.text.toLowerCase().includes('!reference')) { // response for reference documents
         messageSend(variables.reference, message.channel);
-    } else if (message.text.includes('!references')) { // response for reference documents
+    } else if (message.text.toLowerCase().includes('!references')) { // response for reference documents
         messageSend(variables.reference, message.channel);
-    } else if (message.text.includes('!lightreading')) { // response for reference documents
+    } else if (message.text.toLowerCase().includes('!lightreading')) { // response for reference documents
         messageSend(variables.reference, message.channel);
-    } else if (message.text.includes('!reading')) { // response for reference documents
+    } else if (message.text.toLowerCase().includes('!reading')) { // response for reference documents
         messageSend(variables.reference, message.channel);
-    } else if (message.text.includes('!read')) { // response for reference documents
+    } else if (message.text.toLowerCase().includes('!read')) { // response for reference documents
         messageSend(variables.reference, message.channel);
-    } else if (message.text.includes('!documents')) { // response for reference documents
+    } else if (message.text.toLowerCase().includes('!documents')) { // response for reference documents
         messageSend(variables.reference, message.channel);
-    } else if (message.text.includes('!gantt')) { // response for gantt chart
+    } else if (message.text.toLowerCase().includes('!gantt')) { // response for gantt chart
         messageSend(variables.timeline, message.channel);
-    } else if (message.text.includes('!timeline')) { // response for gantt chart
+    } else if (message.text.toLowerCase().includes('!timeline')) { // response for gantt chart
         messageSend(variables.timeline, message.channel);
-    } else if (message.text.includes('!projects')) { // response for gantt chart
+    } else if (message.text.toLowerCase().includes('!projects')) { // response for gantt chart
         messageSend(variables.timeline, message.channel);
-    } else if (message.text.includes('!ganttchart')) { // response for gantt chart
+    } else if (message.text.toLowerCase().includes('!ganttchart')) { // response for gantt chart
         messageSend(variables.timeline, message.channel);
-    } else if (message.text.includes('!currentcar')) { // response for car folder on google drive
+    } else if (message.text.toLowerCase().includes('!currentcar')) { // response for car folder on google drive
         messageSend(variables.currentcar, message.channel);
-    } else if (message.text.includes('!car')) { // response for car folder on google drive
+    } else if (message.text.toLowerCase().includes('!car')) { // response for car folder on google drive
         messageSend(variables.currentcar, message.channel);
-    } else if (message.text.includes('!carfiles')) { // response for car folder on google drive
+    } else if (message.text.toLowerCase().includes('!carfiles')) { // response for car folder on google drive
         messageSend(variables.currentcar, message.channel);
     } else if (message.text === 'Important announcement to the people of nsfw: it is now beer time!') { // response for car folder on google drive
         messageSend(':beers:', message.channel);
