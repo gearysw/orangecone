@@ -164,6 +164,8 @@ rtm.on('message', (message) => {
         messageSend('Heads up <@U7M5A125B>', message.channel);
     } else if (message.text === '!meme') {
         randomMeme(message.channel);
+    } else if (message.text.includes(`<@${rtm.activeUserId}>`)) {
+        addReaction(pingshake, message.channel, message.ts);
     }
 });
 
