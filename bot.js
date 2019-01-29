@@ -88,6 +88,8 @@ rtm.on('message', (message) => {
 
         // } else if (message.text.toLowerCase().includes('good night') || message.text.toLowerCase().includes('gnight')) { //TODO add good night command
 
+    } else if (message.text === '!getuserlist') {
+        getUserList(message.channel);
     }
 });
 
@@ -139,7 +141,7 @@ function getAllUsers() {
 function updateUsers(updatechannel) {
     getAllUsers()
         .then(res => {
-            // console.log(res);
+            console.log(res);
             fs.writeFile(__dirname + '/db/users.json', JSON.stringify(res, null, 2), (err) => {
                 if (err) throw err;
                 console.log('Data written');
@@ -161,7 +163,9 @@ function updateUsers(updatechannel) {
         });
 
     messageSend('User list updated', updatechannel);
+}
 
+function getUserList(updatechannel) {
     web.files.upload({
             token: process.env.TOKEN,
             file: fs.createReadStream(__dirname + '/db/users_simplified.json'),
