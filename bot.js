@@ -236,7 +236,6 @@ rtm.on('message', (message) => {
     }
 });
 
-
-rtm.on('reaction_added', (reactionevent) => {
+rtm.on('reaction_event', (reactionevent) => {
     console.log(reactionevent);
 });
