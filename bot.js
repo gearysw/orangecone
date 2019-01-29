@@ -5,68 +5,15 @@ const {
 require('dotenv').config();
 var variables = require('./variables.json');
 const fs = require('fs');
-// const token = process.env.BOTTOKEN;
 
 // initialize rtm client
 const rtm = new RTMClient(process.env.TOKEN);
 rtm.start();
 
-// initialize web client to find channels
+// initialize web client
 const web = new WebClient(process.env.TOKEN);
 
 console.log('(╯°□°）╯︵ ┻━┻');
-// load channel list asynchronously
-// web.channels.list()
-//     .then((res) => {
-//         //take any channel the bot is member of
-//         const channel = res.channels.find(c => c.is_member);
-
-//         if (channel) {
-//             // channel ID get!
-//             // use `sendMessage()` method to send string to channel
-
-
-//             rtm.sendMessage('I have been given life by Lord Geary.',channel.id)
-//                 // return promise that resolves when message is sent
-//                 .then((msg) => console.log(`Message sent to channel ${channel.name} with ts:${msg.ts}`))
-//                 .catch(console.error);
-
-//         } else {
-//             console.log('Bot does not belong in a channel, invite to a channel');
-//         }
-//     });
-
-// variacbles for !command responses
-// var sendHelp = '!drive: Google Drive folder. \n!stash: VMS stash directory. \n!newb: new member packet. \n!rules: FSAE rulebook link. \n!reference: reference documents folder. \n!timeline: view the current timeline of projects. \n!currentcar: folder of the current car. \n!channels: Slack channel tutorial. \n!minutes: general meeting minutes. \n!order: ordereing form. \n!tableflip: flip a table.';
-
-// var drive = 'https://drive.google.com/drive/folders/0B5z09FdfsPYJUjB2bG5qNFNwTzA?usp=sharing';
-
-// var stash = 'Connecting to stash from Windows: `https://cat.pdx.edu/platforms/windows/remote-access/windows-to-stash/` \nConnecting to stash from Mac: `https://cat.pdx.edu/platforms/mac/remote-access/stash/` \nConnecting to stash from Linux: `https://cat.pdx.edu/platforms/linux/remote-access/connect-stash/` \nConnecting to VPN: `https://cat.pdx.edu/services/network/vpn-services/` \nVMS stash name: `vms`';
-
-// var rulebook = 
-
-// function getChannels() {
-//     const param = {
-//         exclude_archived: true,
-//         types: 'public_channel',
-//         limit: 100
-//     };
-//     return web.conversations.list(param).then(results => {
-//         return results.channels
-//     });
-// }
-
-// var memes = [
-//     "https://i.redd.it/15t618wal8v01.jpg",
-//     "https://i.redd.it/6gnov60azdq01.png",
-//     "https://i.redd.it/6bzk6633pip01.png",
-//     "https://i.imgur.com/b9Xwb7U.jpg",
-//     "https://i.redd.it/zqnc0ajt50m01.png",
-//     "https://i.redd.it/q8d763j1jl401.jpg",
-//     "https://i.redd.it/kt8gjgv7o6jz.png",
-//     "https://i.imgur.com/e3QPay7.jpg",
-//     "https://i.imgur.com/AE6VOqv.jpg"
-// ];
 
 rtm.on('channel_joined', (joinevent) => {
     console.log(joinevent);
@@ -76,19 +23,19 @@ rtm.on('channel_joined', (joinevent) => {
 
 rtm.on('message', (message) => {
     console.log(message);
-    // ignores bot and self messages
+    // ignores self messages
     if ((!message.subtype && message.user === rtm.activeUserId)) {
         return;
     } else if ((message.subtype && message.subtype === 'message_changed')) {
-        console.log('new message: ' + message.message.text + '\nfrom channel: ' + message.channel + '\nprevious message: ' + message.previous_message.text);
-        // if (message.message.text.toLowerCase().includes('hullo')) {
-        //     messageSend('Hello!', message.channel);
-        // }
+        console.log('new message: ' + message.message.text + '\nfrom channel: ' + message.channel + '\nprevious message: ' + message.previous_message.text); // logs edited messages
     } else if (message.text.toLowerCase().includes('\`')) {
         return;
     } else if (message.user === 'USLACKBOT' && !message.is_ephemeral) {
         messageSend('Shut up, <@USLACKBOT>.', message.channel);
-    } else if (message.text.toLowerCase().includes('hello')) { // replies to hello messagse
+    } else if (message.text.toLowerCase().includes('hello') && message.text.includes(`<@${rtm.activeUserId}>`)) { // replies to hello messagse
+        addReaction('pingshake', message.channel, message.ts);
+        messageSend('Hello!', message.channel);
+    } else if (message.text.toLowerCase().includes('hello')) {
         messageSend('Hello!', message.channel);
     } else if (message.text.toLowerCase().includes('sticky liquid')) { // adds a reaction to `sticky liquid`
         addReaction('sweat_drops', message.channel, message.ts);
@@ -202,15 +149,3 @@ function randomMeme(memechannel) {
             console.log('File sent:', res.file.name);
         }).catch(console.error);
 }
-
-// async function getChannels() {
-//     web.apiCall('https://slack.com/api/conversations.list', {
-//         token: process.env.TOKEN,
-//         exclude_archived: true,
-//         types: 'public_channel',
-//     });
-// }
-
-rtm.on('reaction_event', (reactionevent) => {
-    console.log(reactionevent);
-});
