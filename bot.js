@@ -127,7 +127,8 @@ function randomMeme(memechannel) {
 
 function getAllUsers() {
     const param = {
-        token: process.env.TOKEN
+        token: process.env.TOKEN,
+        limit: 150
     };
     return web.users.list(param).then(results => {
         return results.members;
