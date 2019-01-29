@@ -156,8 +156,8 @@ rtm.on('message', (message) => {
         messageSend('(╯°□°）╯︵ ┻━┻', message.channel);
     } else if (message.text === '!unflip') {
         messageSend('┬─┬ノ( º _ ºノ)', message.channel);
-    } else if (message.text === '#PitG') {
-        messageSend('Heads up <@UFHQT0UMQ>', message.channel);
+    } else if (message.text === '#PitP') {
+        messageSend('Heads up <@U7M5A125B>', message.channel);
     } else if (message.text === '!meme') {
         randomMeme(message.channel);
     }
