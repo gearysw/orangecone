@@ -22,6 +22,17 @@ if (!fs.existsSync(__dirname + '/db')) {
     });
 }
 
+//TODO find some way to create a database of roles and add users to that role so that they can be mentioned as a whole
+// //* creates a /roles/ folder in /db/ if nonexistent
+// if (!fs.existsSync(__dirname + '/db/roles/')) {
+//     fs.mkdir(__dirname + '/db/roles/', (err) => {
+//         if (err) throw err;
+//     });
+// }
+
+
+// var rolenames = fs.readdirSync(__dirname + '/db/roles')
+
 //* posts a greeting after being invited to a channel
 rtm.on('channel_joined', (joinevent) => {
     console.log(joinevent);
