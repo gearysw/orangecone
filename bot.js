@@ -49,7 +49,7 @@ rtm.on('message', (message) => {
             }).catch(console.error);
     } else if (message.text.toLowerCase().includes('hello') && message.text.includes(`<@${rtm.activeUserId}>`)) { // replies to hello messagse
         pingReact(message.channel, message.ts);
-        messageSend('Hello!', message.channel);
+        messageSend('...hey', message.channel);
     } else if (message.text.toLowerCase().includes('hello')) {
         messageSend('Hello! :blobwave:', message.channel);
     } else if (message.text.toLowerCase().includes('sticky liquid') || message.text.toLowerCase().includes('sticky juice')) { // adds a reaction to `sticky liquid`
