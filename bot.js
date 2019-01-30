@@ -84,7 +84,7 @@ rtm.on('message', (message) => {
         messageSend('Heads up <@U7M5A125B>', message.channel);
     } else if (message.text === '!meme') { // gimme them dank memes
         randomMeme(message.channel);
-    } else if (message.text.includes(`<@${rtm.activeUserId}>`)) { // Cone Bot doesn't like being pinged
+    } else if (message.text.includes(`<@${rtm.activeUserId}>`) || message.text.includes('<!channel>') || message.text.includes('<!here>') || message.text.includes('<!everyone>')) { // Cone Bot doesn't like being pinged
         pingReact(message.channel, message.ts);
     } else if (message.user === 'U3ZPKC22V' && (message.text.toLowerCase().includes('vodka') || message.text.toLowerCase().includes('russian water') || message.text.toLowerCase().includes('slav'))) { // is super slav
         addReaction('blyat', message.channel, message.ts);
