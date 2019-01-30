@@ -47,8 +47,9 @@ rtm.on('message', (message) => {
         return;
         // } else if (message.subtype && message.subtype === 'channel_join') {
         //     return;
-    } else if ((message.subtype && message.subtype === 'message_changed')) {
-        console.log('new message: ' + message.message.text + '\nfrom channel: ' + message.channel + '\nprevious message: ' + message.previous_message.text); // logs edited messages
+    } else if ((message.subtype && (message.subtype === 'message_changed') || message.subtype === 'message_deleted' || message.subtype === 'message_replied' || message.subtype === 'thread_broadcast')) {
+        // console.log('new message: ' + message.message.text + '\nfrom channel: ' + message.channel + '\nprevious message: ' + message.previous_message.text); // logs edited messages
+        return; // ignores certain message subtypes
     } else if (message.text.toLowerCase().includes('\`')) {
         return;
     } else if (message.user === 'USLACKBOT' && (!message.is_ephemeral || message.is_ephemeral === false)) {
