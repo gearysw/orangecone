@@ -54,6 +54,8 @@ rtm.on('message', (message) => {
         messageSend('Hello! :blobwave:', message.channel);
     } else if (message.text.toLowerCase().includes('sticky liquid') || message.text.toLowerCase().includes('sticky juice')) { // adds a reaction to `sticky liquid`
         addReaction('sweat_drops', message.channel, message.ts);
+    } else if (message.text.toLowerCase().includes('what') && message.text.toLowerCase().includes('do') && (message.text.toLowerCase().includes('cone') || message.text.toLowerCase().includes('bot'))) {
+        messageSend('Type in `!help` to see what I can help you with.', message.channel);
     } else if (message.text.includes('!help')) { // responds to !help command
         messageSend(variables.sendHelp, message.channel);
     } else if (message.text.toLowerCase().includes('!drive') || message.text === '!googledrive') { // response for google drive link
