@@ -32,8 +32,10 @@ rtm.on('channel_joined', (joinevent) => {
 rtm.on('message', (message) => {
     console.log(message);
     // ignores self messages
-    if ((!message.subtype && message.user === rtm.activeUserId)) {
+    if ((message.user === rtm.activeUserId && (!message.subtype || message.subtype === 'channel_join' || message.subtype === 'group_join'))) {
         return;
+        // } else if (message.subtype && message.subtype === 'channel_join') {
+        //     return;
     } else if ((message.subtype && message.subtype === 'message_changed')) {
         console.log('new message: ' + message.message.text + '\nfrom channel: ' + message.channel + '\nprevious message: ' + message.previous_message.text); // logs edited messages
     } else if (message.text.toLowerCase().includes('\`')) {
@@ -120,6 +122,18 @@ rtm.on('message', (message) => {
     }
 });
 
+//* function to automatically join a newly created channel
+rtm.on('channel_created', (newchannel) => {
+    console.log(newchannel.channel.id);
+    var params = {
+        token: process.env.UTOKEN,
+        channel: newchannel.channel.id,
+        users: rtm.activeUserId
+    };
+    web.conversations.invite(params)
+        .then(console.log('Joined channel:', newchannel.channel.name))
+        .catch(console.error);
+});
 
 //! Start of user defined functions
 
