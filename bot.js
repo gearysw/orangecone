@@ -22,7 +22,7 @@ if (!fs.existsSync(__dirname + '/db')) {
     });
 }
 
-//TODO find some way to create a database of roles and add users to that role so that they can be mentioned as a whole
+//TODO find some way to create a database of roles and add users to that databse so that they can all be @mentioned when a !role is called
 // //* creates a /roles/ folder in /db/ if nonexistent
 // if (!fs.existsSync(__dirname + '/db/roles/')) {
 //     fs.mkdir(__dirname + '/db/roles/', (err) => {
@@ -90,6 +90,8 @@ rtm.on('message', (message) => {
         messageSend(variables.timeline, message.channel);
     } else if (message.text.toLowerCase().includes('!currentcar') || message.text.toLowerCase().includes('!car')) { // response for car folder on google drive
         messageSend(variables.currentcar, message.channel);
+    } else if (message.text.toLowerCase().includes('!affiliate') || message.text.toLowerCase().includes('!affiliation') || message.text.toLowerCase().includes('!register')) {
+        messageSend(variables.affiliate, message.channel);
     } else if (message.text.includes('Important announcement to the people of nsfw: it is now beer time!')) { // response for car folder on google drive
         messageSend(':beers:', message.channel);
     } else if (message.text === '!tableflip' || message.text.toLowerCase().includes('!flip')) { // when you just can't handle it anymore
@@ -210,7 +212,8 @@ function updateUsers(updatechannel) { //* function to update the database json f
             var users = res.map(usersdata => ({
                 id: usersdata.id,
                 username: usersdata.name,
-                fullname: usersdata.real_name
+                firstName: usersdata.profile.first_name,
+                lastName: usersdata.profile.last_name
             }));
             console.log(users);
             fs.writeFile(__dirname + '/db/users_simplified.json', JSON.stringify(users, null, 2), (err) => {
@@ -218,6 +221,10 @@ function updateUsers(updatechannel) { //* function to update the database json f
                 console.log('Simplified data written');
             });
         });
+    // getAllUsers()
+    // .then(res => {
+    //     if (res.deleted === true) 
+    // })
     messageSend('User list updated', updatechannel);
 }
 
