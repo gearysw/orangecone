@@ -92,6 +92,8 @@ rtm.on('message', (message) => {
         messageSend(variables.currentcar, message.channel);
     } else if (message.text.toLowerCase().includes('!affiliate') || message.text.toLowerCase().includes('!affiliation') || message.text.toLowerCase().includes('!register')) {
         messageSend(variables.affiliate, message.channel);
+    } else if (message.text.toLowerCase().includes('!tutorial')) {
+        messageSend(variables.tutorial, message.channel);
     } else if (message.text.includes('Important announcement to the people of nsfw: it is now beer time!')) { // response for car folder on google drive
         messageSend(':beers:', message.channel);
     } else if (message.text === '!tableflip' || message.text.toLowerCase().includes('!flip')) { // when you just can't handle it anymore
@@ -105,6 +107,7 @@ rtm.on('message', (message) => {
     } else if (message.text.includes(`<@${rtm.activeUserId}>`) || message.text.includes('<!channel>') || message.text.includes('<!here>') || message.text.includes('<!everyone>')) { // Cone Bot doesn't like being pinged
         pingReact(message.channel, message.ts);
     } else if (message.user === 'U3ZPKC22V' && (message.text.toLowerCase().includes('vodka') || message.text.toLowerCase().includes('russian water') || message.text.toLowerCase().includes('slav'))) { // is super slav
+        addReaction('beers', message.channel, message.ts);
         addReaction('blyat', message.channel, message.ts);
     } else if (message.text === '!updateusers') { // response to update user list
         updateUsers(message.channel);
@@ -122,7 +125,7 @@ rtm.on('message', (message) => {
         let nohalp = halphw[Math.floor(Math.random() * halphw.length)];
         messageSend(nohalp, message.channel);
     } else if (message.text.toLowerCase().includes('help') && message.text.toLowerCase().includes('me') && (message.text.toLowerCase().includes('cone') || message.text.toLowerCase().includes('bot'))) {
-        var plshelp = ['Maybe... Type in `!help` for a list of what I can do.', 'Depends on what you need. Type `!help` to see what I can do.'];
+        var plshelp = ['Type in `!help` for a list of what I can do.', 'Depends on what you need. Type `!help` to see what I can do.'];
         let nohelp = plshelp[Math.floor(Math.random() * plshelp.length)];
         messageSend(nohelp, message.channel);
     } else if (message.text.toLowerCase().includes('cone') && (message.text.toLowerCase().includes('avoid') || message.text.toLowerCase().includes('mind') || message.text.toLowerCase().includes('watch out'))) {
@@ -135,6 +138,10 @@ rtm.on('message', (message) => {
         addReaction('sendit', message.channel, message.ts);
     } else if (message.text.toLowerCase().includes('euro')) {
         addReaction('flag-eu', message.channel, message.ts);
+    } else if (message.text.toLowerCase().includes('salt')) {
+        addReaction('salt', message.channel, message.ts);
+    } else if (message.text.toLowerCase().includes('post malone')) {
+        addReaction('victor', message.channel, message.ts);
     }
 });
 
