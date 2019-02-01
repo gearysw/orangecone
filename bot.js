@@ -142,6 +142,8 @@ rtm.on('message', (message) => {
         addReaction('salt', message.channel, message.ts);
     } else if (message.text.toLowerCase().includes('post malone')) {
         addReaction('victor', message.channel, message.ts);
+    } else if (message.text === '!d4' || message.text === '!d6' || message.text === '!d8' || message.text === '!d10' || message.text === '!d12' || message.text === '!d20') {
+        rollDice(message.text, message.channel);
     }
 });
 
@@ -279,4 +281,26 @@ function pingReact(reactch, reactts) {
     var emojis = ['pingshake', 'pingsock', 'pingthink', 'pingwhat'];
     let sendmoji = emojis[Math.floor(Math.random() * emojis.length)];
     addReaction(sendmoji, reactch, reactts);
+}
+
+function rollDice(dx ,rollchannel) {
+    if (dx.includes('d4')) {
+        let num = Math.floor((Math.random() * 4) + 1);
+        messageSend(num.toString(), rollchannel);
+    } else if (dx.includes('d6')) {
+        let num = Math.floor((Math.random() * 6) + 1);
+        messageSend(num.toString(), rollchannel);
+    } else if (dx.includes('d8')) {
+        let num = Math.floor((Math.random() * 8) + 1);
+        messageSend(num.toString(), rollchannel);
+    } else if (dx.includes('d10')) {
+        let num = Math.floor((Math.random() * 10) + 1);
+        messageSend(num.toString(), rollchannel);
+    } else if (dx.includes('d12')) {
+        let num = Math.floor((Math.random() * 12) + 1);
+        messageSend(num.toString(), rollchannel);
+    } else if (dx.includes('d20')) {
+        let num = Math.floor((Math.random() * 20) + 1);
+        messageSend(num.toString(), rollchannel);
+    }
 }
