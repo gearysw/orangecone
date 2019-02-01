@@ -142,7 +142,7 @@ rtm.on('message', (message) => {
         addReaction('salt', message.channel, message.ts);
     } else if (message.text.toLowerCase().includes('post malone')) {
         addReaction('victor', message.channel, message.ts);
-    } else if (message.text === '!d4' || message.text === '!d6' || message.text === '!d8' || message.text === '!d10' || message.text === '!d12' || message.text === '!d20') {
+    } else if (message.text.includes('!d4') || message.text.includes('!d6') || message.text.includes('!d8') || message.text.includes('!d10') || message.text.includes('!d12') || message.text.includes('!d20')) {
         rollDice(message.text, message.channel);
     }
 });
