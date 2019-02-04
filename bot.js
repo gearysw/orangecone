@@ -106,8 +106,6 @@ rtm.on('message', (message) => {
         messageSend('Heads up <@U7QUF4J22>', message.channel);
     } else if (message.text === '!meme') { // gimme them dank memes
         randomMeme(message.channel);
-    } else if (message.text.includes(`<@${rtm.activeUserId}>`) || message.text.includes('<!channel>') || message.text.includes('<!here>') || message.text.includes('<!everyone>')) { // Cone Bot doesn't like being pinged
-        pingReact(message.channel, message.ts);
     } else if (message.user === 'U3ZPKC22V' && (message.text.toLowerCase().includes('vodka') || message.text.toLowerCase().includes('russian water') || message.text.toLowerCase().includes('slav'))) { // is super slav
         addReaction('beers', message.channel, message.ts);
         addReaction('blyat', message.channel, message.ts);
@@ -146,8 +144,17 @@ rtm.on('message', (message) => {
         addReaction('victor', message.channel, message.ts);
     } else if (message.text.includes('!d4') || message.text.includes('!d6') || message.text.includes('!d8') || message.text.includes('!d10') || message.text.includes('!d12') || message.text.includes('!d20')) {
         rollDice(message.text, message.channel);
-    } else if (message.text.match(/\!\dd\d/)) {
+    } else if (message.text.match(/\!\dd\d/)) { // /\!\dd\d/
         advrollDice(message.text, message.channel);
+    } else if (message.text.toLowerCase().includes('heads or tails')) {
+        let chance = Math.ceil(Math.random() * 2);
+        if (chance == 1) {
+            messageSend('Heads', message.channel);
+        } else if (chance == 2) {
+            messageSend('Tails', message.channel);
+        }
+    } else if (message.text.includes(`<@${rtm.activeUserId}>`) || message.text.includes('<!channel>') || message.text.includes('<!here>') || message.text.includes('<!everyone>')) { // Cone Bot doesn't like being pinged
+        pingReact(message.channel, message.ts);
     }
 });
 
@@ -316,7 +323,6 @@ function rollDice(dx ,rollchannel) {
 
 function advrollDice(dx, rollchannel) {
     params = dx.split('');
-    // let valid = ['4','6','8,','10','12','20'];
     let dice = dx.slice(3);
     console.log(params[1], params[3], params[4]);
     if (!dice.includes('4') && !dx.includes('6') && !dice.includes('8') && !dice.includes('10') && !dice.includes('12') && !dice.includes('20')) {
@@ -334,4 +340,7 @@ function advrollDice(dx, rollchannel) {
         console.log(num);
         messageSend(num.toString(), rollchannel);
     }
+    // command = dx.split(' ', 2);
+    // console.log(command);
+
 }
