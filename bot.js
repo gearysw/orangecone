@@ -146,8 +146,8 @@ rtm.on('message', (message) => {
         addReaction('victor', message.channel, message.ts);
     } else if (message.text.includes('!d4') || message.text.includes('!d6') || message.text.includes('!d8') || message.text.includes('!d10') || message.text.includes('!d12') || message.text.includes('!d20')) {
         rollDice(message.text, message.channel);
-    // } else if (message.text.match(/\!\dd\d/)){ //TODO rework dice roll function using regex
-    //     messageSend('dice roll', message.channel);
+    } else if (message.text.match(/\!\dd\d/)) {
+        advrollDice(message.text, message.channel);
     }
 });
 
@@ -310,6 +310,28 @@ function rollDice(dx ,rollchannel) {
         messageSend(num.toString(), rollchannel);
     } else if (dx.includes('d20')) {
         let num = Math.floor((Math.random() * 20) + 1);
+        messageSend(num.toString(), rollchannel);
+    }
+}
+
+function advrollDice(dx, rollchannel) {
+    params = dx.split('');
+    // let valid = ['4','6','8,','10','12','20'];
+    let dice = dx.slice(3);
+    console.log(params[1], params[3], params[4]);
+    if (!dice.includes('4') && !dx.includes('6') && !dice.includes('8') && !dice.includes('10') && !dice.includes('12') && !dice.includes('20')) {
+        messageSend('That is not a standard die.', rollchannel);
+    } else if (params[4]) {
+        let min = Math.ceil(parseInt(params[1]));
+        let max = Math.floor(parseInt((params[3] + params[4]) * min));
+        let num = Math.floor(Math.random() * (max - min + 1) + min);
+        console.log(num);
+        messageSend(num.toString(), rollchannel);
+    } else {
+        let min = Math.ceil(parseInt(params[1]));
+        let max = Math.floor(parseInt(params[3] * min));
+        let num = Math.floor(Math.random() * (max - min + 1) + min);
+        console.log(num);
         messageSend(num.toString(), rollchannel);
     }
 }
