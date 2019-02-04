@@ -102,6 +102,8 @@ rtm.on('message', (message) => {
         messageSend('┬─┬ノ( º _ ºノ)', message.channel);
     } else if (message.text.includes('#PitP')) { // Pass it to Pawel
         messageSend('Heads up <@U7M5A125B>', message.channel);
+    } else if (message.text.toLowerCase().includes('shopmanager') || message.text.toLowerCase().includes('shop manager')) {
+        messageSend('Heads up <@U7QUF4J22>', message.channel);
     } else if (message.text === '!meme') { // gimme them dank memes
         randomMeme(message.channel);
     } else if (message.text.includes(`<@${rtm.activeUserId}>`) || message.text.includes('<!channel>') || message.text.includes('<!here>') || message.text.includes('<!everyone>')) { // Cone Bot doesn't like being pinged
@@ -144,6 +146,8 @@ rtm.on('message', (message) => {
         addReaction('victor', message.channel, message.ts);
     } else if (message.text.includes('!d4') || message.text.includes('!d6') || message.text.includes('!d8') || message.text.includes('!d10') || message.text.includes('!d12') || message.text.includes('!d20')) {
         rollDice(message.text, message.channel);
+    // } else if (message.text.match(/\!\dd\d/)){ //TODO rework dice roll function using regex
+    //     messageSend('dice roll', message.channel);
     }
 });
 
@@ -214,26 +218,20 @@ function updateUsers(updatechannel) { //* function to update the database json f
                 if (err) throw err;
                 console.log('Data written');
             });
-        })
-        .catch(console.error);
-    getAllUsers()
-        .then(res => {
             var users = res.map(usersdata => ({
                 id: usersdata.id,
                 username: usersdata.name,
                 firstName: usersdata.profile.first_name,
-                lastName: usersdata.profile.last_name
+                lastName: usersdata.profile.last_name,
+                deleted: usersdata.deleted
             }));
             console.log(users);
             fs.writeFile(__dirname + '/db/users_simplified.json', JSON.stringify(users, null, 2), (err) => {
                 if (err) throw err;
                 console.log('Simplified data written');
             });
-        });
-    // getAllUsers()
-    // .then(res => {
-    //     if (res.deleted === true) 
-    // })
+        })
+        .catch(console.error);
     messageSend('User list updated', updatechannel);
 }
 
@@ -257,6 +255,16 @@ function getFirstName(userid) { //* function to convert the user.id parameter in
         // return results.user.real_name;
         return results.user.profile.first_name;
     }).catch(console.error);
+}
+
+function getLastName(userid) {
+    const param = {
+        token: process.env.TOKEN,
+        user: userid
+    };
+    return web.users.info(param).then(results => {
+        return results.user.profile.last_name;
+    });
 }
 
 function goodmorning(msgauthor, gmchannel) { //* function to greet someone in the morning
@@ -283,6 +291,7 @@ function pingReact(reactch, reactts) {
     addReaction(sendmoji, reactch, reactts);
 }
 
+//TODO rework rollDice function to splice input and take XdY values
 function rollDice(dx ,rollchannel) {
     if (dx.includes('d4')) {
         let num = Math.floor((Math.random() * 4) + 1);
