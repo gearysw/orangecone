@@ -47,114 +47,175 @@ rtm.on('message', (message) => {
         return;
         // } else if (message.subtype && message.subtype === 'channel_join') {
         //     return;
-    } else if ((message.subtype && (message.subtype === 'message_changed') || message.subtype === 'message_deleted' || message.subtype === 'message_replied' || message.subtype === 'thread_broadcast')) {
+    } 
+    if ((message.subtype && (message.subtype === 'message_changed') || message.subtype === 'message_deleted' || message.subtype === 'message_replied' || message.subtype === 'thread_broadcast')) {
         // console.log('new message: ' + message.message.text + '\nfrom channel: ' + message.channel + '\nprevious message: ' + message.previous_message.text); // logs edited messages
         return; // ignores certain message subtypes
-    } else if (message.text.toLowerCase().includes('\`')) {
+    }  
+    if (message.text.toLowerCase().includes('\`')) {
         return;
-    } else if (message.user === 'USLACKBOT' && (!message.is_ephemeral || message.is_ephemeral === false)) {
+    }  
+    if (message.user === 'USLACKBOT' && (!message.is_ephemeral || message.is_ephemeral === false)) {
         getFirstName('USLACKBOT')
             .then(res => {
                 var shutup = [`Shut up, ${res}.`, `${res}, you have no power here!`];
                 var attack = shutup[Math.floor(Math.random() * shutup.length)];
                 messageSend(attack, message.channel);
             }).catch(console.error);
-    } else if (message.text.toLowerCase().includes('hello') && message.text.includes(`<@${rtm.activeUserId}>`)) { // replies to hello messagse
-        pingReact(message.channel, message.ts);
-        messageSend('...hey', message.channel);
-    } else if (message.text.toLowerCase().includes('hello')) {
-        messageSend('Hello! :blobwave:', message.channel);
-    } else if (message.text.toLowerCase().includes('sticky liquid') || message.text.toLowerCase().includes('sticky juice')) { // adds a reaction to `sticky liquid`
+    } 
+    if (message.text.toLowerCase().includes('hello')) {
+        if (message.text.includes(`<@${rtm.activeUserId}>`)) {
+            messageSend('...hey', message.channel);
+        } else {
+            messageSend('Hello! :blobwave:', message.channel);
+        }
+    }
+    if (message.text.toLowerCase().includes('sticky liquid') || message.text.toLowerCase().includes('sticky juice')) { // adds a reaction to `sticky liquid`
         addReaction('sweat_drops', message.channel, message.ts);
-    } else if (message.text.toLowerCase().includes('what') && message.text.toLowerCase().includes('do') && (message.text.toLowerCase().includes('cone') || message.text.toLowerCase().includes('bot'))) {
+    } 
+    if (message.text.toLowerCase().includes('what') && message.text.toLowerCase().includes('do') && (message.text.toLowerCase().includes('cone') || message.text.toLowerCase().includes('bot'))) {
         messageSend('Type in `!help` to see what I can help you with.', message.channel);
-    } else if (message.text.includes('!help')) { // responds to !help command
+    } 
+    if (message.text.includes('!help')) { // responds to !help command
         messageSend(variables.sendHelp, message.channel);
-    } else if (message.text.toLowerCase().includes('!drive') || message.text === '!googledrive') { // response for google drive link
+    }  
+    if (message.text.toLowerCase().includes('!drive') || message.text === '!googledrive') { // response for google drive link
         messageSend(variables.drive, message.channel);
-    } else if (message.text.toLowerCase().includes('!stash')) { // response for vms stash
+    }
+    if (message.text.toLowerCase().includes('!stash')) { // response for vms stash
         messageSend(variables.stash, message.channel);
-    } else if (message.text.toLowerCase().includes('!rule')) { // response for rulebook
+    } 
+    if (message.text.toLowerCase().includes('!rule')) { // response for rulebook
         messageSend(variables.rules, message.channel);
-    } else if (message.text === '!directory' || message.text === '!slackchannel' || message.text.toLowerCase().includes('!channels')) { // response for channel directory
+    } 
+    if (message.text === '!directory' || message.text === '!slackchannel' || message.text.toLowerCase().includes('!channels')) { // response for channel directory
         messageSend(variables.channels, message.channel);
-    } else if (message.text.toLowerCase().includes('!minutes') || message.text === '!meetingminutes') { // response for meeting minutes
+    } 
+    if (message.text.toLowerCase().includes('!minutes') || message.text === '!meetingminutes') { // response for meeting minutes
         messageSend(variables.minutes, message.channel);
-    } else if (message.text.toLowerCase().includes('!buy') || message.text.toLowerCase().includes('!order')) { // response for ordering form
+    } 
+    if (message.text.toLowerCase().includes('!buy') || message.text.toLowerCase().includes('!order')) { // response for ordering form
         messageSend(variables.orderform, message.channel);
-    } else if (message.text === '!newb' || message.text === '!newmember' || message.text === '!welcome') { // response for new member form
+    } 
+    if (message.text === '!newb' || message.text === '!newmember' || message.text === '!welcome') { // response for new member form
         messageSend(variables.newb, message.channel);
-    } else if (message.text.toLowerCase().includes('!reference') || message.text.toLowerCase().includes('!lightreading') || message.text.toLowerCase().includes('!read') || message.text.toLowerCase().includes('!documents')) { // response for reference documents
+    }
+    if (message.text.toLowerCase().includes('!reference') || message.text.toLowerCase().includes('!lightreading') || message.text.toLowerCase().includes('!read') || message.text.toLowerCase().includes('!documents')) { // response for reference documents
         messageSend(variables.reference, message.channel);
-    } else if (message.text.toLowerCase().includes('!gantt') || message.text.toLowerCase().includes('!timeline') || message.text.toLowerCase().includes('!projects')) { // response for gantt chart
+    }
+    if (message.text.toLowerCase().includes('!gantt') || message.text.toLowerCase().includes('!timeline') || message.text.toLowerCase().includes('!projects')) { // response for gantt chart
         messageSend(variables.timeline, message.channel);
-    } else if (message.text.toLowerCase().includes('!currentcar') || message.text.toLowerCase().includes('!car')) { // response for car folder on google drive
+    } 
+    if (message.text.toLowerCase().includes('!currentcar') || message.text.toLowerCase().includes('!car')) { // resposne for car folder on google drive
         messageSend(variables.currentcar, message.channel);
-    } else if (message.text.toLowerCase().includes('!affiliate') || message.text.toLowerCase().includes('!affiliation') || message.text.toLowerCase().includes('!register')) {
+    } 
+    if (message.text.toLowerCase().includes('!affiliate') || message.text.toLowerCase().includes('!affiliation') || message.text.toLowerCase().includes('!register')) {
         messageSend(variables.affiliate, message.channel);
-    } else if (message.text.toLowerCase().includes('!tutorial')) {
+    }  
+    if (message.text.toLowerCase().includes('!tutorial')) {
         messageSend(variables.tutorial, message.channel);
-    } else if (message.text.includes('Important announcement to the people of nsfw: it is now beer time!')) { // response for car folder on google drive
+    }
+    if (message.text.includes('Important announcement to the people of nsfw: it is now beer time!')) { // response for car folder on google drive
         messageSend(':beers:', message.channel);
-    } else if (message.text === '!tableflip' || message.text.toLowerCase().includes('!flip')) { // when you just can't handle it anymore
+    } 
+    if (message.text === '!tableflip' || message.text.toLowerCase().includes('!flip')) { // when you just can't handle it anymore
         messageSend('(╯°□°）╯︵ ┻━┻', message.channel);
-    } else if (message.text === '!unflip') { // hey, rude
+    } 
+    if (message.text === '!unflip') { // hey, rude
         messageSend('┬─┬ノ( º _ ºノ)', message.channel);
-    } else if (message.text.includes('#PitP')) { // Pass it to Pawel
+    } 
+    if (message.text.includes('#PitP')) { // Pass it to Pawel
         messageSend('Heads up <@U7M5A125B>', message.channel);
-    } else if (message.text.toLowerCase().includes('shopmanager') || message.text.toLowerCase().includes('shop manager')) {
+    } 
+    if (message.text.toLowerCase().includes('shopmanager') || message.text.toLowerCase().includes('shop manager')) {
         messageSend('Heads up <@U7QUF4J22>', message.channel);
-    } else if (message.text === '!meme') { // gimme them dank memes
+    } 
+    if (message.text === '!meme') { // gimme them dank memes
         randomMeme(message.channel);
-    } else if (message.user === 'U3ZPKC22V' && (message.text.toLowerCase().includes('vodka') || message.text.toLowerCase().includes('russian water') || message.text.toLowerCase().includes('slav'))) { // is super slav
-        addReaction('beers', message.channel, message.ts);
+    } 
+    if (message.user === 'U3ZPKC22V' && (message.text.toLowerCase().includes('vodka') || message.text.toLowerCase().includes('russian water') || message.text.toLowerCase().includes('slav'))) { // is super slav
+        addReaction('tumbler_glass', message.channel, message.ts);
         addReaction('blyat', message.channel, message.ts);
-    } else if (message.text === '!updateusers') { // response to update user list
-        updateUsers(message.channel);
-    } else if (message.text.toLowerCase().includes('blyat')) { // cyka blyat
+    }  
+    // if (message.text === '!updateusers') { // response to update user list
+    //     updateUsers(message.channel);
+    // } 
+    if (message.text.toLowerCase().includes('blyat')) { // cyka blyat
         addReaction('blyat', message.channel, message.ts);
-    } else if (message.text.toLowerCase().includes('good night') || message.text.toLowerCase().includes('gnight')) { // wish someone good night
+    } 
+    if (message.text.toLowerCase().includes('good night') || message.text.toLowerCase().includes('gnight')) { // wish someone good night
         goodnight(message.user, message.channel);
-    } else if (message.text === '!getuserlist') { // send json file of user list to channel
-        getUserList(message.channel);
-    } else if (message.text === 'good morning') { // wish someone a good morning
+    } 
+    // if (message.text === '!getuserlist') { // send json file of user list to channel
+    //     getUserList(message.channel);
+    // } 
+    // if (message.text === '!getactiveusers') {
+    //     getActiveUsers(message.channel);
+    // }
+    if (message.text === 'good morning') { // wish someone a good morning
         goodmorning(message.user, message.channel);
-    } else if (message.text.toLowerCase().includes('help') && message.text.toLowerCase().includes('me') && (message.text.toLowerCase().includes('homework') || message.text.toLowerCase().includes('hw')) && (message.text.toLowerCase().includes('cone') || message.text.toLowerCase().includes('bot'))) {
+    } 
+    if (message.text.toLowerCase().includes('help') && message.text.toLowerCase().includes('me') && (message.text.toLowerCase().includes('homework') || message.text.toLowerCase().includes('hw')) && (message.text.toLowerCase().includes('cone') || message.text.toLowerCase().includes('bot'))) {
         addReaction('drakeno', message.channel, message.ts);
         var halphw = ['Can\'t help you with that.', 'Sorry, no can do.', 'I am not programmed to do that.', 'You want _me_ to help you with your homework?', 'Do it yourself.'];
         let nohalp = halphw[Math.floor(Math.random() * halphw.length)];
         messageSend(nohalp, message.channel);
-    } else if (message.text.toLowerCase().includes('help') && message.text.toLowerCase().includes('me') && (message.text.toLowerCase().includes('cone') || message.text.toLowerCase().includes('bot'))) {
+    } 
+    if (message.text.toLowerCase().includes('help') && message.text.toLowerCase().includes('me') && (message.text.toLowerCase().includes('cone') || message.text.toLowerCase().includes('bot'))) {
         var plshelp = ['Type in `!help` for a list of what I can do.', 'Depends on what you need. Type `!help` to see what I can do.'];
         let nohelp = plshelp[Math.floor(Math.random() * plshelp.length)];
         messageSend(nohelp, message.channel);
-    } else if (message.text.toLowerCase().includes('cone') && (message.text.toLowerCase().includes('avoid') || message.text.toLowerCase().includes('mind') || message.text.toLowerCase().includes('watch out'))) {
+    } 
+    if (message.text.toLowerCase().includes('cone') && (message.text.toLowerCase().includes('avoid') || message.text.toLowerCase().includes('mind') || message.text.toLowerCase().includes('watch out'))) {
         addReaction('cone', message.channel, message.ts);
-    } else if (message.text.toLowerCase().includes('ducttape') || message.text.toLowerCase().includes('duct tape')) {
+    } 
+    if (message.text.toLowerCase().includes('ducttape') || message.text.toLowerCase().includes('duct tape')) {
         addReaction('ducttape', message.channel, message.ts);
-    } else if (message.text.toLowerCase().includes('yeet')) {
+    } 
+    if (message.text.toLowerCase().includes('yeet')) {
         addReaction('yeet', message.channel, message.ts);
-    } else if (message.text.toLowerCase().includes('send it') || message.text.toLowerCase().includes('sent it')) {
+    }
+    if (message.text.toLowerCase().includes('send it') || message.text.toLowerCase().includes('sent it')) {
         addReaction('sendit', message.channel, message.ts);
-    } else if (message.text.toLowerCase().includes('euro')) {
+    } 
+    if (message.text.toLowerCase().includes('euro')) {
         addReaction('flag-eu', message.channel, message.ts);
-    } else if (message.text.toLowerCase().includes('salt')) {
+    } 
+    if (message.text.toLowerCase().includes('salt')) {
         addReaction('salt', message.channel, message.ts);
-    } else if (message.text.toLowerCase().includes('post malone')) {
+    } 
+    if (message.text.toLowerCase().includes('post malone')) {
         addReaction('victor', message.channel, message.ts);
-    } else if (message.text.includes('!d4') || message.text.includes('!d6') || message.text.includes('!d8') || message.text.includes('!d10') || message.text.includes('!d12') || message.text.includes('!d20')) {
+    } 
+    if (message.text.includes('!d4') || message.text.includes('!d6') || message.text.includes('!d8') || message.text.includes('!d10') || message.text.includes('!d12') || message.text.includes('!d20')) {
         rollDice(message.text, message.channel);
-    } else if (message.text.match(/\!\dd\d/)) { // /\!\dd\d/
+    } 
+    if (message.text.includes('!roll')) { // .match(/\!\dd\d/)
         advrollDice(message.text, message.channel);
-    } else if (message.text.toLowerCase().includes('heads or tails')) {
+    } 
+    if (message.text.toLowerCase().includes('heads or tails')) {
         let chance = Math.ceil(Math.random() * 2);
         if (chance == 1) {
             messageSend('Heads', message.channel);
         } else if (chance == 2) {
             messageSend('Tails', message.channel);
         }
-    } else if (message.text.includes(`<@${rtm.activeUserId}>`) || message.text.includes('<!channel>') || message.text.includes('<!here>') || message.text.includes('<!everyone>')) { // Cone Bot doesn't like being pinged
+    } 
+    if (message.text.includes(`<@${rtm.activeUserId}>`) || message.text.includes('<!channel>') || message.text.includes('<!here>') || message.text.includes('<!everyone>')) { // Cone Bot doesn't like being pinged
         pingReact(message.channel, message.ts);
+    }
+    if (message.text.includes('!adminhelp') || message.text.includes('!updateusers') || message.text.includes('!getactiveusers') || message.text.includes('!getuserlist')) {
+        if (message.user !== 'U7M5A125B' && message.user !== 'U3ZPKC22V' && message.user !== 'U40D692P4' && message.user !== 'U7QUF4J22') { //  && message.user !== 'UFHQT0UMQ'
+            messageSend('You are not an admin.', message.channel);
+        } else if (message.text === '!updateusers'){
+            updateUsers(message.channel);
+        } else if (message.text === '!adminhelp') {
+            messageSend(variables.adminhelp, message.channel);
+        } else if (message.text === '!getactiveusers') {
+            getActiveUsers(message.channel);
+        } else if (message.text === '!getuserlist') {
+            getUserList(message.channel);
+        }
     }
 });
 
@@ -237,20 +298,55 @@ function updateUsers(updatechannel) { //* function to update the database json f
                 if (err) throw err;
                 console.log('Simplified data written');
             });
+
+            //* attempt to splice users that are deleted
+            var activeusers, i, usr;
+            activeusers = users;
+            for (i = 0; i < activeusers.length; i++){
+                usr = users[i];
+                if (usr.deleted === true) {
+                    activeusers.splice(i, 1);
+                }
+            }
+            console.log(activeusers);
+            //* end of splice code
+            fs.writeFile(__dirname + '/db/users_active.json', JSON.stringify(activeusers, null, 2), (err) => {
+                if (err) throw err;
+                console.log('Active user list updated');
+            });
         })
         .catch(console.error);
-    messageSend('User list updated', updatechannel);
+    messageSend('User list updated. Type in `!adminhelp` to see other commands.' , updatechannel);
 }
 
 function getUserList(updatechannel) { //* function to send the json of user list to called channel
-    web.files.upload({
+    if (fs.existsSync(__dirname + '/db/users_simplified.json')){
+        web.files.upload({
+                token: process.env.TOKEN,
+                file: fs.createReadStream(__dirname + '/db/users_simplified.json'),
+                channels: updatechannel
+            })
+            .then((res) => {
+                console.log('File sent:', res.file.name);
+            }).catch(console.error);
+    } else {
+        messageSend('Please update the users list first.', updatechannel);
+    }
+}
+
+function getActiveUsers(userschannel) {
+    if (fs.existsSync(__dirname + '/db/users_active.json')) {
+        web.files.upload({
             token: process.env.TOKEN,
-            file: fs.createReadStream(__dirname + '/db/users_simplified.json'),
-            channels: updatechannel
+            file: fs.createReadStream(__dirname + '/db/users_active.json'),
+            channels: userschannel
         })
         .then((res) => {
             console.log('File sent:', res.file.name);
-        }).catch(console.error);
+        });
+    } else {
+        messageSend('Please update the users list first.', userschannel);
+    }
 }
 
 function getFirstName(userid) { //* function to convert the user.id parameter into the user's full name
@@ -322,25 +418,29 @@ function rollDice(dx ,rollchannel) {
 }
 
 function advrollDice(dx, rollchannel) {
-    params = dx.split('');
-    let dice = dx.slice(3);
-    console.log(params[1], params[3], params[4]);
-    if (!dice.includes('4') && !dx.includes('6') && !dice.includes('8') && !dice.includes('10') && !dice.includes('12') && !dice.includes('20')) {
+    var str = dx.split(' ');
+    var i, val, dice;
+    for (i = 0; i < str.length; i++) {
+        val = str[i];
+        if (val.substring(0).match(/\dd\d/)) {
+            dice = val;
+            break;
+        }
+    }
+    console.log('Dice rolled:', dice, '\nNumber of dice:', dice[0], '\nDice rolled:', (dice[2] + dice[3]).toString);
+    if (!dice.includes('4') && !dice.includes('6') && !dice.includes('8') && !dice.includes('10') && !dice.includes('12') && !dice.includes('20')) {
         messageSend('That is not a standard die.', rollchannel);
-    } else if (params[4]) {
-        let min = Math.ceil(parseInt(params[1]));
-        let max = Math.floor(parseInt((params[3] + params[4]) * min));
-        let num = Math.floor(Math.random() * (max - min + 1) + min);
-        console.log(num);
+    } else if (dice[3]) {
+        let min = Math.ceil(parseInt(dice[0]));
+        let max = Math.floor(parseInt((dice[2] + dice[3]) * min));
+        let num = Math.floor(Math.random() * (max - min +1) + min);
+        console.log('Rolled:', num);
         messageSend(num.toString(), rollchannel);
     } else {
-        let min = Math.ceil(parseInt(params[1]));
-        let max = Math.floor(parseInt(params[3] * min));
+        let min = Math.ceil(parseInt(dice[0]));
+        let max = Math.floor(parseInt(dice[2] * min));
         let num = Math.floor(Math.random() * (max - min + 1) + min);
-        console.log(num);
+        console.log('Rolled:', num);
         messageSend(num.toString(), rollchannel);
     }
-    // command = dx.split(' ', 2);
-    // console.log(command);
-
 }
