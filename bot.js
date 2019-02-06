@@ -22,6 +22,9 @@ if (!fs.existsSync(__dirname + '/db')) {
     });
 }
 
+// var userss = require('./db/users_simplified.json');
+// console.log(userss[]);
+
 //TODO find some way to create a database of roles and add users to that databse so that they can all be @mentioned when a !role is called
 // //* creates a /roles/ folder in /db/ if nonexistent
 // if (!fs.existsSync(__dirname + '/db/roles/')) {
@@ -39,7 +42,7 @@ rtm.on('channel_joined', (joinevent) => {
     rtm.sendMessage('Hello! I am Cone Bot!', joinevent.channel.id);
 });
 
-
+//* message commands
 rtm.on('message', (message) => {
     console.log(message);
     // ignores self messages
