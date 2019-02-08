@@ -22,19 +22,15 @@ if (!fs.existsSync(__dirname + '/db')) {
     });
 }
 
-// var userss = require('./db/users_simplified.json');
-// console.log(userss[]);
 
 //TODO find some way to create a database of roles and add users to that databse so that they can all be @mentioned when a !role is called
-// //* creates a /roles/ folder in /db/ if nonexistent
-// if (!fs.existsSync(__dirname + '/db/roles/')) {
-//     fs.mkdir(__dirname + '/db/roles/', (err) => {
-//         if (err) throw err;
-//     });
-// }
+//* creates a /roles/ folder if nonexistent
+if (!fs.existsSync(__dirname + '/roles/')) {
+    fs.mkdir(__dirname + '/roles/', (err) => {
+        if (err) throw err;
+    });
+}
 
-
-// var rolenames = fs.readdirSync(__dirname + '/db/roles')
 
 //* posts a greeting after being invited to a channel
 rtm.on('channel_joined', (joinevent) => {
@@ -149,26 +145,21 @@ rtm.on('message', (message) => {
     if (message.text.toLowerCase().includes('good night') || message.text.toLowerCase().includes('gnight')) { // wish someone good night
         goodnight(message.user, message.channel);
     } 
-    // if (message.text === '!getuserlist') { // send json file of user list to channel
-    //     getUserList(message.channel);
-    // } 
-    // if (message.text === '!getactiveusers') {
-    //     getActiveUsers(message.channel);
-    // }
     if (message.text === 'good morning') { // wish someone a good morning
         goodmorning(message.user, message.channel);
-    } 
-    if (message.text.toLowerCase().includes('help') && message.text.toLowerCase().includes('me') && (message.text.toLowerCase().includes('homework') || message.text.toLowerCase().includes('hw')) && (message.text.toLowerCase().includes('cone') || message.text.toLowerCase().includes('bot'))) {
-        addReaction('drakeno', message.channel, message.ts);
-        var halphw = ['Can\'t help you with that.', 'Sorry, no can do.', 'I am not programmed to do that.', 'You want _me_ to help you with your homework?', 'Do it yourself.'];
-        let nohalp = halphw[Math.floor(Math.random() * halphw.length)];
-        messageSend(nohalp, message.channel);
-    } 
-    if (message.text.toLowerCase().includes('help') && message.text.toLowerCase().includes('me') && (message.text.toLowerCase().includes('cone') || message.text.toLowerCase().includes('bot'))) {
-        var plshelp = ['Type in `!help` for a list of what I can do.', 'Depends on what you need. Type `!help` to see what I can do.'];
-        let nohelp = plshelp[Math.floor(Math.random() * plshelp.length)];
-        messageSend(nohelp, message.channel);
-    } 
+    }
+    if (message.text.toLowerCase().includes('help') && message.text.toLowerCase().includes('me') && (message.text.toLowerCase().includes('cone') || message.text.toLowerCase().includes('bot'))) { 
+        if (message.text.toLowerCase().includes('help') && message.text.toLowerCase().includes('me') && (message.text.toLowerCase().includes('homework') || message.text.toLowerCase().includes('hw')) && (message.text.toLowerCase().includes('cone') || message.text.toLowerCase().includes('bot'))) {
+            addReaction('drakeno', message.channel, message.ts);
+            var halphw = ['Can\'t help you with that.', 'Sorry, no can do.', 'I am not programmed to do that.', 'You want _me_ to help you with your homework?', 'Do it yourself.'];
+            let nohalp = halphw[Math.floor(Math.random() * halphw.length)];
+            messageSend(nohalp, message.channel);
+        } else if (message.text.toLowerCase().includes('help') && message.text.toLowerCase().includes('me') && (message.text.toLowerCase().includes('cone') || message.text.toLowerCase().includes('bot'))) {
+            var plshelp = ['Type in `!help` for a list of what I can do.', 'Depends on what you need. Type `!help` to see what I can do.'];
+            let nohelp = plshelp[Math.floor(Math.random() * plshelp.length)];
+            messageSend(nohelp, message.channel);
+        } 
+    }
     if (message.text.toLowerCase().includes('cone') && (message.text.toLowerCase().includes('avoid') || message.text.toLowerCase().includes('mind') || message.text.toLowerCase().includes('watch out'))) {
         addReaction('cone', message.channel, message.ts);
     } 
@@ -219,6 +210,9 @@ rtm.on('message', (message) => {
         } else if (message.text === '!getuserlist') {
             getUserList(message.channel);
         }
+    }
+    if (message.text.includes('!addrole')) {
+        addRole(message.text);
     }
 });
 
@@ -446,4 +440,12 @@ function advrollDice(dx, rollchannel) {
         console.log('Rolled:', num);
         messageSend(num.toString(), rollchannel);
     }
+}
+
+function addRole(roletext) {
+    let args = roletext.split(' ');
+    let useradd = args[1].substring(2,11);
+    let role = args[2];
+    console.log(`Adding user ${useradd} to role ${role}`);
+    
 }
