@@ -212,8 +212,15 @@ rtm.on('message', (message) => {
         }
     }
     if (message.text.includes('!addrole')) {
-        addRole(message.text);
+        if (!message.text.toLowerCase.includes('aero') && !message.text.toLowerCase.includes('chassis') && !message.text.toLowerCase.includes('electronics') && !message.text.toLowerCase.includes('leaddesigners') && !message.text.toLowerCase.includes('leadership') && !message.text.toLowerCase.includes('lowvoltage') && !message.text.toLowerCase.includes('power') && !message.text.toLowerCase.includes('suspension')) {
+            messageSend('That is not a valid role.', message.channel);
+        } else {
+            addRole(message.text);
+        }
     }
+    // if (message.text.includes('@aero') || message.text.includes('@chassis') || message.text.includes('@electronics') || message.text.includes('@leaddesigners') || message.text.includes('@leadership') || message.text.includes('@lowvoltage') || message.text.includes('@power') || message.text.includes('@suspension')) {
+    //     callRole(message.text, message.channel);
+    // }
 });
 
 //* function to automatically join a newly created channel
@@ -424,7 +431,12 @@ function advrollDice(dx, rollchannel) {
             break;
         }
     }
-    console.log('Dice rolled:', dice, '\nNumber of dice:', dice[0], '\nDice rolled:', (dice[2] + dice[3]).toString);
+    // console.log('Dice rolled:', dice, '\nNumber of dice:', dice[0], '\nDice rolled:', (dice[2] + dice[3]).toString);
+    if (dice === undefined) {
+        messageSend('Please follow the actual syntax.', rollchannel);
+        return;
+    }
+
     if (!dice.includes('4') && !dice.includes('6') && !dice.includes('8') && !dice.includes('10') && !dice.includes('12') && !dice.includes('20')) {
         messageSend('That is not a standard die.', rollchannel);
     } else if (dice[3]) {
@@ -446,6 +458,43 @@ function addRole(roletext) {
     let args = roletext.split(' ');
     let useradd = args[1].substring(2,11);
     let role = args[2];
-    console.log(`Adding user ${useradd} to role ${role}`);
-    
+    let usermention = '<@' + useradd + '>';
+
+    fs.readFile(__dirname + `/roles/${role}.json`, (err, data) => {
+        // if (err) throw err;
+        var json = JSON.parse(data);
+        json.push(usermention);
+
+        fs.writeFile(__dirname + `/roles/${role}.json`, JSON.stringify(json), (err) => {
+            if (err) throw err;
+            console.log(`${useradd} added to ${role}`);
+        });
+    });
+
+    // console.log(`Adding user ${usermention} to role ${role}`);
+}
+
+//! incomplete
+function callRole(calltext, callchannel) {
+    var args = calltext.split (' ');
+    var i, val, rolecall;
+    for (i = 0; i < args.lentgh; i++) {
+        val = args[i];
+        if (val.includes('@')) {
+            rolecall = val;
+            break;
+        }
+    }
+
+    let role = rolecall.substring(1);
+    console.log(rolecall, role);
+    // let call = fs.readFile(__dirname + `/roles/${role}.json`, (err, data) => {
+    //     var json = JSON.parse(data);
+    //     let call = json.toString();
+    //     if (call === undefined || call.length == 0) {
+    //         messageSend('Role is empty.', callchannel);
+    //         return;
+    //     }
+    //     messageSend(call, callchannel);
+    // });
 }
