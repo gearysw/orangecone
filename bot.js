@@ -212,7 +212,7 @@ rtm.on('message', (message) => {
         }
     }
     if (message.text.includes('!addrole')) {
-        if (!message.text.toLowerCase().includes('aero') && !message.text.toLowerCase().includes('chassis') && !message.text.toLowerCase().includes('electronics') && !message.text.toLowerCase().includes('leaddesigners') && !message.text.toLowerCase().includes('leadership') && !message.text.toLowerCase().includes('lowvoltage') && !message.text.toLowerCase().includes('power') && !message.text.toLowerCase().includes('suspension')) {
+        if (!message.text.toLowerCase().includes('aero') && !message.text.toLowerCase().includes('chassis') && !message.text.toLowerCase().includes('electronics') && !message.text.toLowerCase().includes('leaddesigners') && !message.text.toLowerCase().includes('leadership') && !message.text.toLowerCase().includes('lowvoltage') && !message.text.toLowerCase().includes('power') && !message.text.toLowerCase().includes('suspension') && !message.text.toLowerCase().includes('business')) {
             messageSend('That is not a valid role. Type `!rolehelp` to see all role commands', message.channel);
         } else {
             addRole(message.text, message.channel);
@@ -221,7 +221,7 @@ rtm.on('message', (message) => {
     if (message.text.includes('!removerole')) {
         removeRole(message.text, message.channel);
     }
-    if (message.text.includes('@aero') || message.text.includes('@chassis') || message.text.includes('@electronics') || message.text.includes('@leaddesigners') || message.text.includes('@leadership') || message.text.includes('@lowvoltage') || message.text.includes('@power') || message.text.includes('@suspension')) {
+    if (message.text.includes('@aero') || message.text.includes('@chassis') || message.text.includes('@electronics') || message.text.includes('@leaddesigners') || message.text.includes('@leadership') || message.text.includes('@lowvoltage') || message.text.includes('@power') || message.text.includes('@suspension') || message.text.includes('@business')) {
         callRole(message.text, message.channel);
     }
 });
