@@ -22,16 +22,6 @@ if (!fs.existsSync(__dirname + '/db')) {
     });
 }
 
-
-// //TODO find some way to create a database of roles and add users to that databse so that they can all be @mentioned when a !role is called
-// //* creates a /roles/ folder if nonexistent
-// if (!fs.existsSync(__dirname + '/roles/')) {
-//     fs.mkdir(__dirname + '/roles/', (err) => {
-//         if (err) throw err;
-//     });
-// }
-
-
 //* posts a greeting after being invited to a channel
 rtm.on('channel_joined', (joinevent) => {
     console.log(joinevent);
@@ -41,20 +31,16 @@ rtm.on('channel_joined', (joinevent) => {
 //* message commands
 rtm.on('message', (message) => {
     console.log(message);
-    // ignores self messages
-    if ((message.user === rtm.activeUserId && (!message.subtype || message.subtype === 'channel_join' || message.subtype === 'group_join'))) {
-        return;
-        // } else if (message.subtype && message.subtype === 'channel_join') {
-        //     return;
-    }
-    if ((message.subtype && (message.subtype === 'message_changed') || message.subtype === 'message_deleted' || message.subtype === 'message_replied' || message.subtype === 'thread_broadcast')) {
-        // console.log('new message: ' + message.message.text + '\nfrom channel: ' + message.channel + '\nprevious message: ' + message.previous_message.text); // logs edited messages
-        return; // ignores certain message subtypes
-    }
-    if (message.text.toLowerCase().includes('\`')) {
+    if ((message.user === rtm.activeUserId && (!message.subtype || message.subtype === 'channel_join' || message.subtype === 'group_join'))) {      // ignores self messages
         return;
     }
-    if (message.user === 'USLACKBOT' && (!message.is_ephemeral || message.is_ephemeral === false)) {
+    if ((message.subtype && (message.subtype === 'message_changed') || message.subtype === 'message_deleted' || message.subtype === 'message_replied' || message.subtype === 'thread_broadcast')) {         // ignores certain message subtypes
+        return;
+    }
+    if (message.text.toLowerCase().includes('\`')) {        // ignores messages that contain `backtick` texts
+        return;
+    }
+    if (message.user === 'USLACKBOT' && (!message.is_ephemeral || message.is_ephemeral === false)) {        // f u slackbot
         getFirstName('USLACKBOT')
             .then(res => {
                 var shutup = [`Shut up, ${res}.`, `${res}, you have no power here!`];
@@ -213,7 +199,7 @@ rtm.on('message', (message) => {
     }
     if (message.text.includes('!addrole')) {
         if (!message.text.toLowerCase().includes('aero') && !message.text.toLowerCase().includes('chassis') && !message.text.toLowerCase().includes('electronics') && !message.text.toLowerCase().includes('leaddesigners') && !message.text.toLowerCase().includes('leadership') && !message.text.toLowerCase().includes('lowvoltage') && !message.text.toLowerCase().includes('power') && !message.text.toLowerCase().includes('suspension') && !message.text.toLowerCase().includes('business')) {
-            messageSend('That is not a valid role. Type `!rolehelp` to see all role commands', message.channel);
+            messageSend('That is not a valid command. Type `!rolehelp` to see all role commands', message.channel);
         } else {
             addRole(message.text, message.channel);
         }
@@ -288,7 +274,6 @@ function getAllUsers() { //* function to obtain a list of all users in the works
 function updateUsers(updatechannel) { //* function to update the database json file with the list of current users
     getAllUsers()
         .then(res => {
-            // console.log(res);
             fs.writeFile(__dirname + '/db/users.json', JSON.stringify(res, null, 2), (err) => {
                 if (err) throw err;
                 console.log('Data written');
@@ -362,7 +347,6 @@ function getFirstName(userid) { //* function to convert the user.id parameter in
         user: userid
     };
     return web.users.info(param).then(results => {
-        // return results.user.real_name;
         return results.user.profile.first_name;
     }).catch(console.error);
 }
@@ -434,7 +418,6 @@ function advrollDice(dx, rollchannel) {
             break;
         }
     }
-    // console.log('Dice rolled:', dice, '\nNumber of dice:', dice[0], '\nDice rolled:', (dice[2] + dice[3]).toString);
     if (dice === undefined) {
         messageSend('Please follow the actual syntax.', rollchannel);
         return;
@@ -460,8 +443,8 @@ function advrollDice(dx, rollchannel) {
 function addRole(roletext, rolechannel) {
     var args = roletext.split(' ');
     var useradd = args[1];
-    if (useradd[0] != '<') {
-        messageSend('Please follow the syntax. `!addrole @<user> <role>`', rolechannel);
+    if (args.length != 3 || useradd[0] != '<') {
+        messageSend('Please follow the syntax. `!addrole @user role`', rolechannel);
         return;
     }
     var userid = useradd.substring(2, 11);
@@ -495,8 +478,8 @@ function removeRole(roleuser, rolechannel) {
     var args = roleuser.split(' ');
     var userremove = args[1];
     console.log(userremove);
-    if (userremove[0] != '<') {
-        messageSend('Please follow the syntax. `!removerole @<user> <role>`', rolechannel);
+    if (args.length != 3 || userremove[0] != '<') {
+        messageSend('Please follow the syntax. `!removerole @user role`', rolechannel);
         return;
     }
     var userid = userremove.substring(2, 11);
