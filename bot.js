@@ -199,7 +199,7 @@ rtm.on('message', (message) => {
     }
     if (message.text.includes('!addrole')) {
         if (!message.text.toLowerCase().includes('aero') && !message.text.toLowerCase().includes('chassis') && !message.text.toLowerCase().includes('electronics') && !message.text.toLowerCase().includes('leaddesigners') && !message.text.toLowerCase().includes('leadership') && !message.text.toLowerCase().includes('lowvoltage') && !message.text.toLowerCase().includes('power') && !message.text.toLowerCase().includes('suspension') && !message.text.toLowerCase().includes('business')) {
-            messageSend('That is not a valid role. Type `!rolehelp` to see all role commands', message.channel);
+            messageSend('That is not a valid command. Type `!rolehelp` to see all role commands', message.channel);
         } else {
             addRole(message.text, message.channel);
         }
@@ -443,7 +443,7 @@ function advrollDice(dx, rollchannel) {
 function addRole(roletext, rolechannel) {
     var args = roletext.split(' ');
     var useradd = args[1];
-    if (useradd[0] != '<') {
+    if (args.length != 3 || useradd[0] != '<') {
         messageSend('Please follow the syntax. `!addrole @user role`', rolechannel);
         return;
     }
@@ -478,7 +478,7 @@ function removeRole(roleuser, rolechannel) {
     var args = roleuser.split(' ');
     var userremove = args[1];
     console.log(userremove);
-    if (userremove[0] != '<') {
+    if (args.length != 3 || userremove[0] != '<') {
         messageSend('Please follow the syntax. `!removerole @user role`', rolechannel);
         return;
     }
