@@ -31,16 +31,16 @@ rtm.on('channel_joined', (joinevent) => {
 //* message commands
 rtm.on('message', (message) => {
     console.log(message);
-    if ((message.user === rtm.activeUserId && (!message.subtype || message.subtype === 'channel_join' || message.subtype === 'group_join'))) {      // ignores self messages
+    if ((message.user === rtm.activeUserId && (!message.subtype || message.subtype === 'channel_join' || message.subtype === 'group_join'))) { // ignores self messages
         return;
     }
-    if ((message.subtype && (message.subtype === 'message_changed') || message.subtype === 'message_deleted' || message.subtype === 'message_replied' || message.subtype === 'thread_broadcast')) {         // ignores certain message subtypes
+    if ((message.subtype && (message.subtype === 'message_changed') || message.subtype === 'message_deleted' || message.subtype === 'message_replied' || message.subtype === 'thread_broadcast')) { // ignores certain message subtypes
         return;
     }
-    if (message.text.toLowerCase().includes('\`')) {        // ignores messages that contain `backtick` texts
+    if (message.text.toLowerCase().includes('\`')) { // ignores messages that contain `backtick` texts
         return;
     }
-    if (message.user === 'USLACKBOT' && (!message.is_ephemeral || message.is_ephemeral === false)) {        // f u slackbot
+    if (message.user === 'USLACKBOT' && (!message.is_ephemeral || message.is_ephemeral === false)) { // f u slackbot
         getFirstName('USLACKBOT')
             .then(res => {
                 var shutup = [`Shut up, ${res}.`, `${res}, you have no power here!`];
@@ -118,7 +118,7 @@ rtm.on('message', (message) => {
     if (message.text.toLowerCase().includes('shopmanager') || message.text.toLowerCase().includes('shop manager')) {
         messageSend('Heads up <@U7QUF4J22>', message.channel);
     }
-    if (message.text === '!meme') { // gimme them dank memes
+    if (message.text.toLowerCase().includes('!meme')) { // gimme them dank memes
         randomMeme(message.channel);
     }
     if (message.user === 'U3ZPKC22V' && (message.text.toLowerCase().includes('vodka') || message.text.toLowerCase().includes('russian water') || message.text.toLowerCase().includes('slav'))) { // is super slav
@@ -249,16 +249,28 @@ function addReaction(emoji, channelreact, messagets) { //* function for adding a
 
 function randomMeme(memechannel) { //* function to randomly send a meme image from image list in /memes folder
     var memes = fs.readdirSync(__dirname + '/memes/');
+    var msgts;
     let memesend = memes[Math.floor(Math.random() * memes.length)];
     console.log('File to be sent:', memesend);
+
+    rtm.sendMessage('Uploading...', memechannel)
+        .then(res => {
+            msgts = res.ts;
+        }).catch(console.error);
+
     web.files.upload({
             token: process.env.TOKEN,
             file: fs.createReadStream(__dirname + '/memes/' + memesend),
             channels: memechannel
         })
-        .then((res) => {
+        .then(res => {
             console.log('File sent:', res.file.name);
-        }).catch(console.error);
+            web.chat.delete({
+                token: process.env.TOKEN,
+                channel: memechannel,
+                ts: msgts
+            }).then(console.log('upload msg deleted'));
+        });
 }
 
 function getAllUsers() { //* function to obtain a list of all users in the workspace
