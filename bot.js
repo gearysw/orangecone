@@ -462,27 +462,42 @@ function addRole(roletext, rolechannel) {
     var userid = useradd.substring(2, 11);
     var role = args[2];
 
-    fs.readFile(__dirname + `/roles/${role}.json`, (err, data) => {
-        var json = JSON.parse(data);
-        console.log(json);
+    var params = {
+        token: process.env.TOKEN,
+        user: userid
+    };
 
-        if (json.indexOf(useradd) > -1) {
-            getFirstName(userid)
-                .then(res => {
-                    messageSend(`${res} is already part of ${role}.`, rolechannel);
-                }).catch(console.error);
-            console.log('user already exists');
-        } else {
-            json.push(useradd);
-            fs.writeFile(__dirname + `/roles/${role}.json`, JSON.stringify(json), (err) => {
-                if (err) throw err;
-                console.log(`${useradd} added to ${role}`);
+    web.users.info(params).then(res => {
+        var ok = res.ok;
+        console.log(ok);
+
+        if (ok == true) {
+            fs.readFile(__dirname + `/roles/${role}.json`, (err, data) => {
+                var json = JSON.parse(data);
+                console.log(json);
+
+                if (json.indexOf(useradd) > -1) {
+                    getFirstName(userid)
+                        .then(res => {
+                            messageSend(`${res} is already part of ${role}.`, rolechannel);
+                        }).catch(console.error);
+                    console.log('user already exists');
+                } else {
+                    json.push(useradd);
+                    fs.writeFile(__dirname + `/roles/${role}.json`, JSON.stringify(json), (err) => {
+                        if (err) throw err;
+                        console.log(`${useradd} added to ${role}`);
+                    });
+                    getFirstName(userid)
+                        .then(res => {
+                            messageSend(`${res} has been added to ${role}.`, rolechannel);
+                        }).catch(console.error);
+                }
             });
-            getFirstName(userid)
-                .then(res => {
-                    messageSend(`${res} has been added to ${role}.`, rolechannel);
-                }).catch(console.error);
         }
+    }).catch(err => {
+        console.log(err);
+        messageSend('Who dis?', rolechannel);
     });
 }
 
@@ -497,28 +512,42 @@ function removeRole(roleuser, rolechannel) {
     var userid = userremove.substring(2, 11);
     var role = args[2];
 
-    fs.readFile(__dirname + `/roles/${role}.json`, (err, data) => {
-        var json = JSON.parse(data);
-        console.log(json);
+    var params = {
+        token: process.env.TOKEN,
+        user: userid
+    };
 
-        var index = json.indexOf(userremove);
-        if (index > -1) {
-            json.splice(index, 1);
-            console.log(json);
-            fs.writeFile(__dirname + `/roles/${role}.json`, JSON.stringify(json), (err) => {
-                if (err) throw err;
-                console.log(`${userremove} removed from ${role}`);
+    web.users.info(params).then(res => {
+        var ok = res.ok;
+
+        if (ok == true) {
+            fs.readFile(__dirname + `/roles/${role}.json`, (err, data) => {
+                var json = JSON.parse(data);
+                console.log(json);
+
+                var index = json.indexOf(userremove);
+                if (index > -1) {
+                    json.splice(index, 1);
+                    console.log(json);
+                    fs.writeFile(__dirname + `/roles/${role}.json`, JSON.stringify(json), (err) => {
+                        if (err) throw err;
+                        console.log(`${userremove} removed from ${role}`);
+                    });
+                    getFirstName(userid)
+                        .then(res => {
+                            messageSend(`${res} has been removed from ${role}.`, rolechannel);
+                        }).catch(console.error);
+                } else {
+                    getFirstName(userid)
+                        .then(res => {
+                            messageSend(`${res} is not part of ${role}.`, rolechannel);
+                        }).catch(console.error);
+                }
             });
-            getFirstName(userid)
-                .then(res => {
-                    messageSend(`${res} has been removed from ${role}.`, rolechannel);
-                }).catch(console.error);
-        } else {
-            getFirstName(userid)
-                .then(res => {
-                    messageSend(`${res} is not part of ${role}.`, rolechannel);
-                }).catch(console.error);
         }
+    }).catch(err => {
+        console.log(err);
+        messageSend('Who dis?', rolechannel);
     });
 }
 
