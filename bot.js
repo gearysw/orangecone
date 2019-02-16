@@ -31,6 +31,7 @@ rtm.on('channel_joined', (joinevent) => {
 //* message commands
 rtm.on('message', (message) => {
     console.log(message);
+    // message filters
     if ((message.user === rtm.activeUserId && (!message.subtype || message.subtype === 'channel_join' || message.subtype === 'group_join'))) { // ignores self messages
         return;
     }
@@ -48,15 +49,13 @@ rtm.on('message', (message) => {
                 messageSend(attack, message.channel);
             }).catch(console.error);
     }
+    // basic commands
     if (message.text.toLowerCase().includes('hello')) {
         if (message.text.includes(`<@${rtm.activeUserId}>`)) {
             messageSend('...hey', message.channel);
         } else {
             messageSend('Hello! :blobwave:', message.channel);
         }
-    }
-    if (message.text.toLowerCase().includes('sticky liquid') || message.text.toLowerCase().includes('sticky juice')) { // adds a reaction to `sticky liquid`
-        addReaction('sweat_drops', message.channel, message.ts);
     }
     if (message.text.toLowerCase().includes('what') && message.text.toLowerCase().includes('do') && (message.text.toLowerCase().includes('cone') || message.text.toLowerCase().includes('bot'))) {
         messageSend('Type in `!help` to see what I can help you with.', message.channel);
@@ -121,6 +120,10 @@ rtm.on('message', (message) => {
     if (message.text.toLowerCase().includes('!meme')) { // gimme them dank memes
         randomMeme(message.channel);
     }
+    // easter eggs
+    if (message.text.toLowerCase().includes('sticky liquid') || message.text.toLowerCase().includes('sticky juice')) { // adds a reaction to `sticky liquid`
+        addReaction('sweat_drops', message.channel, message.ts);
+    }
     if (message.user === 'U3ZPKC22V' && (message.text.toLowerCase().includes('vodka') || message.text.toLowerCase().includes('russian water') || message.text.toLowerCase().includes('slav'))) { // is super slav
         addReaction('tumbler_glass', message.channel, message.ts);
         addReaction('blyat', message.channel, message.ts);
@@ -167,6 +170,53 @@ rtm.on('message', (message) => {
     if (message.text.toLowerCase().includes('post malone')) {
         addReaction('victor', message.channel, message.ts);
     }
+    if (message.user === 'U7M5A125B' && message.text.toLowerCase().includes('poland')) {
+        addReaction('flag-pl', message.channel, message.ts);
+    }
+    if (message.text.toLowerCase().includes('died') || message.text.toLowerCase().includes('dead')) {
+        addReaction('f', message.channel, message.ts);
+    }
+    if (message.text.toLowerCase().includes('doubt')) {
+        addReaction('doubt', message.channel, message.ts);
+    }
+    if (message.text.toLowerCase().includes('that\'s more like it') || message.text.toLowerCase().includes('thats more like it')) {
+        addReaction('drakeyes', message.channel, message.ts);
+    }
+    if (message.user === 'U3ZPKC22V' && message.text.toLowerCase().includes('user error')) {
+        messageSend('https://media.giphy.com/media/3oz8xLd9DJq2l2VFtu/giphy.gif', message.channel);
+    }
+    if (message.text.toLowerCase().includes('unbelievable')) {
+        messageSend('http://gfycat.com/MadUnfinishedDarklingbeetle', message.channel);
+    }
+    if (message.text.toLowerCase().includes('sentient')) {
+        addReaction('eyes', message.channel, message.ts);
+        messageSend('https://media.giphy.com/media/3ohs7KViF6rA4aan5u/giphy.gif', message.channel);
+    }
+    if (message.text.toLowerCase().includes('shoey')) {
+        messageSend('https://tenor.com/view/daniel-ricciardo-honey-badger-dr3-shoey-f1-gif-12688182', message.channel);
+    }
+    if (message.text.toLowerCase().includes(' ass ') && (message.text.toLowerCase().includes('wrc') || message.text.toLowerCase().includes('rally'))) {
+        messageSend('https://youtu.be/JleS4BdTGlo?t=17', message.channel);
+    }
+    if (message.text.toLowerCase().includes('!salty')) {
+        messageSend('https://streamable.com/6t08o', message.channel);
+    }
+    if (message.text.toLowerCase().includes('they had us')) {
+        messageSend('https://i.imgur.com/QpnBp7G.jpg', message.channel);
+    }
+    if (message.text.toLowerCase().includes('shitshow')) {
+        messageSend('https://streamable.com/ppgom', message.channel);
+    }
+    if (message.text.toLowerCase().includes('developers')) {
+        messageSend('https://youtu.be/Vhh_GeBPOhs', message.channel);
+    }
+    if (message.text.toLowerCase().includes('fucking idiot')) {
+        messageSend('https://www.youtube.com/watch?v=stb0sqtwAZA', message.channel);
+    }
+    if (message.text.toLowerCase().includes('monza') || message.text.toLowerCase().includes('orgasm')) {
+        messageSend('https://www.youtube.com/watch?v=DJ1EZOvLJcI', message.channel);
+    }
+    // custom commands
     if (message.text.includes('!d4') || message.text.includes('!d6') || message.text.includes('!d8') || message.text.includes('!d10') || message.text.includes('!d12') || message.text.includes('!d20')) {
         rollDice(message.text, message.channel);
     }
