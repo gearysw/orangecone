@@ -260,6 +260,9 @@ rtm.on('message', (message) => {
     if (message.text.includes('@aero') || message.text.includes('@chassis') || message.text.includes('@electronics') || message.text.includes('@leaddesigners') || message.text.includes('@leadership') || message.text.includes('@lowvoltage') || message.text.includes('@power') || message.text.includes('@suspension') || message.text.includes('@business')) {
         callRole(message.text, message.channel);
     }
+    if (message.text.includes('!viewroles')) {
+        viewRoles(message.channel);
+    }
 });
 
 //* function to automatically join a newly created channel
@@ -447,7 +450,6 @@ function pingReact(reactch, reactts) {
     addReaction(sendmoji, reactch, reactts);
 }
 
-//TODO rework rollDice function to splice input and take XdY values
 function rollDice(dx, rollchannel) {
     if (dx.includes('d4')) {
         let num = Math.floor((Math.random() * 4) + 1);
@@ -630,106 +632,130 @@ function callRole(calltext, callchannel) {
 
 //TODO viewRoles function to see who are in certain roles
 // function viewRoles(viewchannel) {
-//     var aero, business, chassis, electronics, leaddesigners, leadership, lowvoltage, power, suspension;
+// var aero, business, chassis, electronics, leaddesigners, leadership, lowvoltage, power, suspension = [];
+// var aerob, businessb, chassisb, electronicsb, leaddesignersb, leadershipb, lowvoltageb, powerb, suspensionb = [];
 
-//     // read aero
-//     fs.readFile(__dirname + '/roles/aero.json', (err, data) => {
-//         var json = JSON.parse(data);
-//         var content = json.toString();
-//         if (content == undefined || content.length == 0) {
-//             aero = 'Empty';
-//         } else {
-//             aero = content;
-//         }
-//     });
+// read aero
+// fs.readFile(__dirname + '/roles/aero.json', (err, data) => {
+//     var json = JSON.parse(data);
+//     var content = json.toString();
+//     if (content == undefined || content.length == 0) {
+//         aero = 'Empty';
+//     } else {
+//         aero = content;
+//     }
+// });
+// var leadershipb = [];
+// var leadership = [];
+// fs.readFile(__dirname + '/roles/leadership.json', (err, data) => {
+//     let json = JSON.parse(data);
+//     // console.log(json);
 
-//     // read business
-//     fs.readFile(__dirname + '/roles/business.json', (err, data) => {
-//         var json = JSON.parse(data);
-//         var content = json.toString();
-//         if (content == undefined || content.length == 0) {
-//             business = 'Empty';
-//         } else {
-//             business = content;
-//         }
-//     });
+//     for (let i = 0; i < json.length; i++) {
+//         let buffer = json[i].substring(2, 11);
+//         // console.log(buffer);
+//         leadershipb.push(buffer.toString());
+//     }
+//     console.log(leadershipb);
+// });
+// for (let i = 0; i < leadershipb.length; i++) {
+//     getFirstName(leadershipb[i])
+//         .then(res => {
+//             console.log(res);
+//             leadership.push(res.toString());
+//             console.log(leadership);
+//         });
+//     // console.log(leadership);
+// }
+// console.log(leadership);
+// fs.readFileSync(__dirname + '/roles/leadership.json')
+// // read business
+// fs.readFile(__dirname + '/roles/business.json', (err, data) => {
+//     var json = JSON.parse(data);
+//     var content = json.toString();
+//     if (content == undefined || content.length == 0) {
+//         business = 'Empty';
+//     } else {
+//         business = content;
+//     }
+// });
 
-//     // read chassis
-//     fs.readFile(__dirname + '/roles/chassis.json', (err, data) => {
-//         var json = JSON.parse(data);
-//         var content = json.toString();
-//         if (content == undefined || content.length == 0) {
-//             chassis = 'Empty';
-//         } else {
-//             chassis = content;
-//         }
-//     });
+// // read chassis
+// fs.readFile(__dirname + '/roles/chassis.json', (err, data) => {
+//     var json = JSON.parse(data);
+//     var content = json.toString();
+//     if (content == undefined || content.length == 0) {
+//         chassis = 'Empty';
+//     } else {
+//         chassis = content;
+//     }
+// });
 
-//     // read electronics
-//     fs.readFile(__dirname + '/roles/electronics.json', (err, data) => {
-//         var json = JSON.parse(data);
-//         var content = json.toString();
-//         if (content == undefined || content.length == 0) {
-//             electronics = 'Empty';
-//         } else {
-//             electronics = content;
-//         }
-//     });
+// // read electronics
+// fs.readFile(__dirname + '/roles/electronics.json', (err, data) => {
+//     var json = JSON.parse(data);
+//     var content = json.toString();
+//     if (content == undefined || content.length == 0) {
+//         electronics = 'Empty';
+//     } else {
+//         electronics = content;
+//     }
+// });
 
-//     // read leaddesigners
-//     fs.readFile(__dirname + '/roles/leaddesigners.json', (err, data) => {
-//         var json = JSON.parse(data);
-//         var content = json.toString();
-//         if (content == undefined || content.length == 0) {
-//             leaddesigners = 'Empty';
-//         } else {
-//             leaddesigners = content;
-//         }
-//     });
+// // read leaddesigners
+// fs.readFile(__dirname + '/roles/leaddesigners.json', (err, data) => {
+//     var json = JSON.parse(data);
+//     var content = json.toString();
+//     if (content == undefined || content.length == 0) {
+//         leaddesigners = 'Empty';
+//     } else {
+//         leaddesigners = content;
+//     }
+// });
 
-//     // read leadership
-//     fs.readFile(__dirname + '/roles/leadership.json', (err, data) => {
-//         var json = JSON.parse(data);
-//         var content = json.toString();
-//         if (content == undefined || content.length == 0) {
-//             leadership = 'Empty';
-//         } else {
-//             leadership = content;
-//         }
-//     });
+// // read leadership
+// fs.readFile(__dirname + '/roles/leadership.json', (err, data) => {
+//     var json = JSON.parse(data);
+//     var content = json.toString();
+//     if (content == undefined || content.length == 0) {
+//         leadership = 'Empty';
+//     } else {
+//         leadership = content;
+//     }
+// });
 
-//     // read lowvoltage
-//     fs.readFile(__dirname + '/roles/lowvoltage.json', (err, data) => {
-//         var json = JSON.parse(data);
-//         var content = json.toString();
-//         if (content == undefined || content.length == 0) {
-//             lowvoltage = 'Empty';
-//         } else {
-//             lowvoltage = content;
-//         }
-//     });
+// // read lowvoltage
+// fs.readFile(__dirname + '/roles/lowvoltage.json', (err, data) => {
+//     var json = JSON.parse(data);
+//     var content = json.toString();
+//     if (content == undefined || content.length == 0) {
+//         lowvoltage = 'Empty';
+//     } else {
+//         lowvoltage = content;
+//     }
+// });
 
-//     // read power
-//     fs.readFile(__dirname + '/roles/power.json', (err, data) => {
-//         var json = JSON.parse(data);
-//         var content = json.toString();
-//         if (content == undefined || content.length == 0) {
-//             power = 'Empty';
-//         } else {
-//             power = content;
-//         }
-//     });
+// // read power
+// fs.readFile(__dirname + '/roles/power.json', (err, data) => {
+//     var json = JSON.parse(data);
+//     var content = json.toString();
+//     if (content == undefined || content.length == 0) {
+//         power = 'Empty';
+//     } else {
+//         power = content;
+//     }
+// });
 
-//     // read suspension
-//     fs.readFile(__dirname + '/roles/suspension.json', (err, data) => {
-//         var json = JSON.parse(data);
-//         var content = json.toString();
-//         if (content == undefined || content.length == 0) {
-//             suspension = 'Empty';
-//         } else {
-//             suspension = content;
-//         }
-//     });
+// // read suspension
+// fs.readFile(__dirname + '/roles/suspension.json', (err, data) => {
+//     var json = JSON.parse(data);
+//     var content = json.toString();
+//     if (content == undefined || content.length == 0) {
+//         suspension = 'Empty';
+//     } else {
+//         suspension = content;
+//     }
+// });
 
-//     var send = `\`aero\`: ${aero} \n\`business\`: ${business} \n\`chassis\`: ${} `
+// var send = `\`aero\`: ${aero} \n\`business\`: ${business} \n\`chassis\`: ${} `
 // }
