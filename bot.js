@@ -195,7 +195,7 @@ rtm.on('message', (message) => {
     if (message.text.toLowerCase().includes('shoey')) {
         messageSend('https://tenor.com/view/daniel-ricciardo-honey-badger-dr3-shoey-f1-gif-12688182', message.channel);
     }
-    if (message.text.toLowerCase().includes(' ass ') && (message.text.toLowerCase().includes('wrc') || message.text.toLowerCase().includes('rally'))) {
+    if (message.text.toLowerCase().includes(' ass ') && (message.text.toLowerCase().includes('wrc') || message.text.toLowerCase().includes('rally') || message.text.toLowerCase().includes('timo'))) {
         messageSend('https://youtu.be/JleS4BdTGlo?t=17', message.channel);
     }
     if (message.text.toLowerCase().includes('!salty')) {
@@ -204,7 +204,7 @@ rtm.on('message', (message) => {
     if (message.text.toLowerCase().includes('they had us')) {
         messageSend('https://i.imgur.com/QpnBp7G.jpg', message.channel);
     }
-    if (message.text.toLowerCase().includes('shitshow')) {
+    if (message.text.toLowerCase().includes('shitshow') || message.text.toLowerCase().includes('shit show')) {
         messageSend('https://streamable.com/ppgom', message.channel);
     }
     if (message.text.toLowerCase().includes('developers')) {
@@ -260,9 +260,9 @@ rtm.on('message', (message) => {
     if (message.text.includes('@aero') || message.text.includes('@chassis') || message.text.includes('@electronics') || message.text.includes('@leaddesigners') || message.text.includes('@leadership') || message.text.includes('@lowvoltage') || message.text.includes('@power') || message.text.includes('@suspension') || message.text.includes('@business')) {
         callRole(message.text, message.channel);
     }
-    if (message.text.includes('!viewroles')) {
-        viewRoles(message.channel);
-    }
+    // if (message.text.includes('!viewroles')) {
+    //     viewRoles(message.channel);
+    // }
 });
 
 //* function to automatically join a newly created channel
