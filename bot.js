@@ -260,9 +260,9 @@ rtm.on('message', (message) => {
     if (message.text.includes('@aero') || message.text.includes('@chassis') || message.text.includes('@electronics') || message.text.includes('@leaddesigners') || message.text.includes('@leadership') || message.text.includes('@lowvoltage') || message.text.includes('@power') || message.text.includes('@suspension') || message.text.includes('@business')) {
         callRole(message.text, message.channel);
     }
-    // if (message.text.includes('!viewroles')) {
-    //     viewRoles(message.channel);
-    // }
+    if (message.text.includes('!viewroles')) {
+        viewRoles(message.channel);
+    }
 });
 
 //* function to automatically join a newly created channel
@@ -631,7 +631,7 @@ function callRole(calltext, callchannel) {
 
 
 //TODO viewRoles function to see who are in certain roles
-// function viewRoles(viewchannel) {
+function viewRoles(viewchannel) {
 // var aero, business, chassis, electronics, leaddesigners, leadership, lowvoltage, power, suspension = [];
 // var aerob, businessb, chassisb, electronicsb, leaddesignersb, leadershipb, lowvoltageb, powerb, suspensionb = [];
 
@@ -645,19 +645,21 @@ function callRole(calltext, callchannel) {
 //         aero = content;
 //     }
 // });
-// var leadershipb = [];
-// var leadership = [];
-// fs.readFile(__dirname + '/roles/leadership.json', (err, data) => {
-//     let json = JSON.parse(data);
-//     // console.log(json);
+    var leadershipb = [];
+    var leadership = [];
+    fs.readFile(__dirname + '/roles/leadership.json', (err, data) => {
+        let json = JSON.parse(data);
+        // console.log(json);
 
-//     for (let i = 0; i < json.length; i++) {
-//         let buffer = json[i].substring(2, 11);
-//         // console.log(buffer);
-//         leadershipb.push(buffer.toString());
-//     }
-//     console.log(leadershipb);
-// });
+        for (let i = 0; i < json.length; i++) {
+            let buffer = json[i].substring(2, 11);
+            // console.log(buffer);
+            leadershipb.push(buffer.toString());
+        }
+        console.log(leadershipb);
+    });
+    
+    // https://stackoverflow.com/questions/13343340/calling-an-asynchronous-function-within-a-for-loop-in-javascript 
 // for (let i = 0; i < leadershipb.length; i++) {
 //     getFirstName(leadershipb[i])
 //         .then(res => {
@@ -665,8 +667,9 @@ function callRole(calltext, callchannel) {
 //             leadership.push(res.toString());
 //             console.log(leadership);
 //         });
-//     // console.log(leadership);
-// }
+
+    // console.log(leadership);
+}
 // console.log(leadership);
 // fs.readFileSync(__dirname + '/roles/leadership.json')
 // // read business
