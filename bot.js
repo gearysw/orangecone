@@ -134,8 +134,32 @@ rtm.on('message', (message) => {
     if (message.text.toLowerCase().includes('good night') || message.text.toLowerCase().includes('gnight')) { // wish someone good night
         goodnight(message.user, message.channel);
     }
-    if (message.text === 'good morning') { // wish someone a good morning
+    if (message.text.toLowerCase().includes('good morning')) { // wish someone a good morning
         goodmorning(message.user, message.channel);
+    }
+    if (message.text.toLowerCase().includes('good afternoon')) {
+        goodafternoon(message.user, message.channel);
+    }
+    if (message.text.toLowerCase().includes('good bot')) {
+        addReaction('hugging_face', message.channel, message.ts);
+        getFirstName(message.user)
+            .then(res => {
+                messageSend(`Thank you, ${res}!`, message.channel);
+            }).catch(console.error);
+    }
+    if (message.text.toLowerCase().includes('bad bot')) {
+        addReaction('middle_finger', message.channel, message.ts);
+        badbot(message.channel);
+    }
+    if (message.text.toLowerCase().includes('thanks') || message.text.toLowerCase().includes('thank you')) {
+        if (message.text.includes(`<@${rtm.activeUserId}>`)) {
+            messageSend('...sure', message.channel);
+        } else if (message.text.toLowerCase().includes('bot') || message.text.toLowerCase().includes('cone bot')) {
+            getFirstName(message.user)
+                .then(res => {
+                    messageSend(`You're welcome, ${res}!`, message.channel);
+                }).catch(console.error);
+        }
     }
     if (message.text.toLowerCase().includes('help') && message.text.toLowerCase().includes('me') && (message.text.toLowerCase().includes('cone') || message.text.toLowerCase().includes('bot'))) {
         if (message.text.toLowerCase().includes('help') && message.text.toLowerCase().includes('me') && (message.text.toLowerCase().includes('homework') || message.text.toLowerCase().includes('hw')) && (message.text.toLowerCase().includes('cone') || message.text.toLowerCase().includes('bot'))) {
@@ -434,6 +458,13 @@ function goodmorning(msgauthor, gmchannel) { //* function to greet someone in th
         }).catch(console.error);
 }
 
+function goodafternoon(msgauth, gachann) {
+    getFirstName(msgauth)
+        .then(res => {
+            messageSend(`Good afternoon, ${res}!`, gachann);
+        }).catch(console.error);
+}
+
 function goodnight(msgauthor, gnchannel) { //* function to wish someone a good night
     getFirstName(msgauthor)
         .then(res => {
@@ -442,6 +473,12 @@ function goodnight(msgauthor, gnchannel) { //* function to wish someone a good n
             let saygn = gn[Math.floor(Math.random() * gn.length)];
             messageSend(saygn, gnchannel);
         }).catch(console.error);
+}
+
+function badbot(msgchannel) {
+    let diss = ['no u :angry:', ':triumph:', 'fite me irl', ':cry:'];
+    let saydiss = diss[Math.floor(Math.random() * diss.length)];
+    messageSend(saydiss, msgchannel);
 }
 
 function pingReact(reactch, reactts) {
@@ -631,134 +668,93 @@ function callRole(calltext, callchannel) {
 
 
 //TODO viewRoles function to see who are in certain roles
-function viewRoles(viewchannel) {
-// var aero, business, chassis, electronics, leaddesigners, leadership, lowvoltage, power, suspension = [];
-// var aerob, businessb, chassisb, electronicsb, leaddesignersb, leadershipb, lowvoltageb, powerb, suspensionb = [];
+// function viewRoles(viewchannel) {
+//     // var aero, business, chassis, electronics, leaddesigners, leadership, lowvoltage, power, suspension = [];
+//     // var aerob, businessb, chassisb, electronicsb, leaddesignersb, leadershipb, lowvoltageb, powerb, suspensionb = [];
 
-// read aero
-// fs.readFile(__dirname + '/roles/aero.json', (err, data) => {
-//     var json = JSON.parse(data);
-//     var content = json.toString();
-//     if (content == undefined || content.length == 0) {
-//         aero = 'Empty';
-//     } else {
-//         aero = content;
-//     }
-// });
-    var leadershipb = [];
-    var leadership = [];
-    fs.readFile(__dirname + '/roles/leadership.json', (err, data) => {
-        let json = JSON.parse(data);
-        // console.log(json);
+//     // read aero
+//     // fs.readFile(__dirname + '/roles/aero.json', (err, data) => {
+//     //     var json = JSON.parse(data);
+//     //     var content = json.toString();
+//     //     if (content == undefined || content.length == 0) {
+//     //         aero = 'Empty';
+//     //     } else {
+//     //         aero = content;
+//     //     }
+//     // });
+//     // var aerob = [];
+//     // var aero = [];
+//     // fs.readFile(__dirname + '/roles/aero.json', (err, data) => {
+//     //     let json = JSON.parse(data);
+//     //     // console.log(json);
 
-        for (let i = 0; i < json.length; i++) {
-            let buffer = json[i].substring(2, 11);
-            // console.log(buffer);
-            leadershipb.push(buffer.toString());
-        }
-        console.log(leadershipb);
-    });
-    
-    // https://stackoverflow.com/questions/13343340/calling-an-asynchronous-function-within-a-for-loop-in-javascript 
-// for (let i = 0; i < leadershipb.length; i++) {
-//     getFirstName(leadershipb[i])
-//         .then(res => {
-//             console.log(res);
-//             leadership.push(res.toString());
-//             console.log(leadership);
-//         });
+//     //     for (let i = 0; i < json.length; i++) {
+//     //         let buffer = json[i].substring(2, 11);
+//     //         // console.log(buffer);
+//     //         aerob.push(buffer.toString());
+//     //     }
+//     //     console.log(aerob);
+//     // });
 
-    // console.log(leadership);
-}
-// console.log(leadership);
-// fs.readFileSync(__dirname + '/roles/leadership.json')
-// // read business
-// fs.readFile(__dirname + '/roles/business.json', (err, data) => {
-//     var json = JSON.parse(data);
-//     var content = json.toString();
-//     if (content == undefined || content.length == 0) {
-//         business = 'Empty';
-//     } else {
-//         business = content;
-//     }
-// });
+//     // https://stackoverflow.com/questions/13343340/calling-an-asynchronous-function-within-a-for-loop-in-javascript 
+//     // for (let i = 0; i < leadershipb.length; i++) {
+//     //     getFirstName(leadershipb[i])
+//     //         .then(res => {
+//     //             console.log(res);
+//     //             leadership.push(res.toString());
+//     //             console.log(leadership);
+//     //         });
 
-// // read chassis
-// fs.readFile(__dirname + '/roles/chassis.json', (err, data) => {
-//     var json = JSON.parse(data);
-//     var content = json.toString();
-//     if (content == undefined || content.length == 0) {
-//         chassis = 'Empty';
-//     } else {
-//         chassis = content;
-//     }
-// });
+//     // console.log(leadership);
 
-// // read electronics
-// fs.readFile(__dirname + '/roles/electronics.json', (err, data) => {
-//     var json = JSON.parse(data);
-//     var content = json.toString();
-//     if (content == undefined || content.length == 0) {
-//         electronics = 'Empty';
-//     } else {
-//         electronics = content;
-//     }
-// });
+//     var aero = [];                       THIS  PART IS GETTING THERE
+//     var aerob = [];
+//     // var count2 = 0;
+//     fs.readFile(__dirname + '/roles/aero.json', (err, data) => {
+//         let json = JSON.parse(data);
+//         console.log(json);
+//         let count1 = 0;
+//         let count2 = 0;
 
-// // read leaddesigners
-// fs.readFile(__dirname + '/roles/leaddesigners.json', (err, data) => {
-//     var json = JSON.parse(data);
-//     var content = json.toString();
-//     if (content == undefined || content.length == 0) {
-//         leaddesigners = 'Empty';
-//     } else {
-//         leaddesigners = content;
-//     }
-// });
+//         for (let i = 0; i < json.length; i++) {
+//             let buffer = json[i].substring(2, 11);
+//             aerob.push(buffer.toString());
+//             count1++;
+//             if (count1 > json.length - 1) {
+//                 console.log(aerob);
+//             }
+//         }
 
-// // read leadership
-// fs.readFile(__dirname + '/roles/leadership.json', (err, data) => {
-//     var json = JSON.parse(data);
-//     var content = json.toString();
-//     if (content == undefined || content.length == 0) {
-//         leadership = 'Empty';
-//     } else {
-//         leadership = content;
-//     }
-// });
+//         if (aerob.length == json.length) {
+//             // aerob.forEach(function(listItem, index))
+//             for (let i = 0; i < aerob.length; i++) {
+//                 let buffer = aerob[i];
+//                 // let count2 = 0;
+//                 // var res = [];
+//                 getFirstName(buffer.toString())
+//                     .then(res => {
 
-// // read lowvoltage
-// fs.readFile(__dirname + '/roles/lowvoltage.json', (err, data) => {
-//     var json = JSON.parse(data);
-//     var content = json.toString();
-//     if (content == undefined || content.length == 0) {
-//         lowvoltage = 'Empty';
-//     } else {
-//         lowvoltage = content;
-//     }
-// });
+//                     }).catch(console.error);
+//                 console.log(aero);
+//                 // if (count2 > aerob.length - 1) {
+//                 //     console.log(aero);
+//                 // }
+//             }
+//         }
+//         // for (var j = 0; j < aerob.length; j++) {
+//         //     let buffer = aerob[j];
+//         //     // let count2 = 0;
+//         //     getFirstName(buffer)
+//         //         .then(fname => {
+//         //             aero.push(fname.toString());
+//         //             count2++;
+//         //         }).catch(console.error);
+//         //     if (count2 > aerob.length - 1) {
+//         //         console.log(aero);
+//         //     }
+//         // }
+//     });
 
-// // read power
-// fs.readFile(__dirname + '/roles/power.json', (err, data) => {
-//     var json = JSON.parse(data);
-//     var content = json.toString();
-//     if (content == undefined || content.length == 0) {
-//         power = 'Empty';
-//     } else {
-//         power = content;
-//     }
-// });
 
-// // read suspension
-// fs.readFile(__dirname + '/roles/suspension.json', (err, data) => {
-//     var json = JSON.parse(data);
-//     var content = json.toString();
-//     if (content == undefined || content.length == 0) {
-//         suspension = 'Empty';
-//     } else {
-//         suspension = content;
-//     }
-// });
 
-// var send = `\`aero\`: ${aero} \n\`business\`: ${business} \n\`chassis\`: ${} `
 // }
