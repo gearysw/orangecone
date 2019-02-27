@@ -440,14 +440,14 @@ function getFirstName(userid) { //* function to convert the user.id parameter in
     }).catch(console.error);
 }
 
-function getLastName(userid) {
+function getFullName(userid) {
     const param = {
         token: process.env.TOKEN,
         user: userid
     };
     return web.users.info(param).then(results => {
-        return results.user.profile.last_name;
-    });
+        return results.user.profile.real_name;
+    }).catch(console.error);
 }
 
 function goodmorning(msgauthor, gmchannel) { //* function to greet someone in the morning
@@ -668,93 +668,274 @@ function callRole(calltext, callchannel) {
 
 
 //TODO viewRoles function to see who are in certain roles
-// function viewRoles(viewchannel) {
-//     // var aero, business, chassis, electronics, leaddesigners, leadership, lowvoltage, power, suspension = [];
-//     // var aerob, businessb, chassisb, electronicsb, leaddesignersb, leadershipb, lowvoltageb, powerb, suspensionb = [];
+function viewRoles(viewchannel) {
+    // send aero roles
+    var aero = [];
+    var aerobuffer = [];
+    fs.readFile(__dirname + '/roles/aero.json', (err, data) => {
+        let json = JSON.parse(data);
+        if (json.length == 0) {
+            messageSend(`\`aero\`: Empty`, viewchannel);
+            return;
+        }
+        let count1 = 0;
 
-//     // read aero
-//     // fs.readFile(__dirname + '/roles/aero.json', (err, data) => {
-//     //     var json = JSON.parse(data);
-//     //     var content = json.toString();
-//     //     if (content == undefined || content.length == 0) {
-//     //         aero = 'Empty';
-//     //     } else {
-//     //         aero = content;
-//     //     }
-//     // });
-//     // var aerob = [];
-//     // var aero = [];
-//     // fs.readFile(__dirname + '/roles/aero.json', (err, data) => {
-//     //     let json = JSON.parse(data);
-//     //     // console.log(json);
+        for (let i = 0; i < json.length; i++) {
+            let buffer = json[i].substring(2, 11);
+            aerobuffer.push(buffer.toString());
+            count1++;
+            if (count1 == json.length) {
+                console.log(aerobuffer);
+                aerobuffer.forEach(userid => {
+                    getFullName(userid).then(res => {
+                        aero.push(res);
+                        if (aero.length == json.length) {
+                            console.log(aero);
+                            messageSend(`\`aero\`: ${aero.toString()}`, viewchannel);
+                        }
+                    });
+                });
+            }
+        }
+    });
 
-//     //     for (let i = 0; i < json.length; i++) {
-//     //         let buffer = json[i].substring(2, 11);
-//     //         // console.log(buffer);
-//     //         aerob.push(buffer.toString());
-//     //     }
-//     //     console.log(aerob);
-//     // });
+    // send business roles
+    var business = [];
+    var businessbuffer = [];
+    fs.readFile(__dirname + '/roles/business.json', (err, data) => {
+        let json = JSON.parse(data);
+        if (json.length == 0) {
+            messageSend(`\`businesss\`: Empty`, viewchannel);
+            return;
+        }
+        let count1 = 0;
 
-//     // https://stackoverflow.com/questions/13343340/calling-an-asynchronous-function-within-a-for-loop-in-javascript 
-//     // for (let i = 0; i < leadershipb.length; i++) {
-//     //     getFirstName(leadershipb[i])
-//     //         .then(res => {
-//     //             console.log(res);
-//     //             leadership.push(res.toString());
-//     //             console.log(leadership);
-//     //         });
+        for (let i = 0; i < json.length; i++) {
+            let buffer = json[i].substring(2, 11);
+            businessbuffer.push(buffer.toString());
+            count1++;
+            if (count1 == json.length) {
+                console.log(aerobuffer);
+                businessbuffer.forEach(userid => {
+                    getFullName(userid).then(res => {
+                        business.push(res);
+                        if (business.length == json.length) {
+                            console.log(business);
+                            messageSend(`\`business\`: ${business.toString()}`, viewchannel);
+                        }
+                    });
+                });
+            }
+        }
+    });
 
-//     // console.log(leadership);
+    // send chassis roles
+    var chassis = [];
+    var chassisbuffer = [];
+    fs.readFile(__dirname + '/roles/chassis.json', (err, data) => {
+        let json = JSON.parse(data);
+        if (json.length == 0) {
+            messageSend(`\`chassis\`: Empty`, viewchannel);
+            return;
+        }
+        let count1 = 0;
 
-//     var aero = [];                       THIS  PART IS GETTING THERE
-//     var aerob = [];
-//     // var count2 = 0;
-//     fs.readFile(__dirname + '/roles/aero.json', (err, data) => {
-//         let json = JSON.parse(data);
-//         console.log(json);
-//         let count1 = 0;
-//         let count2 = 0;
+        for (let i = 0; i < json.length; i++) {
+            let buffer = json[i].substring(2, 11);
+            chassisbuffer.push(buffer.toString());
+            count1++;
+            if (count1 == json.length) {
+                console.log(chassisbuffer);
+                chassisbuffer.forEach(userid => {
+                    getFullName(userid).then(res => {
+                        chassis.push(res);
+                        if (chassis.length == json.length) {
+                            console.log(chassis);
+                            messageSend(`\`chassis\`: ${chassis.toString()}`, viewchannel);
+                        }
+                    });
+                });
+            }
+        }
+    });
 
-//         for (let i = 0; i < json.length; i++) {
-//             let buffer = json[i].substring(2, 11);
-//             aerob.push(buffer.toString());
-//             count1++;
-//             if (count1 > json.length - 1) {
-//                 console.log(aerob);
-//             }
-//         }
+    // send electronics roles
+    var electronics = [];
+    var electronicsbuffer = [];
+    fs.readFile(__dirname + '/roles/electronics.json', (err, data) => {
+        let json = JSON.parse(data);
+        if (json.length == 0) {
+            messageSend(`\`electronics\`: Empty`, viewchannel);
+            return;
+        }
+        let count1 = 0;
 
-//         if (aerob.length == json.length) {
-//             // aerob.forEach(function(listItem, index))
-//             for (let i = 0; i < aerob.length; i++) {
-//                 let buffer = aerob[i];
-//                 // let count2 = 0;
-//                 // var res = [];
-//                 getFirstName(buffer.toString())
-//                     .then(res => {
+        for (let i = 0; i < json.length; i++) {
+            let buffer = json[i].substring(2, 11);
+            electronicsbuffer.push(buffer.toString());
+            count1++;
+            if (count1 == json.length) {
+                console.log(electronicsbuffer);
+                electronicsbuffer.forEach(userid => {
+                    getFullName(userid).then(res => {
+                        aero.push(res);
+                        if (electronics.length == json.length) {
+                            console.log(electronics);
+                            messageSend(`\`electronics\`: ${electronics.toString()}`, viewchannel);
+                        }
+                    });
+                });
+            }
+        }
+    });
 
-//                     }).catch(console.error);
-//                 console.log(aero);
-//                 // if (count2 > aerob.length - 1) {
-//                 //     console.log(aero);
-//                 // }
-//             }
-//         }
-//         // for (var j = 0; j < aerob.length; j++) {
-//         //     let buffer = aerob[j];
-//         //     // let count2 = 0;
-//         //     getFirstName(buffer)
-//         //         .then(fname => {
-//         //             aero.push(fname.toString());
-//         //             count2++;
-//         //         }).catch(console.error);
-//         //     if (count2 > aerob.length - 1) {
-//         //         console.log(aero);
-//         //     }
-//         // }
-//     });
+    // send leaddesigners roles
+    var leaddesigners = [];
+    var leaddesignersbuffer = [];
+    fs.readFile(__dirname + '/roles/leaddesigners.json', (err, data) => {
+        let json = JSON.parse(data);
+        if (json.length == 0) {
+            messageSend(`\`leaddesigners\`: Empty`, viewchannel);
+            return;
+        }
+        let count1 = 0;
 
+        for (let i = 0; i < json.length; i++) {
+            let buffer = json[i].substring(2, 11);
+            leaddesignersbuffer.push(buffer.toString());
+            count1++;
+            if (count1 == json.length) {
+                console.log(leaddesignersbuffer);
+                leaddesignersbuffer.forEach(userid => {
+                    getFullName(userid).then(res => {
+                        leaddesigners.push(res);
+                        if (leaddesigners.length == json.length) {
+                            console.log(leaddesigners);
+                            messageSend(`\`leaddesigners\`: ${leaddesigners.toString()}`, viewchannel);
+                        }
+                    });
+                });
+            }
+        }
+    });
 
+    // send leadership roles
+    var leadership = [];
+    var leadershipbuffer = [];
+    fs.readFile(__dirname + '/roles/leadership.json', (err, data) => {
+        let json = JSON.parse(data);
+        if (json.length == 0) {
+            messageSend(`\`leadership\`: Empty`, viewchannel);
+            return;
+        }
+        let count1 = 0;
 
-// }
+        for (let i = 0; i < json.length; i++) {
+            let buffer = json[i].substring(2, 11);
+            leadershipbuffer.push(buffer.toString());
+            count1++;
+            if (count1 == json.length) {
+                console.log(leadershipbuffer);
+                leadershipbuffer.forEach(userid => {
+                    getFullName(userid).then(res => {
+                        leadership.push(res);
+                        if (leadership.length == json.length) {
+                            console.log(leadership);
+                            messageSend(`\`leadership\`: ${leadership.toString()}`, viewchannel);
+                        }
+                    });
+                });
+            }
+        }
+    });
+
+    // send lowvoltage roles
+    var lowvoltage = [];
+    var lowvoltagebuffer = [];
+    fs.readFile(__dirname + '/roles/lowvoltage.json', (err, data) => {
+        let json = JSON.parse(data);
+        if (json.length == 0) {
+            messageSend(`\`lowvoltage\`: Empty`, viewchannel);
+            return;
+        }
+        let count1 = 0;
+
+        for (let i = 0; i < json.length; i++) {
+            let buffer = json[i].substring(2, 11);
+            lowvoltagebuffer.push(buffer.toString());
+            count1++;
+            if (count1 == json.length) {
+                console.log(lowvoltagebuffer);
+                lowvoltagebuffer.forEach(userid => {
+                    getFullName(userid).then(res => {
+                        lowvoltage.push(res);
+                        if (lowvoltage.length == json.length) {
+                            console.log(lowvoltage);
+                            messageSend(`\`lowvoltage\`: ${lowvoltage.toString()}`, viewchannel);
+                        }
+                    });
+                });
+            }
+        }
+    });
+
+    // send power roles
+    var power = [];
+    var powerbuffer = [];
+    fs.readFile(__dirname + '/roles/power.json', (err, data) => {
+        let json = JSON.parse(data);
+        if (json.length == 0) {
+            messageSend(`\`power\`: Empty`, viewchannel);
+            return;
+        }
+        let count1 = 0;
+
+        for (let i = 0; i < json.length; i++) {
+            let buffer = json[i].substring(2, 11);
+            powerbuffer.push(buffer.toString());
+            count1++;
+            if (count1 == json.length) {
+                console.log(powerbuffer);
+                powerbuffer.forEach(userid => {
+                    getFullName(userid).then(res => {
+                        power.push(res);
+                        if (power.length == json.length) {
+                            console.log(power);
+                            messageSend(`\`power\`: ${power.toString()}`, viewchannel);
+                        }
+                    });
+                });
+            }
+        }
+    });
+
+    // send suspension roles
+    var suspension = [];
+    var suspensionbuffer = [];
+    fs.readFile(__dirname + '/roles/suspension.json', (err, data) => {
+        let json = JSON.parse(data);
+        if (json.length == 0) {
+            messageSend(`\`suspension\`: Empty`, viewchannel);
+            return;
+        }
+        let count1 = 0;
+
+        for (let i = 0; i < json.length; i++) {
+            let buffer = json[i].substring(2, 11);
+            suspensionbuffer.push(buffer.toString());
+            count1++;
+            if (count1 == json.length) {
+                console.log(suspensionbuffer);
+                suspensionbuffer.forEach(userid => {
+                    getFullName(userid).then(res => {
+                        suspension.push(res);
+                        if (suspension.length == json.length) {
+                            console.log(suspension);
+                            messageSend(`\`suspension\`: ${suspension.toString()}`, viewchannel);
+                        }
+                    });
+                });
+            }
+        }
+    });
+}
