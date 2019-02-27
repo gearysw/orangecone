@@ -688,7 +688,7 @@ function viewRoles(viewchannel) {
                 console.log(aerobuffer);
                 aerobuffer.forEach(userid => {
                     getFullName(userid).then(res => {
-                        aero.push(res);
+                        aero.push(` ${res}`);
                         if (aero.length == json.length) {
                             console.log(aero);
                             messageSend(`\`aero\`: ${aero.toString()}`, viewchannel);
@@ -718,7 +718,7 @@ function viewRoles(viewchannel) {
                 console.log(aerobuffer);
                 businessbuffer.forEach(userid => {
                     getFullName(userid).then(res => {
-                        business.push(res);
+                        business.push(` ${res}`);
                         if (business.length == json.length) {
                             console.log(business);
                             messageSend(`\`business\`: ${business.toString()}`, viewchannel);
@@ -748,7 +748,7 @@ function viewRoles(viewchannel) {
                 console.log(chassisbuffer);
                 chassisbuffer.forEach(userid => {
                     getFullName(userid).then(res => {
-                        chassis.push(res);
+                        chassis.push(` ${res}`);
                         if (chassis.length == json.length) {
                             console.log(chassis);
                             messageSend(`\`chassis\`: ${chassis.toString()}`, viewchannel);
@@ -778,7 +778,7 @@ function viewRoles(viewchannel) {
                 console.log(electronicsbuffer);
                 electronicsbuffer.forEach(userid => {
                     getFullName(userid).then(res => {
-                        aero.push(res);
+                        aero.push(` ${res}`);
                         if (electronics.length == json.length) {
                             console.log(electronics);
                             messageSend(`\`electronics\`: ${electronics.toString()}`, viewchannel);
@@ -808,7 +808,7 @@ function viewRoles(viewchannel) {
                 console.log(leaddesignersbuffer);
                 leaddesignersbuffer.forEach(userid => {
                     getFullName(userid).then(res => {
-                        leaddesigners.push(res);
+                        leaddesigners.push(` ${res}`);
                         if (leaddesigners.length == json.length) {
                             console.log(leaddesigners);
                             messageSend(`\`leaddesigners\`: ${leaddesigners.toString()}`, viewchannel);
@@ -838,7 +838,7 @@ function viewRoles(viewchannel) {
                 console.log(leadershipbuffer);
                 leadershipbuffer.forEach(userid => {
                     getFullName(userid).then(res => {
-                        leadership.push(res);
+                        leadership.push(` ${res}`);
                         if (leadership.length == json.length) {
                             console.log(leadership);
                             messageSend(`\`leadership\`: ${leadership.toString()}`, viewchannel);
@@ -868,7 +868,7 @@ function viewRoles(viewchannel) {
                 console.log(lowvoltagebuffer);
                 lowvoltagebuffer.forEach(userid => {
                     getFullName(userid).then(res => {
-                        lowvoltage.push(res);
+                        lowvoltage.push(` ${res}`);
                         if (lowvoltage.length == json.length) {
                             console.log(lowvoltage);
                             messageSend(`\`lowvoltage\`: ${lowvoltage.toString()}`, viewchannel);
@@ -898,7 +898,7 @@ function viewRoles(viewchannel) {
                 console.log(powerbuffer);
                 powerbuffer.forEach(userid => {
                     getFullName(userid).then(res => {
-                        power.push(res);
+                        power.push(` ${res}`);
                         if (power.length == json.length) {
                             console.log(power);
                             messageSend(`\`power\`: ${power.toString()}`, viewchannel);
@@ -928,7 +928,7 @@ function viewRoles(viewchannel) {
                 console.log(suspensionbuffer);
                 suspensionbuffer.forEach(userid => {
                     getFullName(userid).then(res => {
-                        suspension.push(res);
+                        suspension.push(` ${res}`);
                         if (suspension.length == json.length) {
                             console.log(suspension);
                             messageSend(`\`suspension\`: ${suspension.toString()}`, viewchannel);
