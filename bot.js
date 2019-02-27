@@ -778,7 +778,7 @@ function viewRoles(viewchannel) {
                 console.log(electronicsbuffer);
                 electronicsbuffer.forEach(userid => {
                     getFullName(userid).then(res => {
-                        aero.push(` ${res}`);
+                        electronics.push(` ${res}`);
                         if (electronics.length == json.length) {
                             console.log(electronics);
                             messageSend(`\`electronics\`: ${electronics.toString()}`, viewchannel);
