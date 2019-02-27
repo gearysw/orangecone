@@ -667,7 +667,6 @@ function callRole(calltext, callchannel) {
 }
 
 
-//TODO viewRoles function to see who are in certain roles
 function viewRoles(viewchannel) {
     // send aero roles
     var aero = [];
