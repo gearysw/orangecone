@@ -225,8 +225,10 @@ rtm.on('message', (message) => {
     if (message.text.toLowerCase().includes('!salty')) {
         messageSend('https://streamable.com/6t08o', message.channel);
     }
-    if (message.text.toLowerCase().includes('they had us')) {
-        messageSend('https://i.imgur.com/QpnBp7G.jpg', message.channel);
+    if (message.text.toLowerCase().includes('they had us') || message.text.toLowerCase().includes('first half')) {
+        var reactions = ['https://i.imgur.com/QpnBp7G.jpg','https://youtu.be/u35MwQ_zrBI?t=24'];
+        var firsthalf = reactions[Math.floor(Math.random() * reactions.length)];
+        messageSend(firsthalf, message.channel);
     }
     if (message.text.toLowerCase().includes('shitshow') || message.text.toLowerCase().includes('shit show')) {
         messageSend('https://streamable.com/ppgom', message.channel);
@@ -239,6 +241,9 @@ rtm.on('message', (message) => {
     }
     if (message.text.toLowerCase().includes('monza') || message.text.toLowerCase().includes('orgasm')) {
         messageSend('https://www.youtube.com/watch?v=DJ1EZOvLJcI', message.channel);
+    }
+    if (message.text.toLowerCase().includes('how cute')) {
+        messageSend('https://i.imgur.com/Dvi8rwG.jpg', message.channel);
     }
     // custom commands
     if (message.text.includes('!d4') || message.text.includes('!d6') || message.text.includes('!d8') || message.text.includes('!d10') || message.text.includes('!d12') || message.text.includes('!d20')) {
