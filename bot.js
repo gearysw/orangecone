@@ -245,6 +245,9 @@ rtm.on('message', (message) => {
     if (message.text.toLowerCase().includes('how cute')) {
         messageSend('https://i.imgur.com/Dvi8rwG.jpg', message.channel);
     }
+    if (message.text.toLowerCase().includes('oh deer')) {
+        messageSend('https://www.youtube.com/watch?v=VaU6pqhwur4', message.channel);
+    }
     // custom commands
     if (message.text.includes('!d4') || message.text.includes('!d6') || message.text.includes('!d8') || message.text.includes('!d10') || message.text.includes('!d12') || message.text.includes('!d20')) {
         rollDice(message.text, message.channel);
