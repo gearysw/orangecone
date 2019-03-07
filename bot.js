@@ -226,7 +226,7 @@ rtm.on('message', (message) => {
         messageSend('https://streamable.com/6t08o', message.channel);
     }
     if (message.text.toLowerCase().includes('they had us') || message.text.toLowerCase().includes('first half')) {
-        var reactions = ['https://i.imgur.com/QpnBp7G.jpg','https://youtu.be/u35MwQ_zrBI?t=24'];
+        var reactions = ['https://i.imgur.com/QpnBp7G.jpg', 'https://youtu.be/u35MwQ_zrBI?t=24'];
         var firsthalf = reactions[Math.floor(Math.random() * reactions.length)];
         messageSend(firsthalf, message.channel);
     }
@@ -247,6 +247,9 @@ rtm.on('message', (message) => {
     }
     if (message.text.toLowerCase().includes('oh deer') || message.text.toLowerCase().includes('oh dear')) {
         messageSend('https://www.youtube.com/watch?v=VaU6pqhwur4', message.channel);
+    }
+    if (message.text.toLowerCase().includes('can\'t believe you\'ve done this') || message.text.toLowerCase().includes('cant believe youve done this') || message.text.toLowerCase().includes('can\'t believe it') || message.text.toLowerCase().includes('cant believe it')) {
+        messageSend('https://youtu.be/O7lRV1VHv1g?t=3', message.channel);
     }
     // custom commands
     if (message.text.includes('!d4') || message.text.includes('!d6') || message.text.includes('!d8') || message.text.includes('!d10') || message.text.includes('!d12') || message.text.includes('!d20')) {
