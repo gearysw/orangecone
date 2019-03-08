@@ -530,6 +530,11 @@ function advrollDice(dx, rollchannel) {
             break;
         }
     }
+    if (str[1].length > 4) {
+        console.log('arg longer than 4 char')
+        messageSend('Please roll only up to 9 dice.', rollchannel);
+        return;
+    }
     if (dice === undefined) {
         messageSend('Please follow the actual syntax.', rollchannel);
         return;
