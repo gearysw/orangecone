@@ -650,7 +650,6 @@ function callRole(calltext, callchannel) {
     });
 }
 
-
 function viewRoles(viewchannel) {
     // send aero roles
     var aero = [];
@@ -674,7 +673,7 @@ function viewRoles(viewchannel) {
                         aero.push(` ${res}`);
                         if (aero.length == json.length) {
                             console.log(aero);
-                            messageSend(`\`aero\`: ${aero.toString()}`, viewchannel);
+                            messageSend(`\`aero\`:${aero.toString()}`, viewchannel);
                         }
                     });
                 });
@@ -704,7 +703,7 @@ function viewRoles(viewchannel) {
                         business.push(` ${res}`);
                         if (business.length == json.length) {
                             console.log(business);
-                            messageSend(`\`business\`: ${business.toString()}`, viewchannel);
+                            messageSend(`\`business\`:${business.toString()}`, viewchannel);
                         }
                     });
                 });
@@ -734,7 +733,7 @@ function viewRoles(viewchannel) {
                         chassis.push(` ${res}`);
                         if (chassis.length == json.length) {
                             console.log(chassis);
-                            messageSend(`\`chassis\`: ${chassis.toString()}`, viewchannel);
+                            messageSend(`\`chassis\`:${chassis.toString()}`, viewchannel);
                         }
                     });
                 });
@@ -764,7 +763,7 @@ function viewRoles(viewchannel) {
                         electronics.push(` ${res}`);
                         if (electronics.length == json.length) {
                             console.log(electronics);
-                            messageSend(`\`electronics\`: ${electronics.toString()}`, viewchannel);
+                            messageSend(`\`electronics\`:${electronics.toString()}`, viewchannel);
                         }
                     });
                 });
@@ -794,7 +793,7 @@ function viewRoles(viewchannel) {
                         leaddesigners.push(` ${res}`);
                         if (leaddesigners.length == json.length) {
                             console.log(leaddesigners);
-                            messageSend(`\`leaddesigners\`: ${leaddesigners.toString()}`, viewchannel);
+                            messageSend(`\`leaddesigners\`:${leaddesigners.toString()}`, viewchannel);
                         }
                     });
                 });
@@ -824,7 +823,7 @@ function viewRoles(viewchannel) {
                         leadership.push(` ${res}`);
                         if (leadership.length == json.length) {
                             console.log(leadership);
-                            messageSend(`\`leadership\`: ${leadership.toString()}`, viewchannel);
+                            messageSend(`\`leadership\`:${leadership.toString()}`, viewchannel);
                         }
                     });
                 });
@@ -854,7 +853,7 @@ function viewRoles(viewchannel) {
                         lowvoltage.push(` ${res}`);
                         if (lowvoltage.length == json.length) {
                             console.log(lowvoltage);
-                            messageSend(`\`lowvoltage\`: ${lowvoltage.toString()}`, viewchannel);
+                            messageSend(`\`lowvoltage\`:${lowvoltage.toString()}`, viewchannel);
                         }
                     });
                 });
@@ -884,7 +883,7 @@ function viewRoles(viewchannel) {
                         power.push(` ${res}`);
                         if (power.length == json.length) {
                             console.log(power);
-                            messageSend(`\`power\`: ${power.toString()}`, viewchannel);
+                            messageSend(`\`power\`:${power.toString()}`, viewchannel);
                         }
                     });
                 });
@@ -914,7 +913,7 @@ function viewRoles(viewchannel) {
                         suspension.push(` ${res}`);
                         if (suspension.length == json.length) {
                             console.log(suspension);
-                            messageSend(`\`suspension\`: ${suspension.toString()}`, viewchannel);
+                            messageSend(`\`suspension\`:${suspension.toString()}`, viewchannel);
                         }
                     });
                 });
