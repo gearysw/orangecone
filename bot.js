@@ -252,9 +252,6 @@ rtm.on('message', (message) => {
         messageSend('https://youtu.be/O7lRV1VHv1g?t=3', message.channel);
     }
     // custom commands
-    if (message.text.includes('!d4') || message.text.includes('!d6') || message.text.includes('!d8') || message.text.includes('!d10') || message.text.includes('!d12') || message.text.includes('!d20')) {
-        rollDice(message.text, message.channel);
-    }
     if (message.text.includes('!roll')) { // .match(/\!\dd\d/)
         advrollDice(message.text, message.channel);
     }
@@ -498,30 +495,8 @@ function pingReact(reactch, reactts) {
     addReaction(sendmoji, reactch, reactts);
 }
 
-function rollDice(dx, rollchannel) {
-    if (dx.includes('d4')) {
-        let num = Math.floor((Math.random() * 4) + 1);
-        messageSend(num.toString(), rollchannel);
-    } else if (dx.includes('d6')) {
-        let num = Math.floor((Math.random() * 6) + 1);
-        messageSend(num.toString(), rollchannel);
-    } else if (dx.includes('d8')) {
-        let num = Math.floor((Math.random() * 8) + 1);
-        messageSend(num.toString(), rollchannel);
-    } else if (dx.includes('d10')) {
-        let num = Math.floor((Math.random() * 10) + 1);
-        messageSend(num.toString(), rollchannel);
-    } else if (dx.includes('d12')) {
-        let num = Math.floor((Math.random() * 12) + 1);
-        messageSend(num.toString(), rollchannel);
-    } else if (dx.includes('d20')) {
-        let num = Math.floor((Math.random() * 20) + 1);
-        messageSend(num.toString(), rollchannel);
-    }
-}
-
-function advrollDice(dx, rollchannel) {
-    var str = dx.split(' ');
+function advrollDice(input, channel) {
+    var str = input.split(' ');
     var i, val, dice;
     for (i = 0; i < str.length; i++) {
         val = str[i];
@@ -530,30 +505,23 @@ function advrollDice(dx, rollchannel) {
             break;
         }
     }
-    if (str[1].length > 4) {
-        console.log('arg longer than 4 char')
-        messageSend('Please roll only up to 9 dice.', rollchannel);
-        return;
-    }
+
+    var numDice = parseInt(dice.split('d')[0]);
+    var diceType = parseInt(dice.split('d')[1]);
+
     if (dice === undefined) {
         messageSend('Please follow the actual syntax.', rollchannel);
         return;
     }
-
-    if (!dice.includes('4') && !dice.includes('6') && !dice.includes('8') && !dice.includes('10') && !dice.includes('12') && !dice.includes('20')) {
-        messageSend('That is not a standard die.', rollchannel);
-    } else if (dice[3]) {
-        let min = Math.ceil(parseInt(dice[0]));
-        let max = Math.floor(parseInt((dice[2] + dice[3]) * min));
-        let num = Math.floor(Math.random() * (max - min + 1) + min);
-        console.log('Rolled:', num);
-        messageSend(num.toString(), rollchannel);
+    
+    if (diceType != 4 && diceType != 6 && diceType != 8 && diceType != 10 && diceType != 12 && diceType != 20) {
+        messageSend('That is not a standard die.', channel);
     } else {
-        let min = Math.ceil(parseInt(dice[0]));
-        let max = Math.floor(parseInt(dice[2] * min));
+        let min = Math.ceil(numDice);
+        let max = Math.floor(numDice * diceType);
         let num = Math.floor(Math.random() * (max - min + 1) + min);
         console.log('Rolled:', num);
-        messageSend(num.toString(), rollchannel);
+        messageSend(num.toString(),channel);
     }
 }
 
