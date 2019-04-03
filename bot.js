@@ -28,6 +28,18 @@ rtm.on('channel_joined', (joinevent) => {
     rtm.sendMessage('Hello! I am Cone Bot!', joinevent.channel.id);
 });
 
+//* greets new members by sending a pm
+rtm.on('team_join', joinedUser => {
+    console.log(joinedUser);
+    web.im.open({
+        token: process.env.TOKEN,
+        user: joinedUser.user.id
+    }).then(imchannel => {
+        var greeting = `Hello, ${joinedUser.user.profile.real_name}! Welcome to Viking Motorsports. You can join channels related to your interest in the team. To get started, type in \`!channels\` in here to see the help file. You can also type in \`!help\` to see what I can help you with. If you have questions, feel free to ask in the <#C40D4TU3U> channel.`;
+        messageSend(greeting, imchannel.channel.id);
+    }).catch(console.error);
+});
+
 //* message commands
 rtm.on('message', (message) => {
     console.log(message);
