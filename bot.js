@@ -191,7 +191,7 @@ rtm.on('message', (message) => {
     if (message.text.toLowerCase().includes('ducttape') || message.text.toLowerCase().includes('duct tape')) {
         addReaction('ducttape', message.channel, message.ts);
     }
-    if (message.text.toLowerCase().includes('yeet')) {
+    if (message.text.toLowerCase().match(/ye{2,}t/)) {
         addReaction('yeet', message.channel, message.ts);
     }
     if (message.text.toLowerCase().includes('send it') || message.text.toLowerCase().includes('sent it')) {
@@ -525,7 +525,7 @@ function advrollDice(input, channel) {
         messageSend('Please follow the actual syntax.', rollchannel);
         return;
     }
-    
+
     if (diceType != 4 && diceType != 6 && diceType != 8 && diceType != 10 && diceType != 12 && diceType != 20) {
         messageSend('That is not a standard die.', channel);
     } else {
@@ -533,7 +533,7 @@ function advrollDice(input, channel) {
         let max = Math.floor(numDice * diceType);
         let num = Math.floor(Math.random() * (max - min + 1) + min);
         console.log('Rolled:', num);
-        messageSend(num.toString(),channel);
+        messageSend(num.toString(), channel);
     }
 }
 
