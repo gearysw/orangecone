@@ -263,6 +263,13 @@ rtm.on('message', (message) => {
     if (message.text.toLowerCase().includes('can\'t believe you\'ve done this') || message.text.toLowerCase().includes('cant believe youve done this') || message.text.toLowerCase().includes('can\'t believe it') || message.text.toLowerCase().includes('cant believe it')) {
         messageSend('https://youtu.be/O7lRV1VHv1g?t=3', message.channel);
     }
+    if (message.text.includes('!vaporwave')) {
+        var text = vaporwave(message.text);
+        messageSend(text, message.channel);
+    }
+    if (message.text.includes('!stand')) {
+        enemyStand(message.text, message.channel);
+    }
     // custom commands
     if (message.text.includes('!roll')) { // .match(/\!\dd\d/)
         advrollDice(message.text, message.channel);
@@ -932,4 +939,226 @@ function viewRoles(viewchannel) {
             }
         }
     });
+}
+
+function vaporwave(input) {
+    //ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ
+    // ．，！？／；：＇＂＠＃＄％＾＆＊（）－＿＝＋＜＞ //.,!?/;:'"@#$%^&*()-_=+<>
+    var str = input.substring(10);
+
+    // var str1 = 'replace this with vaporwave and now with <special ?cha&rac/ters!';
+    str1 = str.replace(/[abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.,!?/;:'"@#$%^&*()-_=+<>1234567890~]/g, (m) => {
+        return {
+            'a': 'ａ',
+            'b': 'ｂ',
+            'c': 'ｃ',
+            'd': 'ｄ',
+            'e': 'ｅ',
+            'f': 'ｆ',
+            'g': 'ｇ',
+            'h': 'ｈ',
+            'i': 'ｉ',
+            'j': 'ｊ',
+            'k': 'ｋ',
+            'l': 'ｌ',
+            'm': 'ｍ',
+            'n': 'ｎ',
+            'o': 'ｏ',
+            'p': 'ｐ',
+            'q': 'ｑ',
+            'r': 'ｒ',
+            's': 'ｓ',
+            't': 'ｔ',
+            'u': 'ｕ',
+            'v': 'ｖ',
+            'w': 'ｗ',
+            'x': 'ｘ',
+            'y': 'ｙ',
+            'z': 'ｚ',
+            'A': 'Ａ',
+            'B': 'Ｂ',
+            'C': 'Ｃ',
+            'D': 'Ｄ',
+            'E': 'Ｅ',
+            'F': 'Ｆ',
+            'G': 'Ｇ',
+            'H': 'Ｈ',
+            'I': 'Ｉ',
+            'J': 'Ｊ',
+            'K': 'Ｋ',
+            'L': 'Ｌ',
+            'M': 'Ｍ',
+            'N': 'Ｎ',
+            'O': 'Ｏ',
+            'P': 'Ｐ',
+            'Q': 'Ｑ',
+            'R': 'Ｒ',
+            'S': 'Ｓ',
+            'T': 'Ｔ',
+            'U': 'Ｕ',
+            'V': 'Ｖ',
+            'W': 'Ｗ',
+            'X': 'Ｘ',
+            'Y': 'Ｙ',
+            'Z': 'Ｚ',
+            '.': '．',
+            ',': '，',
+            '!': '！',
+            '?': '？',
+            '/': '／',
+            ';': '；',
+            ':': '：',
+            '\'': '＇',
+            '"': '＂',
+            '@': '＠',
+            '#': '＃',
+            '$': '＄',
+            '%': '％',
+            '^': '＾',
+            '&': '＆',
+            '*': '＊',
+            '(': '（',
+            ')': '）',
+            '-': '－',
+            '_': '＿',
+            '=': '＝',
+            '+': '＋',
+            '<': '＜',
+            '>': '＞',
+            '1': '１',
+            '2': '２',
+            '3': '３',
+            '4': '４',
+            '5': '５',
+            '6': '６',
+            '7': '７',
+            '8': '８',
+            '9': '９',
+            '0': '０',
+            '~': '～'
+        } [m];
+    });
+    console.log(str1);
+    // messageSend(str1, channel);
+    return str1;
+}
+
+//ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ
+
+
+
+//ＴＨＩＳ 　ＭＵＳＴ 　ＢＥ 　ＴＨＥ 　ＷＯＲＫ 　ＯＦ 　ＡＮ 　ＥＮＥＭＹ 「ＳＴＡＮＤ」！！
+
+
+
+//ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ
+function enemyStand(input, channel) {
+    var str = input.substring(6);
+    // console.log(str.length);
+    if (str.length > 0) {
+        str1 = str.replace(/[abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.,!?/;:'"@#$%^&*()-_=+<>1234567890~]/g, (m) => {
+            return {
+                'a': 'Ａ',
+                'b': 'Ｂ',
+                'c': 'Ｃ',
+                'd': 'Ｄ',
+                'e': 'Ｅ',
+                'f': 'Ｆ',
+                'g': 'Ｇ',
+                'h': 'Ｈ',
+                'i': 'Ｉ',
+                'j': 'Ｊ',
+                'k': 'Ｋ',
+                'l': 'Ｌ',
+                'm': 'Ｍ',
+                'n': 'Ｎ',
+                'o': 'Ｏ',
+                'p': 'Ｐ',
+                'q': 'Ｑ',
+                'r': 'Ｒ',
+                's': 'Ｓ',
+                't': 'Ｔ',
+                'u': 'Ｕ',
+                'v': 'Ｖ',
+                'w': 'Ｗ',
+                'x': 'Ｘ',
+                'y': 'Ｙ',
+                'z': 'Ｚ',
+                'A': 'Ａ',
+                'B': 'Ｂ',
+                'C': 'Ｃ',
+                'D': 'Ｄ',
+                'E': 'Ｅ',
+                'F': 'Ｆ',
+                'G': 'Ｇ',
+                'H': 'Ｈ',
+                'I': 'Ｉ',
+                'J': 'Ｊ',
+                'K': 'Ｋ',
+                'L': 'Ｌ',
+                'M': 'Ｍ',
+                'N': 'Ｎ',
+                'O': 'Ｏ',
+                'P': 'Ｐ',
+                'Q': 'Ｑ',
+                'R': 'Ｒ',
+                'S': 'Ｓ',
+                'T': 'Ｔ',
+                'U': 'Ｕ',
+                'V': 'Ｖ',
+                'W': 'Ｗ',
+                'X': 'Ｘ',
+                'Y': 'Ｙ',
+                'Z': 'Ｚ',
+                '.': '．',
+                ',': '，',
+                '!': '！',
+                '?': '？',
+                '/': '／',
+                ';': '；',
+                ':': '：',
+                '\'': '＇',
+                '"': '＂',
+                '@': '＠',
+                '#': '＃',
+                '$': '＄',
+                '%': '％',
+                '^': '＾',
+                '&': '＆',
+                '*': '＊',
+                '(': '（',
+                ')': '）',
+                '-': '－',
+                '_': '＿',
+                '=': '＝',
+                '+': '＋',
+                '<': '＜',
+                '>': '＞',
+                '1': '１',
+                '2': '２',
+                '3': '３',
+                '4': '４',
+                '5': '５',
+                '6': '６',
+                '7': '７',
+                '8': '８',
+                '9': '９',
+                '0': '０',
+                '~': '～'
+            } [m];
+        });
+
+
+        var stand = `ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ
+    
+    ＴＨＩＳ 　ＭＵＳＴ 　ＢＥ 　ＴＨＥ 　ＷＯＲＫ 　ＯＦ 　ＡＮ 　ＥＮＥＭＹ 「${str1}」！！
+    
+    ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ`;
+
+        // console.log(stand);
+        messageSend(stand, channel);
+    } else {
+        messageSend('Work of an enemy what??', channel);
+        return;
+    }
 }
