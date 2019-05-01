@@ -5,6 +5,9 @@ const {
 require('dotenv').config();
 var variables = require('./variables.json');
 const fs = require('fs');
+const vaporwave = require('./cmds/vaporwave.js');
+const rollDice = require('./cmds/rollDice.js');
+const enemyStand = require('./cmds/enemyStand.js');
 
 //* initialize rtm client
 const rtm = new RTMClient(process.env.TOKEN);
@@ -268,11 +271,13 @@ rtm.on('message', (message) => {
         messageSend(text, message.channel);
     }
     if (message.text.includes('!stand')) {
-        enemyStand(message.text, message.channel);
+        var stand = enemyStand(message.text);
+        messageSend(stand, message.channel);
     }
     // custom commands
     if (message.text.includes('!roll')) { // .match(/\!\dd\d/)
-        advrollDice(message.text, message.channel);
+        var diceroll = rollDice(message.text);
+        messageSend(diceroll, message.channel);
     }
     if (message.text.toLowerCase().includes('heads or tails')) {
         let chance = Math.ceil(Math.random() * 2);
@@ -512,36 +517,6 @@ function pingReact(reactch, reactts) {
     var emojis = ['pingshake', 'pingsock', 'pingthink', 'pingwhat'];
     let sendmoji = emojis[Math.floor(Math.random() * emojis.length)];
     addReaction(sendmoji, reactch, reactts);
-}
-
-function advrollDice(input, channel) {
-    var str = input.split(' ');
-    var i, val, dice;
-    for (i = 0; i < str.length; i++) {
-        val = str[i];
-        if (val.substring(0).match(/\dd\d/)) {
-            dice = val;
-            break;
-        }
-    }
-
-    var numDice = parseInt(dice.split('d')[0]);
-    var diceType = parseInt(dice.split('d')[1]);
-
-    if (dice === undefined) {
-        messageSend('Please follow the actual syntax.', rollchannel);
-        return;
-    }
-
-    if (diceType != 4 && diceType != 6 && diceType != 8 && diceType != 10 && diceType != 12 && diceType != 20) {
-        messageSend('That is not a standard die.', channel);
-    } else {
-        let min = Math.ceil(numDice);
-        let max = Math.floor(numDice * diceType);
-        let num = Math.floor(Math.random() * (max - min + 1) + min);
-        console.log('Rolled:', num);
-        messageSend(num.toString(), channel);
-    }
 }
 
 function addRole(roletext, rolechannel) {
@@ -939,226 +914,4 @@ function viewRoles(viewchannel) {
             }
         }
     });
-}
-
-function vaporwave(input) {
-    //ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ
-    // ．，！？／；：＇＂＠＃＄％＾＆＊（）－＿＝＋＜＞ //.,!?/;:'"@#$%^&*()-_=+<>
-    var str = input.substring(10);
-
-    // var str1 = 'replace this with vaporwave and now with <special ?cha&rac/ters!';
-    str1 = str.replace(/[abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.,!?/;:'"@#$%^&*()-_=+<>1234567890~]/g, (m) => {
-        return {
-            'a': 'ａ',
-            'b': 'ｂ',
-            'c': 'ｃ',
-            'd': 'ｄ',
-            'e': 'ｅ',
-            'f': 'ｆ',
-            'g': 'ｇ',
-            'h': 'ｈ',
-            'i': 'ｉ',
-            'j': 'ｊ',
-            'k': 'ｋ',
-            'l': 'ｌ',
-            'm': 'ｍ',
-            'n': 'ｎ',
-            'o': 'ｏ',
-            'p': 'ｐ',
-            'q': 'ｑ',
-            'r': 'ｒ',
-            's': 'ｓ',
-            't': 'ｔ',
-            'u': 'ｕ',
-            'v': 'ｖ',
-            'w': 'ｗ',
-            'x': 'ｘ',
-            'y': 'ｙ',
-            'z': 'ｚ',
-            'A': 'Ａ',
-            'B': 'Ｂ',
-            'C': 'Ｃ',
-            'D': 'Ｄ',
-            'E': 'Ｅ',
-            'F': 'Ｆ',
-            'G': 'Ｇ',
-            'H': 'Ｈ',
-            'I': 'Ｉ',
-            'J': 'Ｊ',
-            'K': 'Ｋ',
-            'L': 'Ｌ',
-            'M': 'Ｍ',
-            'N': 'Ｎ',
-            'O': 'Ｏ',
-            'P': 'Ｐ',
-            'Q': 'Ｑ',
-            'R': 'Ｒ',
-            'S': 'Ｓ',
-            'T': 'Ｔ',
-            'U': 'Ｕ',
-            'V': 'Ｖ',
-            'W': 'Ｗ',
-            'X': 'Ｘ',
-            'Y': 'Ｙ',
-            'Z': 'Ｚ',
-            '.': '．',
-            ',': '，',
-            '!': '！',
-            '?': '？',
-            '/': '／',
-            ';': '；',
-            ':': '：',
-            '\'': '＇',
-            '"': '＂',
-            '@': '＠',
-            '#': '＃',
-            '$': '＄',
-            '%': '％',
-            '^': '＾',
-            '&': '＆',
-            '*': '＊',
-            '(': '（',
-            ')': '）',
-            '-': '－',
-            '_': '＿',
-            '=': '＝',
-            '+': '＋',
-            '<': '＜',
-            '>': '＞',
-            '1': '１',
-            '2': '２',
-            '3': '３',
-            '4': '４',
-            '5': '５',
-            '6': '６',
-            '7': '７',
-            '8': '８',
-            '9': '９',
-            '0': '０',
-            '~': '～'
-        } [m];
-    });
-    console.log(str1);
-    // messageSend(str1, channel);
-    return str1;
-}
-
-//ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ
-
-
-
-//ＴＨＩＳ 　ＭＵＳＴ 　ＢＥ 　ＴＨＥ 　ＷＯＲＫ 　ＯＦ 　ＡＮ 　ＥＮＥＭＹ 「ＳＴＡＮＤ」！！
-
-
-
-//ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ
-function enemyStand(input, channel) {
-    var str = input.substring(6);
-    // console.log(str.length);
-    if (str.length > 0) {
-        str1 = str.replace(/[abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.,!?/;:'"@#$%^&*()-_=+<>1234567890~]/g, (m) => {
-            return {
-                'a': 'Ａ',
-                'b': 'Ｂ',
-                'c': 'Ｃ',
-                'd': 'Ｄ',
-                'e': 'Ｅ',
-                'f': 'Ｆ',
-                'g': 'Ｇ',
-                'h': 'Ｈ',
-                'i': 'Ｉ',
-                'j': 'Ｊ',
-                'k': 'Ｋ',
-                'l': 'Ｌ',
-                'm': 'Ｍ',
-                'n': 'Ｎ',
-                'o': 'Ｏ',
-                'p': 'Ｐ',
-                'q': 'Ｑ',
-                'r': 'Ｒ',
-                's': 'Ｓ',
-                't': 'Ｔ',
-                'u': 'Ｕ',
-                'v': 'Ｖ',
-                'w': 'Ｗ',
-                'x': 'Ｘ',
-                'y': 'Ｙ',
-                'z': 'Ｚ',
-                'A': 'Ａ',
-                'B': 'Ｂ',
-                'C': 'Ｃ',
-                'D': 'Ｄ',
-                'E': 'Ｅ',
-                'F': 'Ｆ',
-                'G': 'Ｇ',
-                'H': 'Ｈ',
-                'I': 'Ｉ',
-                'J': 'Ｊ',
-                'K': 'Ｋ',
-                'L': 'Ｌ',
-                'M': 'Ｍ',
-                'N': 'Ｎ',
-                'O': 'Ｏ',
-                'P': 'Ｐ',
-                'Q': 'Ｑ',
-                'R': 'Ｒ',
-                'S': 'Ｓ',
-                'T': 'Ｔ',
-                'U': 'Ｕ',
-                'V': 'Ｖ',
-                'W': 'Ｗ',
-                'X': 'Ｘ',
-                'Y': 'Ｙ',
-                'Z': 'Ｚ',
-                '.': '．',
-                ',': '，',
-                '!': '！',
-                '?': '？',
-                '/': '／',
-                ';': '；',
-                ':': '：',
-                '\'': '＇',
-                '"': '＂',
-                '@': '＠',
-                '#': '＃',
-                '$': '＄',
-                '%': '％',
-                '^': '＾',
-                '&': '＆',
-                '*': '＊',
-                '(': '（',
-                ')': '）',
-                '-': '－',
-                '_': '＿',
-                '=': '＝',
-                '+': '＋',
-                '<': '＜',
-                '>': '＞',
-                '1': '１',
-                '2': '２',
-                '3': '３',
-                '4': '４',
-                '5': '５',
-                '6': '６',
-                '7': '７',
-                '8': '８',
-                '9': '９',
-                '0': '０',
-                '~': '～'
-            } [m];
-        });
-
-
-        var stand = `ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ
-    
-    ＴＨＩＳ 　ＭＵＳＴ 　ＢＥ 　ＴＨＥ 　ＷＯＲＫ 　ＯＦ 　ＡＮ 　ＥＮＥＭＹ 「${str1}」！！
-    
-    ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ ゴ`;
-
-        // console.log(stand);
-        messageSend(stand, channel);
-    } else {
-        messageSend('Work of an enemy what??', channel);
-        return;
-    }
 }
