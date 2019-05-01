@@ -38,7 +38,7 @@ rtm.on('team_join', joinedUser => {
         token: process.env.TOKEN,
         user: joinedUser.user.id
     }).then(imchannel => {
-        var greeting = `Hello, ${joinedUser.user.profile.real_name}! Welcome to Viking Motorsports. You can join channels related to your interest in the team. To get started, type in \`!channels\` in here to see the help file. You can also type in \`!help\` to see what I can help you with. If you have questions, feel free to ask in the <#C40D4TU3U> channel.`;
+        var greeting = `Hello, ${joinedUser.user.profile.real_name}! Welcome to Viking Motorsports. You can join channels related to your interest in the team. To get started, type in \`!channels\` in here to see the help file. You can also type in \`!help\` to see what I can help you with. If you have questions, feel free to ask in the <#C40D4TU3U> channel. Also, please set your avatar to a picture of yourself to make it easier for us to identify you.`;
         messageSend(greeting, imchannel.channel.id);
     }).catch(console.error);
 });
