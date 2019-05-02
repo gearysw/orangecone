@@ -8,6 +8,7 @@ const fs = require('fs');
 const vaporwave = require('./cmds/vaporwave.js');
 const rollDice = require('./cmds/rollDice.js');
 const enemyStand = require('./cmds/enemyStand.js');
+const addRole = require('./cmds/addRole.js');
 
 //* initialize rtm client
 const rtm = new RTMClient(process.env.TOKEN);
@@ -319,6 +320,9 @@ rtm.on('message', (message) => {
     if (message.text.includes('!viewroles')) {
         viewRoles(message.channel);
     }
+    if (message.text === '!foldertest') {
+        folderTest();
+    }
 });
 
 //* function to automatically join a newly created channel
@@ -519,54 +523,54 @@ function pingReact(reactch, reactts) {
     addReaction(sendmoji, reactch, reactts);
 }
 
-function addRole(roletext, rolechannel) {
-    var args = roletext.split(' ');
-    var useradd = args[1];
-    if (args.length != 3 || useradd[0] != '<') {
-        messageSend('Please follow the syntax. `!addrole @user role`', rolechannel);
-        return;
-    }
-    var userid = useradd.substring(2, 11);
-    var role = args[2];
+// function addRole(roletext, rolechannel) {
+//     var args = roletext.split(' ');
+//     var useradd = args[1];
+//     if (args.length != 3 || useradd[0] != '<') {
+//         messageSend('Please follow the syntax. `!addrole @user role`', rolechannel);
+//         return;
+//     }
+//     var userid = useradd.substring(2, 11);
+//     var role = args[2];
 
-    var params = {
-        token: process.env.TOKEN,
-        user: userid
-    };
+//     var params = {
+//         token: process.env.TOKEN,
+//         user: userid
+//     };
 
-    web.users.info(params).then(res => {
-        var ok = res.ok;
-        console.log(ok);
+//     web.users.info(params).then(res => {
+//         var ok = res.ok;
+//         console.log(ok);
 
-        if (ok == true) {
-            fs.readFile(__dirname + `/roles/${role}.json`, (err, data) => {
-                var json = JSON.parse(data);
-                console.log(json);
+//         if (ok == true) {
+//             fs.readFile(__dirname + `/roles/${role}.json`, (err, data) => {
+//                 var json = JSON.parse(data);
+//                 console.log(json);
 
-                if (json.indexOf(useradd) > -1) {
-                    getFirstName(userid)
-                        .then(res => {
-                            messageSend(`${res} is already part of ${role}.`, rolechannel);
-                        }).catch(console.error);
-                    console.log('user already exists');
-                } else {
-                    json.push(useradd);
-                    fs.writeFile(__dirname + `/roles/${role}.json`, JSON.stringify(json), (err) => {
-                        if (err) throw err;
-                        console.log(`${useradd} added to ${role}`);
-                    });
-                    getFirstName(userid)
-                        .then(res => {
-                            messageSend(`${res} has been added to ${role}.`, rolechannel);
-                        }).catch(console.error);
-                }
-            });
-        }
-    }).catch(err => {
-        console.log(err);
-        messageSend('Who dis?', rolechannel);
-    });
-}
+//                 if (json.indexOf(useradd) > -1) {
+//                     getFirstName(userid)
+//                         .then(res => {
+//                             messageSend(`${res} is already part of ${role}.`, rolechannel);
+//                         }).catch(console.error);
+//                     console.log('user already exists');
+//                 } else {
+//                     json.push(useradd);
+//                     fs.writeFile(__dirname + `/roles/${role}.json`, JSON.stringify(json), (err) => {
+//                         if (err) throw err;
+//                         console.log(`${useradd} added to ${role}`);
+//                     });
+//                     getFirstName(userid)
+//                         .then(res => {
+//                             messageSend(`${res} has been added to ${role}.`, rolechannel);
+//                         }).catch(console.error);
+//                 }
+//             });
+//         }
+//     }).catch(err => {
+//         console.log(err);
+//         messageSend('Who dis?', rolechannel);
+//     });
+// }
 
 function removeRole(roleuser, rolechannel) {
     var args = roleuser.split(' ');
