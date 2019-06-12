@@ -7,7 +7,6 @@ const {
 require('dotenv').config();
 var help = require('./help.json');
 const fs = require('fs');
-const axios = require('axios');
 //? importing custom function files
 const vaporwave = require('./cmds/vaporwave');
 const rollDice = require('./cmds/rollDice');
@@ -17,6 +16,7 @@ const removeRole = require('./cmds/removeRole')
 const callRole = require('./cmds/callRole');
 const viewRoles = require('./cmds/viewRoles');
 const nyanpasu = require('./cmds/nyanpasu');
+const greetings = require('./cmds/greetings');
 
 //* initiate rtm client
 const rtm = new RTMClient(process.env.TOKEN);
@@ -233,15 +233,30 @@ rtm.on('message', async (message) => {
     if (message.text.toLowerCase().includes('blyat')) { // cyka blyat
         addReaction('blyat', message.channel, message.ts);
     }
-    // if (message.text.toLowerCase().includes('good night') || message.text.toLowerCase().includes('gnight')) { // wish someone good night
-    //     goodnight(message.user, message.channel);
-    // }
-    // if (message.text.toLowerCase().includes('good morning')) { // wish someone a good morning
-    //     goodmorning(message.user, message.channel);
-    // }
-    // if (message.text.toLowerCase().includes('good afternoon')) {
-    //     goodafternoon(message.user, message.channel);
-    // }
+    if (message.text.toLowerCase().includes('good night') || message.text.toLowerCase().includes('gnight')) { // wish someone good night
+        try {
+            const msg = await greetings.goodnight(message.user);
+            messageSend(msg, message.channel);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    if (message.text.toLowerCase().includes('good morning')) { // wish someone a good morning
+        try {
+            const msg = await greetings.goodmorning(message.user);
+            messageSend(msg, message.channel);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    if (message.text.toLowerCase().includes('good afternoon')) {
+        try {
+            const msg = await greetings.goodafternoon(message.user);
+            messageSend(msg, message.channel);
+        } catch (error) {
+            console.log(error);
+        }
+    }
     if (message.text.toLowerCase().includes('good bot')) {
         addReaction('hugging_face', message.channel, message.ts);
         const name = await getFirstName(message.user);
