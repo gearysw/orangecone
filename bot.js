@@ -17,6 +17,9 @@ const callRole = require('./cmds/callRole');
 const viewRoles = require('./cmds/viewRoles');
 const nyanpasu = require('./cmds/nyanpasu');
 const greetings = require('./cmds/greetings');
+const bored = require('./cmds/bored');
+const programmerjoke = require('./cmds/programmerjoke');
+const yesno = require('./cmds/yesno');
 
 //* initiate rtm client
 const rtm = new RTMClient(process.env.TOKEN);
@@ -222,6 +225,9 @@ rtm.on('message', async (message) => {
     if (message.text.includes('!viewroles')) {
         viewRoles(message.channel);
     }
+    if (message.text.includes('!eastereggs') || message.text.includes('!easteregg')) {
+        messageSend(easterEggs, message.channel);
+    }
     // easter eggs
     if (message.text.toLowerCase().includes('sticky liquid') || message.text.toLowerCase().includes('sticky juice')) { // adds a reaction to `sticky liquid`
         addReaction('sweat_drops', message.channel, message.ts);
@@ -408,6 +414,42 @@ rtm.on('message', async (message) => {
             console.log(error);
         }
     }
+    if (message.text === '!bored') {
+        try {
+            const activity = await bored();
+            web.chat.postMessage({
+                token: process.env.TOKEN,
+                channel: message.channel,
+                blocks: activity
+            }).catch(console.error);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    if (message.text === '!joke') {
+        try {
+            const joke = await programmerjoke();
+            web.chat.postMessage({
+                token: process.env.TOKEN,
+                channel: message.channel,
+                blocks: joke
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    if (message.text.includes('!yesno')) {
+        try {
+            const ans = await yesno();
+            web.chat.postMessage({
+                token: process.env.TOKEN,
+                channel: message.channel,
+                blocks: ans
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
 });
 
 //? user defined functions
@@ -479,3 +521,5 @@ async function randomMeme(memechannel) {
             });
     });
 }
+
+const easterEggs = '\`!bored\`\n\`!joke\`\n\`!nyanpasu\`\n\`!yesno\`';
