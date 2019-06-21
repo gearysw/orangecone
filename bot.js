@@ -20,6 +20,8 @@ const greetings = require('./cmds/greetings');
 const bored = require('./cmds/bored');
 const programmerjoke = require('./cmds/programmerjoke');
 const yesno = require('./cmds/yesno');
+const inspiration = require('./cmds/inspiration');
+const fuckoff = require('./cmds/fuckoff');
 
 //* initiate rtm client
 const rtm = new RTMClient(process.env.TOKEN);
@@ -450,6 +452,45 @@ rtm.on('message', async (message) => {
             console.log(error);
         }
     }
+    if (message.text.includes('!inspiration')) {
+        try {
+            const inspire = await inspiration();
+            web.chat.postMessage({
+                token: process.env.TOKEN,
+                channel: message.channel,
+                blocks: inspire
+            });
+            // messageSend(inspire, message.channel);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    if (message.text.includes('!fuckoff')) {
+        try {
+            const user = await getFullName(message.user);
+            const fuck = await fuckoff.fuckoff(user);
+            web.chat.postMessage({
+                token: process.env.TOKEN,
+                channel: message.channel,
+                blocks: fuck
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    if (message.text.includes('!fuckall')) {
+        try {
+            const user = await getFullName(message.user);
+            const fuck = await fuckoff.fuckall(user);
+            web.chat.postMessage({
+                token: process.env.TOKEN,
+                channel: message.channel,
+                blocks: fuck
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
 });
 
 //? user defined functions
@@ -489,6 +530,18 @@ async function getFirstName(userid) {
     }
 }
 
+async function getFullName(userid) {
+    try {
+        const res = await web.users.info({
+            token: process.env.TOKEN,
+            user: userid
+        });
+        return res.user.profile.real_name;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 async function pingReact(channel, timestamp) {
     var emojis = ['pingshake', 'pingsock', 'pingthink', 'pingwhat'];
     let sendmoji = emojis[Math.floor(Math.random() * emojis.length)];
@@ -522,4 +575,4 @@ async function randomMeme(memechannel) {
     });
 }
 
-const easterEggs = '\`!bored\`\n\`!joke\`\n\`!nyanpasu\`\n\`!yesno\`';
+const easterEggs = '\`!bored\`\n\`!joke\`\n\`!nyanpasu\`\n\`!yesno\`\n\`!inspiration\`\n\`!fuckoff\`\n\`!fuckall\`';
