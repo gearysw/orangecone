@@ -7,6 +7,7 @@ const {
 require('dotenv').config();
 var help = require('./help.json');
 const fs = require('fs');
+
 //? importing custom function files
 const vaporwave = require('./cmds/vaporwave');
 const rollDice = require('./cmds/rollDice');
@@ -22,6 +23,7 @@ const programmerjoke = require('./cmds/programmerjoke');
 const yesno = require('./cmds/yesno');
 const inspiration = require('./cmds/inspiration');
 const fuckoff = require('./cmds/fuckoff');
+const kanye = require('./cmds/kanye');
 
 //* initiate rtm client
 const rtm = new RTMClient(process.env.TOKEN);
@@ -388,30 +390,8 @@ rtm.on('message', async (message) => {
             web.chat.postMessage({
                 token: process.env.TOKEN,
                 channel: message.channel,
-                blocks: [{
-                        "type": "section",
-                        "text": {
-                            "type": "mrkdwn",
-                            "text": `*Current Nyanpasu Count*\n${Nyanpasu}`
-                        },
-                        "accessory": {
-                            "type": "image",
-                            "image_url": "https://i.imgur.com/E83gsQh.jpg",
-                            "alt_text": "nyanpasu"
-                        }
-                    },
-                    {
-                        "type": "divider"
-                    },
-                    {
-                        "type": "context",
-                        "elements": [{
-                            "type": "mrkdwn",
-                            "text": "Data from <http://nyanpass.com/|Nyanpasu>"
-                        }]
-                    }
-                ]
-            })
+                blocks: Nyanpasu
+            });
         } catch (error) {
             console.log(error);
         }
@@ -486,6 +466,18 @@ rtm.on('message', async (message) => {
                 token: process.env.TOKEN,
                 channel: message.channel,
                 blocks: fuck
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    if (message.text.includes('!kanye')) {
+        try {
+            const quote = await kanye();
+            web.chat.postMessage({
+                token: process.env.TOKEN,
+                channel: message.channel,
+                blocks: quote
             });
         } catch (error) {
             console.log(error);
@@ -575,4 +567,4 @@ async function randomMeme(memechannel) {
     });
 }
 
-const easterEggs = '\`!bored\`\n\`!joke\`\n\`!nyanpasu\`\n\`!yesno\`\n\`!inspiration\`\n\`!fuckoff\`\n\`!fuckall\`';
+const easterEggs = '\`!bored\`\n\`!joke\`\n\`!nyanpasu\`\n\`!yesno\`\n\`!inspiration\`\n\`!fuckoff\`\n\`!fuckall\`\n\`!kanye\`';

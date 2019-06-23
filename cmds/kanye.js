@@ -1,30 +1,20 @@
 const axios = require('axios');
-const Url = 'http://nyanpass.com/add.php';
-const Header = {
-    'Content-Type': 'application/x-www-form-urlencoded'
-};
-const Form = 'nyan=pass';
 
 module.exports = async function () {
     return new Promise(async (resolve, reject) => {
         try {
-            const res = await axios({
-                method: 'post',
-                url: Url,
-                headers: Header,
-                data: Form
-            });
-            console.log(res.data);
+            const quote = await axios.get('https://api.kanye.rest/');
+            console.log(quote.data.quote);
             const msg = [{
                     "type": "section",
                     "text": {
                         "type": "mrkdwn",
-                        "text": `*Current Nyanpasu Count*\n${res.data.cnt}`
+                        "text": `"${quote.data.quote}"\n_- Kanye West_`
                     },
                     "accessory": {
                         "type": "image",
-                        "image_url": "https://i.imgur.com/E83gsQh.jpg",
-                        "alt_text": "nyanpasu"
+                        "image_url": "https://i.imgur.com/IHr3gbj.jpg",
+                        "alt_text": "kanye west"
                     }
                 },
                 {
@@ -34,7 +24,7 @@ module.exports = async function () {
                     "type": "context",
                     "elements": [{
                         "type": "mrkdwn",
-                        "text": "<http://nyanpass.com/|Nyanpasu>"
+                        "text": "<https://kanye.rest/|Kanye Quotes>"
                     }]
                 }
             ];
@@ -42,5 +32,5 @@ module.exports = async function () {
         } catch (error) {
             return reject(error);
         }
-    })
+    });
 }
