@@ -9,21 +9,7 @@ var help = require('./help.json');
 const fs = require('fs');
 
 //? importing custom function files
-const vaporwave = require('./cmds/vaporwave');
-const rollDice = require('./cmds/rollDice');
-const enemyStand = require('./cmds/enemyStand');
-const addRole = require('./cmds/addRole');
-const removeRole = require('./cmds/removeRole')
-const callRole = require('./cmds/callRole');
-const viewRoles = require('./cmds/viewRoles');
-const nyanpasu = require('./cmds/nyanpasu');
-const greetings = require('./cmds/greetings');
-const bored = require('./cmds/bored');
-const programmerjoke = require('./cmds/programmerjoke');
-const yesno = require('./cmds/yesno');
-const inspiration = require('./cmds/inspiration');
-const fuckoff = require('./cmds/fuckoff');
-const kanye = require('./cmds/kanye');
+const cmds = require('./cmds/cmds');
 
 //* initiate rtm client
 const rtm = new RTMClient(process.env.TOKEN);
@@ -180,7 +166,7 @@ rtm.on('message', async (message) => {
     }
     if (message.text.includes('!roll')) {
         try {
-            let diceroll = await rollDice(message.text);
+            let diceroll = await cmds.rollDice(message.text);
             messageSend(diceroll, message.channel);
         } catch (error) {
             console.log(error);
@@ -200,7 +186,7 @@ rtm.on('message', async (message) => {
             messageSend('That is not a valid command. Type `!rolehelp` to see all role commands', message.channel);
         } else {
             try {
-                let sendrole = await addRole(message.text);
+                let sendrole = await cmds.addRole(message.text);
                 messageSend(sendrole, message.channel);
             } catch (err) {
                 console.log(err);
@@ -210,7 +196,7 @@ rtm.on('message', async (message) => {
     }
     if (message.text.includes('!removerole')) {
         try {
-            let sendrole = await removeRole(message.text);
+            let sendrole = await cmds.removeRole(message.text);
             messageSend(sendrole, message.channel);
         } catch (error) {
             console.log(error);
@@ -219,7 +205,7 @@ rtm.on('message', async (message) => {
     }
     if (message.text.includes('@aero') || message.text.includes('@chassis') || message.text.includes('@electronics') || message.text.includes('@leaddesigners') || message.text.includes('@leadership') || message.text.includes('@lowvoltage') || message.text.includes('@power') || message.text.includes('@suspension') || message.text.includes('@business')) {
         try {
-            var sendrole = await callRole(message.text);
+            var sendrole = await cmds.callRole(message.text);
             messageSend(sendrole, message.channel);
         } catch (error) {
             console.log(error);
@@ -227,7 +213,7 @@ rtm.on('message', async (message) => {
         }
     }
     if (message.text.includes('!viewroles')) {
-        viewRoles(message.channel);
+        cmds.viewRoles(message.channel);
     }
     if (message.text.includes('!eastereggs') || message.text.includes('!easteregg')) {
         messageSend(easterEggs, message.channel);
@@ -245,7 +231,7 @@ rtm.on('message', async (message) => {
     }
     if (message.text.toLowerCase().includes('good night') || message.text.toLowerCase().includes('gnight')) { // wish someone good night
         try {
-            const msg = await greetings.goodnight(message.user);
+            const msg = await cmds.greetings.goodnight(message.user);
             messageSend(msg, message.channel);
         } catch (error) {
             console.log(error);
@@ -253,7 +239,7 @@ rtm.on('message', async (message) => {
     }
     if (message.text.toLowerCase().includes('good morning')) { // wish someone a good morning
         try {
-            const msg = await greetings.goodmorning(message.user);
+            const msg = await cmds.greetings.goodmorning(message.user);
             messageSend(msg, message.channel);
         } catch (error) {
             console.log(error);
@@ -261,7 +247,7 @@ rtm.on('message', async (message) => {
     }
     if (message.text.toLowerCase().includes('good afternoon')) {
         try {
-            const msg = await greetings.goodafternoon(message.user);
+            const msg = await cmds.greetings.goodafternoon(message.user);
             messageSend(msg, message.channel);
         } catch (error) {
             console.log(error);
@@ -377,16 +363,16 @@ rtm.on('message', async (message) => {
         messageSend('https://youtu.be/O7lRV1VHv1g?t=3', message.channel);
     }
     if (message.text.includes('!vaporwave')) {
-        var text = vaporwave(message.text);
+        var text = cmds.vaporwave(message.text);
         messageSend(text, message.channel);
     }
     if (message.text.includes('!stand')) {
-        var stand = enemyStand(message.text);
+        var stand = cmds.enemyStand(message.text);
         messageSend(stand, message.channel);
     }
     if (message.text.toLowerCase() == '!nyanpasu') {
         try {
-            let Nyanpasu = await nyanpasu();
+            let Nyanpasu = await cmds.nyanpasu();
             web.chat.postMessage({
                 token: process.env.TOKEN,
                 channel: message.channel,
@@ -398,7 +384,7 @@ rtm.on('message', async (message) => {
     }
     if (message.text === '!bored') {
         try {
-            const activity = await bored();
+            const activity = await cmds.bored();
             web.chat.postMessage({
                 token: process.env.TOKEN,
                 channel: message.channel,
@@ -410,7 +396,7 @@ rtm.on('message', async (message) => {
     }
     if (message.text === '!joke') {
         try {
-            const joke = await programmerjoke();
+            const joke = await cmds.programmerjoke();
             web.chat.postMessage({
                 token: process.env.TOKEN,
                 channel: message.channel,
@@ -422,7 +408,7 @@ rtm.on('message', async (message) => {
     }
     if (message.text.includes('!yesno')) {
         try {
-            const ans = await yesno();
+            const ans = await cmds.yesno();
             web.chat.postMessage({
                 token: process.env.TOKEN,
                 channel: message.channel,
@@ -434,7 +420,7 @@ rtm.on('message', async (message) => {
     }
     if (message.text.includes('!inspiration')) {
         try {
-            const inspire = await inspiration();
+            const inspire = await cmds.inspiration();
             web.chat.postMessage({
                 token: process.env.TOKEN,
                 channel: message.channel,
@@ -448,7 +434,7 @@ rtm.on('message', async (message) => {
     if (message.text.includes('!fuckoff')) {
         try {
             const user = await getFullName(message.user);
-            const fuck = await fuckoff.fuckoff(user);
+            const fuck = await cmds.fuckoff.fuckoff(user);
             web.chat.postMessage({
                 token: process.env.TOKEN,
                 channel: message.channel,
@@ -461,7 +447,7 @@ rtm.on('message', async (message) => {
     if (message.text.includes('!fuckall')) {
         try {
             const user = await getFullName(message.user);
-            const fuck = await fuckoff.fuckall(user);
+            const fuck = await cmds.fuckoff.fuckall(user);
             web.chat.postMessage({
                 token: process.env.TOKEN,
                 channel: message.channel,
@@ -473,7 +459,7 @@ rtm.on('message', async (message) => {
     }
     if (message.text.includes('!kanye')) {
         try {
-            const quote = await kanye();
+            const quote = await cmds.kanye();
             web.chat.postMessage({
                 token: process.env.TOKEN,
                 channel: message.channel,
