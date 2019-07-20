@@ -469,6 +469,17 @@ rtm.on('message', async (message) => {
             console.log(error);
         }
     }
+    if (message.text.includes('!tronald')) {
+        var req = message.text.split(' ');
+        if (req[1] == 'random') {
+            try {
+                const quote = await cmds.tronalddump.tronaldQuote();
+
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    }
 });
 
 //? user defined functions

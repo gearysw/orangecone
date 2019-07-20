@@ -13,5 +13,6 @@ module.exports = {
     rollDice : require('./rollDice'),
     vaporwave : require('./vaporwave'),
     viewRoles : require('./viewRoles'),
-    yesno : require('./yesno')
+    yesno : require('./yesno'),
+    tronalddump : require('./tronald')
 };
