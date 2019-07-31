@@ -473,10 +473,37 @@ rtm.on('message', async (message) => {
         var req = message.text.split(' ');
         if (req[1] == 'random') {
             try {
-                const quote = await cmds.tronalddump.tronaldQuote();
-
+                const quote = await cmds.tronalddump.randomquote();
+                web.chat.postMessage({
+                    token: process.env.TOKEN,
+                    channel: message.channel,
+                    blocks: quote
+                });
             } catch (error) {
                 console.log(error);
+            }
+            // } else if (req[1] == 'meme') {
+            //     try {
+            //         const meme = await cmds.tronalddump.randomememe();
+            //         web.files.upload({
+            //             token: process.env.TOKEN,
+            //             file: fs.createReadStream(meme),
+            //             channels: message.channel
+            //         });
+            //     } catch (error) {
+            //         console.log(error);
+            //     }
+        } else {
+            try {
+                const quote = await cmds.tronalddump.topicquote(message.text);
+                web.chat.postMessage({
+                    token: process.env.TOKEN,
+                    channel: message.channel,
+                    blocks: quote
+                });
+            } catch (error) {
+                console.log(error);
+                messageSend(error, message.channel);
             }
         }
     }
@@ -564,4 +591,4 @@ async function randomMeme(memechannel) {
     });
 }
 
-const easterEggs = '\`!bored\`\n\`!joke\`\n\`!nyanpasu\`\n\`!yesno\`\n\`!inspiration\`\n\`!fuckoff\`\n\`!fuckall\`\n\`!kanye\`';
+const easterEggs = '\`!bored\`\n\`!joke\`\n\`!nyanpasu\`\n\`!yesno\`\n\`!inspiration\`\n\`!fuckoff\`\n\`!fuckall\`\n\`!kanye\`\n`!tronald <random|topic>`';
