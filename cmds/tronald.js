@@ -36,6 +36,13 @@ async function randomquote() {
                         "type": "mrkdwn",
                         "text": `Source: ${res.data._embedded.source[0].url}`
                     }]
+                },
+                {
+                    "type": "context",
+                    "elements": [{
+                        "type": "mrkdwn",
+                        "text": `Powered by <https://www.tronalddump.io/|Tronald Dump>`
+                    }]
                 }
             ];
 
@@ -49,7 +56,7 @@ async function randomquote() {
 async function topicquote(input) { //! don't forget to add input args
     return new Promise(async (resolve, reject) => {
         try {
-            var parseinput = input.substring(9);
+            var parseinput = input.substring(13);
             var args;
             if (parseinput.includes(' ')) {
                 args = parseinput.replace(/\s/g, '+');
@@ -93,7 +100,14 @@ async function topicquote(input) { //! don't forget to add input args
                         "type": "context",
                         "elements": [{
                             "type": "mrkdwn",
-                            "text": source
+                            "text": `Source: ${source}`
+                        }]
+                    },
+                    {
+                        "type": "context",
+                        "elements": [{
+                            "type": "mrkdwn",
+                            "text": `Powered by <https://www.tronalddump.io/|Tronald Dump>`
                         }]
                     }
                 ];

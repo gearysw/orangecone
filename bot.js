@@ -469,7 +469,7 @@ rtm.on('message', async (message) => {
             console.log(error);
         }
     }
-    if (message.text.includes('!tronald')) {
+    if (message.text.includes('!tronalddump')) {
         var req = message.text.split(' ');
         if (req[1] == 'random') {
             try {
@@ -591,4 +591,4 @@ async function randomMeme(memechannel) {
     });
 }
 
-const easterEggs = '\`!bored\`\n\`!joke\`\n\`!nyanpasu\`\n\`!yesno\`\n\`!inspiration\`\n\`!fuckoff\`\n\`!fuckall\`\n\`!kanye\`\n`!tronald <random|topic>`';
+const easterEggs = '\`!bored\`\n\`!joke\`\n\`!nyanpasu\`\n\`!yesno\`\n\`!inspiration\`\n\`!fuckoff\`\n\`!fuckall\`\n\`!kanye\`\n`!tronalddump <random|topic>`';
