@@ -43,10 +43,71 @@ rtm.on('team_join', async (joinedUser) => {
             token: process.env.TOKEN,
             user: joinedUser.user.id
         });
-        let greeting = `Hello ${joinedUser.user.profile.real_name}! Welcome to Viking Motorsports. You can join channels related to your interest in the team. To get started, type in \`!channels\` in here to see the help file. You can also type in \`!help\` to see what I can help you with. If you have questions, feel free to ask in the <#C40D4TU3U> channel. Also, please set your avatar to a picture of yourself to make it easier for us to identify you.`;
         try {
-            const pmmessage = await rtm.sendMessage(greeting, pmchannel.channel.id);
-            console.log(pmmessage);
+            const onboardpm = [{
+                    "type": "section",
+                    "text": {
+                        "type": "mrkdwn",
+                        "text": `Hello ${joinedUser.user.profile.real_name}! Welcome to Viking Motorsports. I'm Conebot, a general purpose helper bot for the team. You can type in \`!help\` to see a list of commands. First things first, a few ticket items to get you up to speed.`
+                    }
+                },
+                {
+                    "type": "divider"
+                },
+                {
+                    "type": "section",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "To make it easier for us to identify you, please upload a profile photo that shows your face. You can find the menu to edit your profile on the top left menu.",
+                        "emoji": true
+                    }
+                },
+                {
+                    "type": "image",
+                    "title": {
+                        "type": "plain_text",
+                        "text": "Edit profile",
+                        "emoji": true
+                    },
+                    "image_url": "https://imgur.com/u4ylrur.png",
+                    "alt_text": "edit profile"
+                },
+                {
+                    "type": "divider"
+                },
+                {
+                    "type": "section",
+                    "text": {
+                        "type": "mrkdwn",
+                        "text": "You can click on `Channels` on the left sidebar to open a list of channels you can join. Skim through the list to find a subsystem or team you're interested in participating in."
+                    }
+                },
+                {
+                    "type": "image",
+                    "title": {
+                        "type": "plain_text",
+                        "text": "Channels list",
+                        "emoji": true
+                    },
+                    "image_url": "https://imgur.com/AD5ENzM.png",
+                    "alt_text": "Example Image"
+                },
+                {
+                    "type": "divider"
+                },
+                {
+                    "type": "section",
+                    "text": {
+                        "type": "mrkdwn",
+                        "text": "If you have any questions, feel free to ask in the <#CFK7PV90W> channel. A member with knowledge will answer your question."
+                    }
+                }
+            ];
+            web.chat.postMessage({
+                token: process.env.TOKEN,
+                channel: pmchannel.channel.id,
+                blocks: onboardpm
+            });
         } catch (err) {
             console.log(err);
         }
