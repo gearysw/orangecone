@@ -482,6 +482,7 @@ rtm.on('message', async (message) => {
             } catch (error) {
                 console.log(error);
             }
+            //* possible code for tronald.randommeme
             // } else if (req[1] == 'meme') {
             //     try {
             //         const meme = await cmds.tronalddump.randomememe();
