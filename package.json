@@ -11,7 +11,7 @@
   "dependencies": {
     "@slack/rtm-api": "^5.0.1",
     "@slack/web-api": "^5.0.1",
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "dotenv": "^8.0.0",
     "eslint": "^6.5.1"
   }
